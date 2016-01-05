@@ -23,20 +23,28 @@
 
     <include layout="@layout/content_main" />
 
-    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-        android:id="@+id/fabProgressBar"
-        android:layout_width="240dp"
-        android:layout_height="240dp"
-        android:layout_gravity="center"
-        android:tint="@color/colorPrimaryDark"
-        android:visibility="invisible"
-        style="@style/Widget.MaterialProgressBar.ProgressBar" />
+    <FrameLayout
+        android:id="@+id/fabRoot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_autorenew" />
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/fabProgressBar"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_gravity="center"
+            android:tint="@color/colorPrimaryDark"
+            android:visibility="invisible"
+            style="@style/Widget.MaterialProgressBar.ProgressBar" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_autorenew" />
+
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

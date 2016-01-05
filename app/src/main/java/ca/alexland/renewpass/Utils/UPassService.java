@@ -103,7 +103,7 @@ public class UPassService {
 
         @Override
         protected void onPostExecute(ca.alexland.renewpass.Utils.Status result) {
-            fab.stopLoading();
+            fab.stopLoading(view);
             Snackbar.make(view, result.getStatusText(), Snackbar.LENGTH_LONG).show();
         }
     }

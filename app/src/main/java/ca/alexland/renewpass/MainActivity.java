@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import ca.alexland.renewpass.Schools.School;
@@ -35,10 +37,11 @@ public class MainActivity extends AppCompatActivity {
 
         doFirstRun();
 
+        final FrameLayout fabRoot = (FrameLayout) findViewById(R.id.fabRoot);
         final MaterialProgressBar fabProgressBar = (MaterialProgressBar) findViewById(R.id.fabProgressBar);
         final FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
-        final Drawable fabIcon = getDrawable(R.drawable.ic_autorenew);
-        final CustomFloatingActionButton fab = new CustomFloatingActionButton(floatingActionButton, fabIcon, fabProgressBar);
+        final Drawable fabIcon = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_autorenew);
+        final CustomFloatingActionButton fab = new CustomFloatingActionButton(floatingActionButton, fabIcon, fabProgressBar, fabRoot);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
