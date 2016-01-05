@@ -2,6 +2,7 @@ package ca.alexland.renewpass;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -11,13 +12,14 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-
-import com.github.jorgecastilloprz.FABProgressCircle;
+import android.widget.ProgressBar;
 
 import ca.alexland.renewpass.Schools.School;
 import ca.alexland.renewpass.Schools.SimonFraserUniversity;
+import ca.alexland.renewpass.Utils.CustomFloatingActionButton;
 import ca.alexland.renewpass.Utils.PreferenceHelper;
 import ca.alexland.renewpass.Utils.UPassService;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class MainActivity extends AppCompatActivity {
     PreferenceHelper preferenceHelper;
@@ -33,13 +35,14 @@ public class MainActivity extends AppCompatActivity {
 
         doFirstRun();
 
-        final FABProgressCircle fabProgressCircle = (FABProgressCircle) findViewById(R.id.fabProgressCircle);
-
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final MaterialProgressBar fabProgressBar = (MaterialProgressBar) findViewById(R.id.fabProgressBar);
+        final FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
+        final Drawable fabIcon = getDrawable(R.drawable.ic_autorenew);
+        final CustomFloatingActionButton fab = new CustomFloatingActionButton(floatingActionButton, fabIcon, fabProgressBar);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onRenew(view, fabProgressCircle);
+                onRenew(view, fab);
             }
         });
     }
@@ -113,11 +116,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onRenew(View view, FABProgressCircle fabProgressCircle) {
+    public void onRenew(View view, CustomFloatingActionButton fab) {
         UPassService mService = new UPassService();
         School school = new SimonFraserUniversity();
         String username = preferenceHelper.getUsername();
         String password = preferenceHelper.getPassword();
-        mService.renewUPass(view, fabProgressCircle, school, username, password);
+        mService.renewUPass(view, fab, school, username, password);
     }
 }

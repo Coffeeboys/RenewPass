@@ -7,13 +7,9 @@ import android.view.View;
 import com.gistlabs.mechanize.document.html.HtmlDocument;
 import com.gistlabs.mechanize.document.html.form.Checkbox;
 import com.gistlabs.mechanize.document.html.form.Form;
-import com.gistlabs.mechanize.document.html.form.Forms;
 import com.gistlabs.mechanize.document.html.form.Select;
-import com.gistlabs.mechanize.document.html.form.SubmitButton;
 import com.gistlabs.mechanize.impl.MechanizeAgent;
-import com.github.jorgecastilloprz.FABProgressCircle;
 
-import java.util.Iterator;
 import java.util.List;
 
 import ca.alexland.renewpass.Schools.School;
@@ -22,14 +18,14 @@ import ca.alexland.renewpass.Schools.School;
  * Created by AlexLand on 2015-12-28.
  */
 public class UPassService {
-    FABProgressCircle fabProgressCircle;
+    CustomFloatingActionButton fab;
     View view;
     private final String UPASS_SITE_URL = "http://upassbc.translink.ca";
 
-    public void renewUPass(View view, FABProgressCircle fabProgressCircle, School school, String username, String password) {
-        this.fabProgressCircle = fabProgressCircle;
+    public void renewUPass(View view, CustomFloatingActionButton fab, School school, String username, String password) {
+        this.fab = fab;
         this.view = view;
-        fabProgressCircle.show();
+        fab.startLoading();
         new RenewTask(school, username, password).execute(UPASS_SITE_URL);
     }
 
@@ -107,7 +103,7 @@ public class UPassService {
 
         @Override
         protected void onPostExecute(ca.alexland.renewpass.Utils.Status result) {
-            fabProgressCircle.beginFinalAnimation();
+            fab.stopLoading();
             Snackbar.make(view, result.getStatusText(), Snackbar.LENGTH_LONG).show();
         }
     }
