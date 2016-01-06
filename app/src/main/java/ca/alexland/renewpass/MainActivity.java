@@ -2,10 +2,12 @@ package ca.alexland.renewpass;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
@@ -101,6 +103,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem settingsItem = menu.findItem(R.id.action_settings);
+        Drawable settingsIcon = DrawableCompat.wrap(settingsItem.getIcon());
+        DrawableCompat.setTint(settingsIcon, Color.WHITE);
         return true;
     }
 
