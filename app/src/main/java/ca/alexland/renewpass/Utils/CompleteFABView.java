@@ -7,6 +7,8 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -42,10 +44,36 @@ public class CompleteFABView extends FrameLayout {
         inflate(getContext(), R.layout.complete_fab, this);
     }
 
+    private void tintCompleteFabWithArcColor() {
+        Drawable background = ContextCompat.getDrawable(getContext(), R.drawable.oval_complete);
+        background.setColorFilter(arcColor, PorterDuff.Mode.SRC_ATOP);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            findViewById(R.id.completeFabRoot).setBackground(background);
+        } else {
+            findViewById(R.id.completeFabRoot).setBackgroundDrawable(background);
+        }
+    }
+
     private void setIcon() {
         ImageView iconView = (ImageView) findViewById(R.id.completeFabIcon);
         iconView.setImageDrawable(
-                iconDrawable != null ? iconDrawable : getResources().getDrawable(R.drawable.ic_done));
+                iconDrawable != null ? iconDrawable : ContextCompat.getDrawable(getContext(), R.drawable.ic_done));
+    }
+
+    @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (!viewsAdded) {
+            setupContentSize();
+            tintCompleteFabWithArcColor();
+            setIcon();
+            viewsAdded = true;
+        }
+    }
+
+    private void setupContentSize() {
+        int contentSize = (int) getResources().getDimension(R.dimen.fab_width);
+        int mContentPadding = (getChildAt(0).getMeasuredWidth() - contentSize) / 2;
+        getChildAt(0).setPadding(mContentPadding, mContentPadding, mContentPadding, mContentPadding);
     }
 
     public void animate(AnimatorSet progressArcAnimator) {

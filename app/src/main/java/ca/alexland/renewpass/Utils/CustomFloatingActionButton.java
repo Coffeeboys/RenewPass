@@ -52,12 +52,12 @@ public class CustomFloatingActionButton {
 
         Drawable doneIcon = ContextCompat.getDrawable(view.getContext(), R.drawable.ic_done);
         tintIconWhite(doneIcon);
-        CompleteFABView completeFABView = new CompleteFABView(view.getContext(), doneIcon, ContextCompat.getColor(view.getContext(), R.color.colorPrimaryDark));
+        CompleteFABView completeFABView = new CompleteFABView(view.getContext(), doneIcon, ContextCompat.getColor(view.getContext(), R.color.colorSuccess));
 
         ViewCompat.setElevation(completeFABView, ViewCompat.getElevation(fabRoot.getChildAt(1)) + 1);
 
-        int fabWidth = view.getResources().getDimensionPixelSize(R.dimen.fab_width) - 75;
-        int fabHeight = view.getResources().getDimensionPixelSize(R.dimen.fab_height) - 75;
+        int fabWidth = view.getResources().getDimensionPixelSize(R.dimen.fab_width);
+        int fabHeight = view.getResources().getDimensionPixelSize(R.dimen.fab_height);
         fabRoot.addView(completeFABView, new FrameLayout.LayoutParams(fabWidth, fabHeight, Gravity.CENTER));
 
         completeFABView.animate(new AnimatorSet());
