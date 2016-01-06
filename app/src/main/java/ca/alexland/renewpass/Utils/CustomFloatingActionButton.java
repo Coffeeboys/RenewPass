@@ -2,6 +2,7 @@ package ca.alexland.renewpass.Utils;
 
 import android.animation.AnimatorSet;
 import android.app.ActionBar;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
@@ -27,10 +28,15 @@ public class CustomFloatingActionButton {
     public CustomFloatingActionButton(FloatingActionButton fab, Drawable fabIcon, MaterialProgressBar fabProgressBar, FrameLayout fabRoot) {
         this.fab = fab;
         this.fabIcon = fabIcon;
-        fabIcon = DrawableCompat.wrap(fabIcon);
-        DrawableCompat.setTint(fabIcon, Color.WHITE);
+        tintIconWhite(fabIcon);
         this.fabProgressBar = fabProgressBar;
         this.fabRoot = fabRoot;
+    }
+
+    private void tintIconWhite(Drawable fabIcon) {
+        fabIcon = DrawableCompat.wrap(fabIcon);
+        DrawableCompat.setTint(fabIcon, Color.WHITE);
+        fabIcon = DrawableCompat.unwrap(fabIcon);
     }
 
     public void setOnClickListener(View.OnClickListener fabListener) {
@@ -43,10 +49,17 @@ public class CustomFloatingActionButton {
 
     public void stopLoading(View view) {
         fabProgressBar.setVisibility(View.INVISIBLE);
+
         Drawable doneIcon = ContextCompat.getDrawable(view.getContext(), R.drawable.ic_done);
+        tintIconWhite(doneIcon);
         CompleteFABView completeFABView = new CompleteFABView(view.getContext(), doneIcon, ContextCompat.getColor(view.getContext(), R.color.colorPrimaryDark));
-        fabRoot.addView(completeFABView, new FrameLayout.LayoutParams(200, 200, Gravity.CENTER));
-        ViewCompat.setElevation(completeFABView, ViewCompat.getElevation(completeFABView.getChildAt(0)) + 1);
+
+        ViewCompat.setElevation(completeFABView, ViewCompat.getElevation(fabRoot.getChildAt(1)) + 1);
+
+        int fabWidth = view.getResources().getDimensionPixelSize(R.dimen.fab_width) - 75;
+        int fabHeight = view.getResources().getDimensionPixelSize(R.dimen.fab_height) - 75;
+        fabRoot.addView(completeFABView, new FrameLayout.LayoutParams(fabWidth, fabHeight, Gravity.CENTER));
+
         completeFABView.animate(new AnimatorSet());
     }
 }
