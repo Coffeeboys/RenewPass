@@ -8,8 +8,11 @@ import com.gistlabs.mechanize.document.html.HtmlDocument;
 import com.gistlabs.mechanize.document.html.form.Checkbox;
 import com.gistlabs.mechanize.document.html.form.Form;
 import com.gistlabs.mechanize.document.html.form.Select;
+import com.gistlabs.mechanize.exceptions.MechanizeException;
+import com.gistlabs.mechanize.exceptions.MechanizeIOException;
 import com.gistlabs.mechanize.impl.MechanizeAgent;
 
+import java.io.IOException;
 import java.util.List;
 
 import ca.alexland.renewpass.Schools.School;
@@ -26,10 +29,15 @@ public class UPassService {
         this.fab = fab;
         this.view = view;
         fab.startLoading();
+        startRenew(school, username, password);
+    }
+
+    private void startRenew(School school, String username, String password) {
         new RenewTask(school, username, password).execute(UPASS_SITE_URL);
     }
 
     private class RenewTask extends AsyncTask<String, Void, Status> {
+        private final int MESSAGE_DURATION = 5000;
         School school;
         String username;
         String password;
@@ -48,19 +56,22 @@ public class UPassService {
                 requestUpass(upassPage);
             }
             catch(SchoolNotFoundException e) {
-                return new ca.alexland.renewpass.Utils.Status("School not found.", false);
+                return new ca.alexland.renewpass.Utils.Status(ca.alexland.renewpass.Utils.Status.SCHOOL_NOT_FOUND, false);
             }
             catch(SchoolAuthenticationFailedException e) {
-                return new ca.alexland.renewpass.Utils.Status("Authentication failed.", false);
+                return new ca.alexland.renewpass.Utils.Status(ca.alexland.renewpass.Utils.Status.AUTHENTICATION_ERROR, false);
             }
             catch(NothingToRenewException e) {
-                return new ca.alexland.renewpass.Utils.Status("You already have the latest UPass!", true);
+                return new ca.alexland.renewpass.Utils.Status(ca.alexland.renewpass.Utils.Status.NOTHING_TO_RENEW, true);
+            }
+            catch(MechanizeException e) {
+                return new ca.alexland.renewpass.Utils.Status(ca.alexland.renewpass.Utils.Status.NETWORK_ERROR, false);
             }
             catch(Exception e) {
-                return new ca.alexland.renewpass.Utils.Status("Unknown error.", false);
+                return new ca.alexland.renewpass.Utils.Status(ca.alexland.renewpass.Utils.Status.UNKNOWN_ERROR, false);
             }
 
-            return new ca.alexland.renewpass.Utils.Status("UPass successfully requested!", true);
+            return new ca.alexland.renewpass.Utils.Status(ca.alexland.renewpass.Utils.Status.RENEW_SUCCESSFUL, true);
         }
 
         private HtmlDocument selectSchool(String siteURL, String schoolId) throws SchoolNotFoundException {
@@ -103,8 +114,26 @@ public class UPassService {
 
         @Override
         protected void onPostExecute(ca.alexland.renewpass.Utils.Status result) {
-            fab.stopLoading(view);
-            Snackbar.make(view, result.getStatusText(), Snackbar.LENGTH_LONG).show();
+            if (result.isSuccessful()) {
+                fab.finishSuccess(view);
+            }
+            else {
+                fab.finishFailure(view);
+            }
+            if (result.getStatusText().equals(ca.alexland.renewpass.Utils.Status.NETWORK_ERROR)) {
+                Snackbar.make(view, result.getStatusText(), Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                startRenew(school, username, password);
+                            }
+                        })
+                        .show();
+            }
+            else {
+                Snackbar.make(view, result.getStatusText(), Snackbar.LENGTH_LONG).show();
+            }
+
         }
     }
 }

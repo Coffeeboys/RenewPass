@@ -47,7 +47,7 @@ public class CustomFloatingActionButton {
         fabProgressBar.setVisibility(View.VISIBLE);
     }
 
-    public void stopLoading(View view) {
+    public void finishSuccess(View view) {
         fabProgressBar.setVisibility(View.INVISIBLE);
 
         Drawable doneIcon = ContextCompat.getDrawable(view.getContext(), R.drawable.ic_done);
@@ -61,5 +61,22 @@ public class CustomFloatingActionButton {
         fabRoot.addView(completeFABView, new FrameLayout.LayoutParams(fabWidth, fabHeight, Gravity.CENTER));
 
         completeFABView.animate(new AnimatorSet());
+    }
+
+    public void finishFailure(View view) {
+        fabProgressBar.setVisibility(View.INVISIBLE);
+
+        Drawable failIcon = ContextCompat.getDrawable(view.getContext(), R.drawable.ic_fail);
+        tintIconWhite(failIcon);
+        final CompleteFABView completeFABView = new CompleteFABView(view.getContext(), failIcon, ContextCompat.getColor(view.getContext(), R.color.colorFailure));
+
+        ViewCompat.setElevation(completeFABView, ViewCompat.getElevation(fabRoot.getChildAt(1)) + 1);
+
+        int fabWidth = view.getResources().getDimensionPixelSize(R.dimen.fab_width);
+        int fabHeight = view.getResources().getDimensionPixelSize(R.dimen.fab_height);
+        fabRoot.addView(completeFABView, new FrameLayout.LayoutParams(fabWidth, fabHeight, Gravity.CENTER));
+
+        completeFABView.animate(new AnimatorSet());
+        completeFABView.reset();
     }
 }

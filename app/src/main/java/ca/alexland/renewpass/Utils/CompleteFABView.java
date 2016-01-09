@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
@@ -32,6 +33,7 @@ public class CompleteFABView extends FrameLayout {
     private Drawable iconDrawable;
     private int arcColor;
     private boolean viewsAdded;
+    private Animator.AnimatorListener listener;
 
     public CompleteFABView(Context context, Drawable iconDrawable, int arcColor) {
         super(context);
@@ -42,6 +44,10 @@ public class CompleteFABView extends FrameLayout {
 
     private void init() {
         inflate(getContext(), R.layout.complete_fab, this);
+    }
+
+    public void setListener(Animator.AnimatorListener listener) {
+        this.listener = listener;
     }
 
     private void tintCompleteFabWithArcColor() {
@@ -94,6 +100,7 @@ public class CompleteFABView extends FrameLayout {
         iconScaleAnimY.setDuration(250).setInterpolator(iconAnimInterpolator);
 
         AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.addListener(inverse ? getInverseAnimatorListener() : getAnimatorListener());
         if (inverse) {
             animatorSet.playTogether(completeFabAnim);
         } else {
@@ -105,6 +112,43 @@ public class CompleteFABView extends FrameLayout {
             animatorSet.setStartDelay(RESET_DELAY);
         }
         animatorSet.start();
+    }
+
+    private Animator.AnimatorListener getAnimatorListener() {
+        return new Animator.AnimatorListener() {
+            @Override public void onAnimationStart(Animator animator) {
+                setVisibility(View.VISIBLE);
+            }
+
+            @Override public void onAnimationEnd(Animator animator) {
+                if (listener != null) {
+                    listener.onAnimationEnd(animator);
+                }
+            }
+
+            @Override public void onAnimationCancel(Animator animator) {
+            }
+
+            @Override public void onAnimationRepeat(Animator animator) {
+            }
+        };
+    }
+
+    private Animator.AnimatorListener getInverseAnimatorListener() {
+        return new Animator.AnimatorListener() {
+            @Override public void onAnimationStart(Animator animator) {
+            }
+
+            @Override public void onAnimationEnd(Animator animator) {
+                setVisibility(View.GONE);
+            }
+
+            @Override public void onAnimationCancel(Animator animator) {
+            }
+
+            @Override public void onAnimationRepeat(Animator animator) {
+            }
+        };
     }
 
     public void reset() {
