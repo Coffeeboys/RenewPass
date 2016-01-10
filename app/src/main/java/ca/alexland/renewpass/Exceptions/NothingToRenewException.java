@@ -1,4 +1,4 @@
-package ca.alexland.renewpass.Exceptions;
+package ca.alexland.renewpass.exceptions;
 
 /**
  * Created by AlexLand on 2016-01-04.

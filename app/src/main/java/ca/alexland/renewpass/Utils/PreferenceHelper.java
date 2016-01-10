@@ -1,4 +1,4 @@
-package ca.alexland.renewpass.Utils;
+package ca.alexland.renewpass.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

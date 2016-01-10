@@ -14,12 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import ca.alexland.renewpass.Schools.School;
-import ca.alexland.renewpass.Schools.SimonFraserUniversity;
-import ca.alexland.renewpass.Views.LoadingFloatingActionButton;
-import ca.alexland.renewpass.Utils.DrawableUtil;
-import ca.alexland.renewpass.Utils.PreferenceHelper;
-import ca.alexland.renewpass.Utils.UPassLoader;
+import ca.alexland.renewpass.schools.School;
+import ca.alexland.renewpass.schools.SimonFraserUniversity;
+import ca.alexland.renewpass.views.LoadingFloatingActionButton;
+import ca.alexland.renewpass.utils.DrawableUtil;
+import ca.alexland.renewpass.utils.PreferenceHelper;
+import ca.alexland.renewpass.utils.UPassLoader;
 
 public class MainActivity extends AppCompatActivity {
     PreferenceHelper preferenceHelper;

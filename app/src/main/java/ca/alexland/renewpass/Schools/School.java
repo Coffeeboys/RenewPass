@@ -1,8 +1,8 @@
-package ca.alexland.renewpass.Schools;
+package ca.alexland.renewpass.schools;
 
 import com.gistlabs.mechanize.document.html.HtmlDocument;
 
-import ca.alexland.renewpass.Exceptions.SchoolAuthenticationFailedException;
+import ca.alexland.renewpass.exceptions.SchoolAuthenticationFailedException;
 
 /**
  * Created by AlexLand on 2015-12-30.

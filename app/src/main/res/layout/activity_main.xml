@@ -23,7 +23,7 @@
 
     <include layout="@layout/content_main" />
 
-    <ca.alexland.renewpass.Views.LoadingFloatingActionButton
+    <ca.alexland.renewpass.views.LoadingFloatingActionButton
         android:id="@+id/loading_fab"
         android:layout_width="240dp"
         android:layout_height="240dp"

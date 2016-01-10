@@ -1,4 +1,4 @@
-package ca.alexland.renewpass.Utils;
+package ca.alexland.renewpass.utils;
 
 import android.graphics.drawable.Drawable;
 import android.support.v4.graphics.drawable.DrawableCompat;

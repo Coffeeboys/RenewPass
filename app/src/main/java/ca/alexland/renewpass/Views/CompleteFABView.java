@@ -1,4 +1,4 @@
-package ca.alexland.renewpass.Views;
+package ca.alexland.renewpass.views;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;

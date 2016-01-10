@@ -1,4 +1,4 @@
-package ca.alexland.renewpass.Views;
+package ca.alexland.renewpass.views;
 
 import android.animation.AnimatorSet;
 import android.annotation.TargetApi;
@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import ca.alexland.renewpass.R;
-import ca.alexland.renewpass.Utils.DrawableUtil;
+import ca.alexland.renewpass.utils.DrawableUtil;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 /**
