@@ -48,9 +48,9 @@ class CompleteFABView extends FrameLayout {
         Drawable background = ContextCompat.getDrawable(getContext(), R.drawable.oval_complete);
         background.setColorFilter(arcColor, PorterDuff.Mode.SRC_ATOP);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            findViewById(R.id.completeFabRoot).setBackground(background);
+            setBackground(background);
         } else {
-            findViewById(R.id.completeFabRoot).setBackgroundDrawable(background);
+            setBackgroundDrawable(background);
         }
     }
 

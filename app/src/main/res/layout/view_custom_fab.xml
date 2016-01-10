@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge>
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-            android:id="@+id/fabProgressBar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible"
-            android:layout_gravity="center"/>
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/fab_margin"
-            android:layout_gravity="center"/>
-    </FrameLayout>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+        android:id="@+id/fabProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:layout_gravity="center"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_gravity="center"/>
 </merge>
