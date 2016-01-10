@@ -20,7 +20,7 @@ import ca.alexland.renewpass.Views.LoadingFloatingActionButton;
 /**
  * Created by AlexLand on 2015-12-28.
  */
-public class UPassService {
+public class UPassLoader {
     LoadingFloatingActionButton fab;
     private final String UPASS_SITE_URL = "http://upassbc.translink.ca";
 

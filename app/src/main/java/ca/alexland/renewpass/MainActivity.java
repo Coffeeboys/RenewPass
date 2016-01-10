@@ -19,7 +19,7 @@ import ca.alexland.renewpass.Schools.SimonFraserUniversity;
 import ca.alexland.renewpass.Views.LoadingFloatingActionButton;
 import ca.alexland.renewpass.Utils.DrawableUtil;
 import ca.alexland.renewpass.Utils.PreferenceHelper;
-import ca.alexland.renewpass.Utils.UPassService;
+import ca.alexland.renewpass.Utils.UPassLoader;
 
 public class MainActivity extends AppCompatActivity {
     PreferenceHelper preferenceHelper;
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onRenew(LoadingFloatingActionButton fab) {
-        UPassService mService = new UPassService();
+        UPassLoader mService = new UPassLoader();
         School school = new SimonFraserUniversity();
         String username = preferenceHelper.getUsername();
         String password = preferenceHelper.getPassword();
