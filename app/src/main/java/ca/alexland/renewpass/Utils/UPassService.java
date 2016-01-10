@@ -2,7 +2,6 @@ package ca.alexland.renewpass.Utils;
 
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
-import android.view.View;
 
 import com.gistlabs.mechanize.document.html.HtmlDocument;
 import com.gistlabs.mechanize.document.html.form.Checkbox;
@@ -19,12 +18,10 @@ import ca.alexland.renewpass.Schools.School;
  */
 public class UPassService {
     CustomFloatingActionButton fab;
-    View view;
     private final String UPASS_SITE_URL = "http://upassbc.translink.ca";
 
-    public void renewUPass(View view, CustomFloatingActionButton fab, School school, String username, String password) {
+    public void renewUPass(CustomFloatingActionButton fab, School school, String username, String password) {
         this.fab = fab;
-        this.view = view;
         fab.startLoading();
         new RenewTask(school, username, password).execute(UPASS_SITE_URL);
     }
@@ -103,8 +100,8 @@ public class UPassService {
 
         @Override
         protected void onPostExecute(ca.alexland.renewpass.Utils.Status result) {
-            fab.stopLoading(view);
-            Snackbar.make(view, result.getStatusText(), Snackbar.LENGTH_LONG).show();
+            fab.stopLoading();
+            Snackbar.make(fab, result.getStatusText(), Snackbar.LENGTH_LONG).show();
         }
     }
 }

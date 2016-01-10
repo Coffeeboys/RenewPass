@@ -5,8 +5,6 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,15 +13,12 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 
 import ca.alexland.renewpass.Schools.School;
 import ca.alexland.renewpass.Schools.SimonFraserUniversity;
 import ca.alexland.renewpass.Utils.CustomFloatingActionButton;
 import ca.alexland.renewpass.Utils.PreferenceHelper;
 import ca.alexland.renewpass.Utils.UPassService;
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class MainActivity extends AppCompatActivity {
     PreferenceHelper preferenceHelper;
@@ -39,15 +34,11 @@ public class MainActivity extends AppCompatActivity {
 
         doFirstRun();
 
-        final FrameLayout fabRoot = (FrameLayout) findViewById(R.id.fabRoot);
-        final MaterialProgressBar fabProgressBar = (MaterialProgressBar) findViewById(R.id.fabProgressBar);
-        final FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
-        final Drawable fabIcon = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_autorenew);
-        final CustomFloatingActionButton fab = new CustomFloatingActionButton(floatingActionButton, fabIcon, fabProgressBar, fabRoot);
-        fab.setOnClickListener(new View.OnClickListener() {
+        final CustomFloatingActionButton loadingFab = (CustomFloatingActionButton) findViewById(R.id.loading_fab);
+        loadingFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onRenew(view, fab);
+                onRenew(loadingFab);
             }
         });
     }
@@ -124,11 +115,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onRenew(View view, CustomFloatingActionButton fab) {
+    public void onRenew(CustomFloatingActionButton fab) {
         UPassService mService = new UPassService();
         School school = new SimonFraserUniversity();
         String username = preferenceHelper.getUsername();
         String password = preferenceHelper.getPassword();
-        mService.renewUPass(view, fab, school, username, password);
+        mService.renewUPass(fab, school, username, password);
     }
 }

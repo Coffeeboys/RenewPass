@@ -3,8 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="progress_bar_width">240dp</dimen>
-    <dimen name="progress_bar_height">240dp</dimen>
-    <dimen name="fab_width">200dp</dimen>
-    <dimen name="fab_height">200dp</dimen>
+    <dimen name="loading_fab_margin">20dp</dimen>
+    <!--TODO: delete this resource after refactoring CompleteFabView-->
+    <dimen name="fab_size">200dp</dimen>
 </resources>

@@ -23,28 +23,12 @@
 
     <include layout="@layout/content_main" />
 
-    <FrameLayout
-        android:id="@+id/fabRoot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
-
-        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-            android:id="@+id/fabProgressBar"
-            android:layout_width="@dimen/progress_bar_width"
-            android:layout_height="@dimen/progress_bar_height"
-            android:layout_gravity="center"
-            android:tint="@color/colorPrimaryDark"
-            android:visibility="invisible"
-            style="@style/Widget.MaterialProgressBar.ProgressBar" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="@dimen/fab_width"
-            android:layout_height="@dimen/fab_height"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_autorenew" />
-
-    </FrameLayout>
+    <ca.alexland.renewpass.Utils.CustomFloatingActionButton
+        android:id="@+id/loading_fab"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:layout_gravity="center"
+        app:fabIcon="@drawable/ic_autorenew"
+        app:completeIcon="@drawable/ic_done"/>
 
 </android.support.design.widget.CoordinatorLayout>

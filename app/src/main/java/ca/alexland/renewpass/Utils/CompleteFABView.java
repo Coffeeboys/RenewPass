@@ -1,6 +1,5 @@
 package ca.alexland.renewpass.Utils;
 
-import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -71,7 +70,7 @@ public class CompleteFABView extends FrameLayout {
     }
 
     private void setupContentSize() {
-        int contentSize = (int) getResources().getDimension(R.dimen.fab_width);
+        int contentSize = (int) getResources().getDimension(R.dimen.fab_size);
         int mContentPadding = (getChildAt(0).getMeasuredWidth() - contentSize) / 2;
         getChildAt(0).setPadding(mContentPadding, mContentPadding, mContentPadding, mContentPadding);
     }

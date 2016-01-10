@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LoadingFab">
+        <attr name="fabIcon" format="integer"/>
+        <attr name="completeIcon" format="integer"/>
+        <attr name="progressColor" format="color"/>
+    </declare-styleable>
+</resources>
