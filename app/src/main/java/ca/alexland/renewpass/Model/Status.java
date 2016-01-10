@@ -1,4 +1,4 @@
-package ca.alexland.renewpass.Utils;
+package ca.alexland.renewpass.Model;
 
 /**
  * Created by AlexLand on 2016-01-04.

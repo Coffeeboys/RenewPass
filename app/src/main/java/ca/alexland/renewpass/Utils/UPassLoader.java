@@ -14,6 +14,7 @@ import java.util.List;
 import ca.alexland.renewpass.Exceptions.NothingToRenewException;
 import ca.alexland.renewpass.Exceptions.SchoolAuthenticationFailedException;
 import ca.alexland.renewpass.Exceptions.SchoolNotFoundException;
+import ca.alexland.renewpass.Model.Status;
 import ca.alexland.renewpass.Schools.School;
 import ca.alexland.renewpass.Views.LoadingFloatingActionButton;
 
@@ -42,26 +43,26 @@ public class UPassLoader {
         }
 
         @Override
-        protected ca.alexland.renewpass.Utils.Status doInBackground(String... params) {
+        protected ca.alexland.renewpass.Model.Status doInBackground(String... params) {
             try {
                 HtmlDocument authPage = selectSchool(UPASS_SITE_URL, school.getID());
                 HtmlDocument upassPage = authorizeAccount(authPage);
                 requestUpass(upassPage);
             }
             catch(SchoolNotFoundException e) {
-                return new ca.alexland.renewpass.Utils.Status("School not found.", false);
+                return new ca.alexland.renewpass.Model.Status("School not found.", false);
             }
             catch(SchoolAuthenticationFailedException e) {
-                return new ca.alexland.renewpass.Utils.Status("Authentication failed.", false);
+                return new ca.alexland.renewpass.Model.Status("Authentication failed.", false);
             }
             catch(NothingToRenewException e) {
-                return new ca.alexland.renewpass.Utils.Status("You already have the latest UPass!", true);
+                return new ca.alexland.renewpass.Model.Status("You already have the latest UPass!", true);
             }
             catch(Exception e) {
-                return new ca.alexland.renewpass.Utils.Status("Unknown error.", false);
+                return new ca.alexland.renewpass.Model.Status("Unknown error.", false);
             }
 
-            return new ca.alexland.renewpass.Utils.Status("UPass successfully requested!", true);
+            return new ca.alexland.renewpass.Model.Status("UPass successfully requested!", true);
         }
 
         private HtmlDocument selectSchool(String siteURL, String schoolId) throws SchoolNotFoundException {
@@ -103,7 +104,7 @@ public class UPassLoader {
         }
 
         @Override
-        protected void onPostExecute(ca.alexland.renewpass.Utils.Status result) {
+        protected void onPostExecute(ca.alexland.renewpass.Model.Status result) {
             fab.stopLoading();
             Snackbar.make(fab, result.getStatusText(), Snackbar.LENGTH_LONG).show();
         }
