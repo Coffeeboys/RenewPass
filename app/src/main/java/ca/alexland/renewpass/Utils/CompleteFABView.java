@@ -24,8 +24,9 @@ import ca.alexland.renewpass.R;
  * @author Jorge Castillo Pérez
  * @author Alex Land
  */
-public class CompleteFABView extends FrameLayout {
-
+class CompleteFABView extends FrameLayout {
+    private final int FAB_ANIMATION_DURATION = 300;
+    private final int ICON_ANIMATION_DURATION = 250;
     private final int RESET_DELAY = 3000;
 
     private Drawable iconDrawable;
@@ -40,7 +41,7 @@ public class CompleteFABView extends FrameLayout {
     }
 
     private void init() {
-        inflate(getContext(), R.layout.complete_fab, this);
+        inflate(getContext(), R.layout.view_complete_fab, this);
     }
 
     private void tintCompleteFabWithArcColor() {
@@ -62,17 +63,10 @@ public class CompleteFABView extends FrameLayout {
     @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if (!viewsAdded) {
-            setupContentSize();
             tintCompleteFabWithArcColor();
             setIcon();
             viewsAdded = true;
         }
-    }
-
-    private void setupContentSize() {
-        int contentSize = (int) getResources().getDimension(R.dimen.fab_size);
-        int mContentPadding = (getChildAt(0).getMeasuredWidth() - contentSize) / 2;
-        getChildAt(0).setPadding(mContentPadding, mContentPadding, mContentPadding, mContentPadding);
     }
 
     public void animate(AnimatorSet progressArcAnimator) {
@@ -80,8 +74,9 @@ public class CompleteFABView extends FrameLayout {
     }
 
     private void animate(AnimatorSet progressArcAnimator, boolean inverse) {
+        //TODO: define animators in xml to make it easier to make changes? Or instead, use View's animate() method to obtain a ViewAnimator which is cleaner an more efficient
         ValueAnimator completeFabAnim = ObjectAnimator.ofFloat(getChildAt(0), "alpha", inverse ? 0 : 1);
-        completeFabAnim.setDuration(300).setInterpolator(new AccelerateDecelerateInterpolator());
+        completeFabAnim.setDuration(FAB_ANIMATION_DURATION).setInterpolator(new AccelerateDecelerateInterpolator());
 
         View icon = findViewById(R.id.completeFabIcon);
 
@@ -89,8 +84,8 @@ public class CompleteFABView extends FrameLayout {
         ValueAnimator iconScaleAnimY = ObjectAnimator.ofFloat(icon, "scaleY", 0, 1);
 
         Interpolator iconAnimInterpolator = new LinearInterpolator();
-        iconScaleAnimX.setDuration(250).setInterpolator(iconAnimInterpolator);
-        iconScaleAnimY.setDuration(250).setInterpolator(iconAnimInterpolator);
+        iconScaleAnimX.setDuration(ICON_ANIMATION_DURATION).setInterpolator(iconAnimInterpolator);
+        iconScaleAnimY.setDuration(ICON_ANIMATION_DURATION).setInterpolator(iconAnimInterpolator);
 
         AnimatorSet animatorSet = new AnimatorSet();
         if (inverse) {

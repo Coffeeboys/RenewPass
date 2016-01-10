@@ -4,17 +4,16 @@ import android.animation.AnimatorSet;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import ca.alexland.renewpass.R;
@@ -93,7 +92,7 @@ public class CustomFloatingActionButton extends FrameLayout {
 
     @Override
     public void setOnClickListener(View.OnClickListener fabListener) {
-        this.fab.setOnClickListener(fabListener);
+        fab.setOnClickListener(fabListener);
     }
 
     public void startLoading() {
@@ -106,8 +105,13 @@ public class CustomFloatingActionButton extends FrameLayout {
         CompleteFABView completeFABView = new CompleteFABView(getContext(), completeIcon, ContextCompat.getColor(getContext(), R.color.colorSuccess));
         ViewCompat.setElevation(completeFABView, ViewCompat.getElevation(fab) + 1);
 
-        int fabSize = getResources().getDimensionPixelSize(R.dimen.fab_size);
-        addView(completeFABView, new FrameLayout.LayoutParams(fabSize, fabSize, Gravity.CENTER));
+        FrameLayout.LayoutParams layoutParams =  new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER);
+        final int fabMargin = getResources().getDimensionPixelSize(R.dimen.fab_margin);
+        layoutParams.setMargins(fabMargin, fabMargin, fabMargin, fabMargin);
+        addView(completeFABView, layoutParams);
 
         completeFABView.animate(new AnimatorSet());
     }

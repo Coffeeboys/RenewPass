@@ -2,8 +2,5 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="loading_fab_margin">20dp</dimen>
-    <!--TODO: delete this resource after refactoring CompleteFabView-->
-    <dimen name="fab_size">200dp</dimen>
+    <dimen name="fab_margin">20dp</dimen>
 </resources>

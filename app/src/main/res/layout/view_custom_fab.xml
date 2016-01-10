@@ -13,7 +13,7 @@
             android:id="@+id/fab"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/loading_fab_margin"
+            android:layout_margin="@dimen/fab_margin"
             android:layout_gravity="center"/>
     </FrameLayout>
 </merge>
