@@ -31,15 +31,18 @@ public class LoadingFloatingActionButton extends FrameLayout {
     private Drawable fabIcon;
 
     public LoadingFloatingActionButton(Context context) {
-        this(context, null);
+        super(context);
+        init(null, 0, 0);
     }
 
     public LoadingFloatingActionButton(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
+        init(attrs, 0, 0);
     }
 
     public LoadingFloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
+        super(context, attrs, defStyleAttr);
+        init(attrs, defStyleAttr, 0);
     }
 
     @TargetApi(21)
