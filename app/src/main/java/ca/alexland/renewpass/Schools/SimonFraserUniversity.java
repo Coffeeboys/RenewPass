@@ -5,7 +5,7 @@ import com.gistlabs.mechanize.document.html.form.Form;
 import com.gistlabs.mechanize.document.html.form.Password;
 import com.gistlabs.mechanize.document.html.form.Text;
 
-import ca.alexland.renewpass.Utils.SchoolAuthenticationFailedException;
+import ca.alexland.renewpass.Exceptions.SchoolAuthenticationFailedException;
 
 /**
  * Created by AlexLand on 2015-12-30.

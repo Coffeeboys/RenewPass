@@ -11,6 +11,9 @@ import com.gistlabs.mechanize.impl.MechanizeAgent;
 
 import java.util.List;
 
+import ca.alexland.renewpass.Exceptions.NothingToRenewException;
+import ca.alexland.renewpass.Exceptions.SchoolAuthenticationFailedException;
+import ca.alexland.renewpass.Exceptions.SchoolNotFoundException;
 import ca.alexland.renewpass.Schools.School;
 import ca.alexland.renewpass.Views.LoadingFloatingActionButton;
 
