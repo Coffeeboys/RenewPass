@@ -17,6 +17,7 @@ import android.widget.EditText;
 import ca.alexland.renewpass.Schools.School;
 import ca.alexland.renewpass.Schools.SimonFraserUniversity;
 import ca.alexland.renewpass.Utils.CustomFloatingActionButton;
+import ca.alexland.renewpass.Utils.DrawableUtil;
 import ca.alexland.renewpass.Utils.PreferenceHelper;
 import ca.alexland.renewpass.Utils.UPassService;
 
@@ -41,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
                 onRenew(loadingFab);
             }
         });
+        Drawable completeIcon = loadingFab.getCompleteIconDrawable();
+        if (completeIcon != null) {
+            DrawableUtil.tint(completeIcon, Color.WHITE);
+        }
     }
 
     private void doFirstRun() {

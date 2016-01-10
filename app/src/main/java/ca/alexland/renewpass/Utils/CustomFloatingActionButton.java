@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -26,6 +27,7 @@ public class CustomFloatingActionButton extends FrameLayout {
     private FloatingActionButton fab;
     private MaterialProgressBar fabProgressBar;
     private Drawable completeIcon;
+    private Drawable fabIcon;
 
     public CustomFloatingActionButton(Context context) {
         this(context, null);
@@ -63,31 +65,33 @@ public class CustomFloatingActionButton extends FrameLayout {
         TypedArray styledAttributes = getContext().getTheme().obtainStyledAttributes(
                 attributeSet,
                 R.styleable.LoadingFab,
-                defStyleAttr, defStyleRes);
+                defStyleAttr,
+                defStyleRes);
 
-        //TODO: move the tinting of this icon outside the view so that the icon color can be set by the user of the view from xml or code
         completeIcon = styledAttributes.getDrawable(R.styleable.LoadingFab_completeIcon);
-        if (completeIcon != null) {
-            tintDrawable(completeIcon, Color.WHITE);
-        }
 
         int progressColor = styledAttributes.getColor(
                 R.styleable.LoadingFab_progressColor,
                 ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
-        tintDrawable(fabProgressBar.getDrawable(), progressColor);
+        DrawableUtil.tint(fabProgressBar.getDrawable(), progressColor);
 
-        Drawable fabIcon = styledAttributes.getDrawable(R.styleable.LoadingFab_fabIcon);
+        fabIcon = styledAttributes.getDrawable(R.styleable.LoadingFab_fabIcon);
         if (fabIcon != null) {
             fab.setImageDrawable(fabIcon);
         }
     }
 
-    private void tintDrawable(Drawable fabIcon, int color) {
-        fabIcon = DrawableCompat.wrap(fabIcon);
-        DrawableCompat.setTint(fabIcon, color);
-        fabIcon = DrawableCompat.unwrap(fabIcon);
+    @Nullable
+    public Drawable getCompleteIconDrawable() {
+        return completeIcon;
     }
 
+    @Nullable
+    public Drawable getFabIconDrawable() {
+        return fabIcon;
+    }
+
+    @Override
     public void setOnClickListener(View.OnClickListener fabListener) {
         this.fab.setOnClickListener(fabListener);
     }
