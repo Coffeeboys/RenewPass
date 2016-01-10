@@ -12,15 +12,16 @@ import com.gistlabs.mechanize.impl.MechanizeAgent;
 import java.util.List;
 
 import ca.alexland.renewpass.Schools.School;
+import ca.alexland.renewpass.Views.LoadingFloatingActionButton;
 
 /**
  * Created by AlexLand on 2015-12-28.
  */
 public class UPassService {
-    CustomFloatingActionButton fab;
+    LoadingFloatingActionButton fab;
     private final String UPASS_SITE_URL = "http://upassbc.translink.ca";
 
-    public void renewUPass(CustomFloatingActionButton fab, School school, String username, String password) {
+    public void renewUPass(LoadingFloatingActionButton fab, School school, String username, String password) {
         this.fab = fab;
         fab.startLoading();
         new RenewTask(school, username, password).execute(UPASS_SITE_URL);

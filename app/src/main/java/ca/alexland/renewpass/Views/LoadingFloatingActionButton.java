@@ -1,4 +1,4 @@
-package ca.alexland.renewpass.Utils;
+package ca.alexland.renewpass.Views;
 
 import android.animation.AnimatorSet;
 import android.annotation.TargetApi;
@@ -17,31 +17,33 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import ca.alexland.renewpass.R;
+import ca.alexland.renewpass.Utils.DrawableUtil;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 /**
  * Wrapper for Floating Action Button with progress bar and animation helper functions
  */
-public class CustomFloatingActionButton extends FrameLayout {
+//TODO: implement onSaveInstanceState() and onRestoreInstanceState
+public class LoadingFloatingActionButton extends FrameLayout {
     private FloatingActionButton fab;
     private MaterialProgressBar fabProgressBar;
     private Drawable completeIcon;
     private Drawable fabIcon;
 
-    public CustomFloatingActionButton(Context context) {
+    public LoadingFloatingActionButton(Context context) {
         this(context, null);
     }
 
-    public CustomFloatingActionButton(Context context, AttributeSet attrs) {
+    public LoadingFloatingActionButton(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CustomFloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public LoadingFloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, 0);
     }
 
     @TargetApi(21)
-    public CustomFloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public LoadingFloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(attrs, defStyleAttr, defStyleRes);
     }

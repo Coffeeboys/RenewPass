@@ -16,7 +16,7 @@ import android.widget.EditText;
 
 import ca.alexland.renewpass.Schools.School;
 import ca.alexland.renewpass.Schools.SimonFraserUniversity;
-import ca.alexland.renewpass.Utils.CustomFloatingActionButton;
+import ca.alexland.renewpass.Views.LoadingFloatingActionButton;
 import ca.alexland.renewpass.Utils.DrawableUtil;
 import ca.alexland.renewpass.Utils.PreferenceHelper;
 import ca.alexland.renewpass.Utils.UPassService;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         doFirstRun();
 
-        final CustomFloatingActionButton loadingFab = (CustomFloatingActionButton) findViewById(R.id.loading_fab);
+        final LoadingFloatingActionButton loadingFab = (LoadingFloatingActionButton) findViewById(R.id.loading_fab);
         loadingFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onRenew(CustomFloatingActionButton fab) {
+    public void onRenew(LoadingFloatingActionButton fab) {
         UPassService mService = new UPassService();
         School school = new SimonFraserUniversity();
         String username = preferenceHelper.getUsername();

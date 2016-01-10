@@ -1,4 +1,4 @@
-package ca.alexland.renewpass.Utils;
+package ca.alexland.renewpass.Views;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -60,7 +60,8 @@ class CompleteFABView extends FrameLayout {
                 iconDrawable != null ? iconDrawable : ContextCompat.getDrawable(getContext(), R.drawable.ic_done));
     }
 
-    @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if (!viewsAdded) {
             tintCompleteFabWithArcColor();
