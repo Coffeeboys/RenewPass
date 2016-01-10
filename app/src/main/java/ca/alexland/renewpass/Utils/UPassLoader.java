@@ -1,4 +1,4 @@
-package ca.alexland.renewpass.Utils;
+package ca.alexland.renewpass.utils;
 
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
@@ -9,10 +9,8 @@ import com.gistlabs.mechanize.document.html.form.Checkbox;
 import com.gistlabs.mechanize.document.html.form.Form;
 import com.gistlabs.mechanize.document.html.form.Select;
 import com.gistlabs.mechanize.exceptions.MechanizeException;
-import com.gistlabs.mechanize.exceptions.MechanizeIOException;
 import com.gistlabs.mechanize.impl.MechanizeAgent;
 
-import java.io.IOException;
 import java.util.List;
 
 import ca.alexland.renewpass.exceptions.NothingToRenewException;
@@ -31,7 +29,6 @@ public class UPassLoader {
 
     public void renewUPass(LoadingFloatingActionButton fab, School school, String username, String password) {
         this.fab = fab;
-        this.view = view;
         fab.startLoading();
         startRenew(school, username, password);
     }
@@ -60,22 +57,22 @@ public class UPassLoader {
                 requestUpass(upassPage);
             }
             catch(SchoolNotFoundException e) {
-                return new ca.alexland.renewpass.Utils.Status(ca.alexland.renewpass.Utils.Status.SCHOOL_NOT_FOUND, false);
+                return new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.SCHOOL_NOT_FOUND, false);
             }
             catch(SchoolAuthenticationFailedException e) {
-                return new ca.alexland.renewpass.Utils.Status(ca.alexland.renewpass.Utils.Status.AUTHENTICATION_ERROR, false);
+                return new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.AUTHENTICATION_ERROR, false);
             }
             catch(NothingToRenewException e) {
-                return new ca.alexland.renewpass.Utils.Status(ca.alexland.renewpass.Utils.Status.NOTHING_TO_RENEW, true);
+                return new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.NOTHING_TO_RENEW, true);
             }
             catch(MechanizeException e) {
-                return new ca.alexland.renewpass.Utils.Status(ca.alexland.renewpass.Utils.Status.NETWORK_ERROR, false);
+                return new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.NETWORK_ERROR, false);
             }
             catch(Exception e) {
-                return new ca.alexland.renewpass.Utils.Status(ca.alexland.renewpass.Utils.Status.UNKNOWN_ERROR, false);
+                return new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.UNKNOWN_ERROR, false);
             }
 
-            return new ca.alexland.renewpass.Utils.Status(ca.alexland.renewpass.Utils.Status.RENEW_SUCCESSFUL, true);
+            return new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.RENEW_SUCCESSFUL, true);
         }
 
         private HtmlDocument selectSchool(String siteURL, String schoolId) throws SchoolNotFoundException {
@@ -117,14 +114,14 @@ public class UPassLoader {
         }
 
         @Override
-        protected void onPostExecute(ca.alexland.renewpass.Utils.Status result) {
+        protected void onPostExecute(ca.alexland.renewpass.model.Status result) {
             if (result.isSuccessful()) {
                 fab.finishSuccess(view);
             }
             else {
                 fab.finishFailure(view);
             }
-            if (result.getStatusText().equals(ca.alexland.renewpass.Utils.Status.NETWORK_ERROR)) {
+            if (result.getStatusText().equals(ca.alexland.renewpass.model.Status.NETWORK_ERROR)) {
                 Snackbar.make(view, result.getStatusText(), Snackbar.LENGTH_INDEFINITE)
                         .setAction("Retry", new View.OnClickListener() {
                             @Override
