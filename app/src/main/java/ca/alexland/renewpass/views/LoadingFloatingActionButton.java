@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -27,6 +28,7 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 public class LoadingFloatingActionButton extends FrameLayout {
     private FloatingActionButton fab;
     private MaterialProgressBar fabProgressBar;
+    private CompleteFABView completeFABView;
     private Drawable completeIcon;
     private Drawable failureIcon;
     private Drawable fabIcon;
@@ -107,38 +109,34 @@ public class LoadingFloatingActionButton extends FrameLayout {
     }
 
     public void finishSuccess() {
-        fabProgressBar.setVisibility(View.INVISIBLE);
-
-        CompleteFABView completeFABView = new CompleteFABView(getContext(), completeIcon, ContextCompat.getColor(getContext(), R.color.colorSuccess));
-        ViewCompat.setElevation(completeFABView, ViewCompat.getElevation(fab) + 1);
-
-        FrameLayout.LayoutParams layoutParams =  new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                Gravity.CENTER);
-        final int fabMargin = getResources().getDimensionPixelSize(R.dimen.fab_margin);
-        layoutParams.setMargins(fabMargin, fabMargin, fabMargin, fabMargin);
-        addView(completeFABView, layoutParams);
-
-        completeFABView.animate(new AnimatorSet());
+        initCompleteFabView(completeIcon, ContextCompat.getColor(getContext(), R.color.colorSuccess));
     }
 
     public void finishFailure() {
-        fabProgressBar.setVisibility(View.INVISIBLE);
-
-        CompleteFABView completeFABView = new CompleteFABView(getContext(), failureIcon, ContextCompat.getColor(getContext(), R.color.colorFailure));
-        ViewCompat.setElevation(completeFABView, ViewCompat.getElevation(fab) + 1);
-
-        FrameLayout.LayoutParams layoutParams =  new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                Gravity.CENTER);
-        final int fabMargin = getResources().getDimensionPixelSize(R.dimen.fab_margin);
-        layoutParams.setMargins(fabMargin, fabMargin, fabMargin, fabMargin);
-        addView(completeFABView, layoutParams);
-
-        completeFABView.animate(new AnimatorSet());
+        initCompleteFabView(failureIcon, ContextCompat.getColor(getContext(), R.color.colorFailure));
         completeFABView.reset();
+    }
+
+    private void initCompleteFabView(Drawable icon, @ColorInt int backgroundColor) {
+        fabProgressBar.setVisibility(View.INVISIBLE);
+        if (completeFABView == null) {
+            completeFABView = new CompleteFABView(getContext(), icon, backgroundColor);
+            ViewCompat.setElevation(completeFABView, ViewCompat.getElevation(fab) + 1);
+
+            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    Gravity.CENTER);
+            final int fabMargin = getResources().getDimensionPixelSize(R.dimen.fab_margin);
+            layoutParams.setMargins(fabMargin, fabMargin, fabMargin, fabMargin);
+            addView(completeFABView, layoutParams);
+
+            completeFABView.animateIn();
+        } else {
+            completeFABView.setIconDrawable(icon);
+            completeFABView.setBackgroundColor(backgroundColor);
+            completeFABView.animateIn();
+        }
     }
 
     public Drawable getFailureIconDrawable() {
