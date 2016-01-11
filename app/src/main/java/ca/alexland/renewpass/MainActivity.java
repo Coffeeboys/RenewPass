@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         loadingFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onRenew(view, loadingFab);
+                onRenew(loadingFab);
             }
         });
         Drawable completeIcon = loadingFab.getCompleteIconDrawable();
@@ -128,11 +128,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onRenew(View view, LoadingFloatingActionButton fab) {
+    public void onRenew(LoadingFloatingActionButton fab) {
         UPassLoader mService = new UPassLoader();
         School school = new SimonFraserUniversity();
         String username = preferenceHelper.getUsername();
         String password = preferenceHelper.getPassword();
-        mService.renewUPass(view, fab, school, username, password);
+        mService.renewUPass(fab, school, username, password);
     }
 }

@@ -8,11 +8,11 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
@@ -31,16 +31,13 @@ class CompleteFABView extends FrameLayout {
     private final int ICON_ANIMATION_DURATION = 250;
     private final int RESET_DELAY = 3000;
 
-    private Drawable iconDrawable;
-    private int arcColor;
-    private boolean viewsAdded;
     private Animator.AnimatorListener listener;
 
-    public CompleteFABView(Context context, Drawable iconDrawable, int arcColor) {
+    public CompleteFABView(Context context, Drawable iconDrawable, int backgroundColor) {
         super(context);
-        this.iconDrawable = iconDrawable;
-        this.arcColor = arcColor;
         init();
+        setBackgroundColor(backgroundColor);
+        setIconDrawable(iconDrawable);
     }
 
     private void init() {
@@ -51,9 +48,10 @@ class CompleteFABView extends FrameLayout {
         this.listener = listener;
     }
 
-    private void tintCompleteFabWithArcColor() {
+    @Override
+    public void setBackgroundColor(@ColorInt int backgroundColor) {
         Drawable background = ContextCompat.getDrawable(getContext(), R.drawable.oval_complete);
-        background.setColorFilter(arcColor, PorterDuff.Mode.SRC_ATOP);
+        background.setColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             setBackground(background);
         } else {
@@ -61,7 +59,7 @@ class CompleteFABView extends FrameLayout {
         }
     }
 
-    private void setIcon() {
+    public void setIconDrawable(final Drawable iconDrawable) {
         ImageView iconView = (ImageView) findViewById(R.id.completeFabIcon);
         iconView.setImageDrawable(
                 iconDrawable != null ? iconDrawable : ContextCompat.getDrawable(getContext(), R.drawable.ic_done));
@@ -70,26 +68,25 @@ class CompleteFABView extends FrameLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if (!viewsAdded) {
-            tintCompleteFabWithArcColor();
-            setIcon();
-            viewsAdded = true;
-        }
     }
 
-    public void animate(AnimatorSet progressArcAnimator) {
-        animate(progressArcAnimator, false);
+    public void animateIn() {
+        animateHelper(false);
     }
 
-    private void animate(AnimatorSet progressArcAnimator, boolean inverse) {
+    public void reset() {
+        animateHelper(true);
+    }
+
+    private void animateHelper(boolean inverse) {
         //TODO: define animators in xml to make it easier to make changes? Or instead, use View's animate() method to obtain a ViewAnimator which is cleaner and more efficient
-        ValueAnimator completeFabAnim = ObjectAnimator.ofFloat(getChildAt(0), "alpha", inverse ? 0 : 1);
+        ValueAnimator completeFabAnim = ObjectAnimator.ofFloat(this, "alpha", inverse ? 1 : 0, inverse ? 0 : 1);
         completeFabAnim.setDuration(FAB_ANIMATION_DURATION).setInterpolator(new AccelerateDecelerateInterpolator());
 
         View icon = findViewById(R.id.completeFabIcon);
 
-        ValueAnimator iconScaleAnimX = ObjectAnimator.ofFloat(icon, "scaleX", 0, 1);
-        ValueAnimator iconScaleAnimY = ObjectAnimator.ofFloat(icon, "scaleY", 0, 1);
+        ValueAnimator iconScaleAnimX = ObjectAnimator.ofFloat(icon, "scaleX", inverse ? 1 : 0, inverse ? 0 : 1);
+        ValueAnimator iconScaleAnimY = ObjectAnimator.ofFloat(icon, "scaleY", inverse ? 1 : 0, inverse ? 0 : 1);
 
         Interpolator iconAnimInterpolator = new LinearInterpolator();
         iconScaleAnimX.setDuration(ICON_ANIMATION_DURATION).setInterpolator(iconAnimInterpolator);
@@ -97,12 +94,7 @@ class CompleteFABView extends FrameLayout {
 
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.addListener(inverse ? getInverseAnimatorListener() : getAnimatorListener());
-        if (inverse) {
-            animatorSet.playTogether(completeFabAnim);
-        } else {
-            animatorSet.playTogether(completeFabAnim, progressArcAnimator, iconScaleAnimX,
-                    iconScaleAnimY);
-        }
+        animatorSet.playTogether(completeFabAnim, iconScaleAnimX, iconScaleAnimY);
 
         if (inverse) {
             animatorSet.setStartDelay(RESET_DELAY);
@@ -145,10 +137,6 @@ class CompleteFABView extends FrameLayout {
             @Override public void onAnimationRepeat(Animator animator) {
             }
         };
-    }
-
-    public void reset() {
-        animate(null, true);
     }
 
     /**
