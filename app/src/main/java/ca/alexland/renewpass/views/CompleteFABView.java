@@ -83,7 +83,7 @@ class CompleteFABView extends FrameLayout {
 
     private void animate(AnimatorSet progressArcAnimator, boolean inverse) {
         //TODO: define animators in xml to make it easier to make changes? Or instead, use View's animate() method to obtain a ViewAnimator which is cleaner and more efficient
-        ValueAnimator completeFabAnim = ObjectAnimator.ofFloat(getChildAt(0), "alpha", inverse ? 0 : 1);
+        ValueAnimator completeFabAnim = ObjectAnimator.ofFloat(this, "alpha", inverse ? 1 : 0, inverse ? 0 : 1);
         completeFabAnim.setDuration(FAB_ANIMATION_DURATION).setInterpolator(new AccelerateDecelerateInterpolator());
 
         View icon = findViewById(R.id.completeFabIcon);
