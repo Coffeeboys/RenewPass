@@ -26,9 +26,11 @@ import ca.alexland.renewpass.views.LoadingFloatingActionButton;
 public class UPassLoader {
     LoadingFloatingActionButton fab;
     private final String UPASS_SITE_URL = "http://upassbc.translink.ca";
+    private View view;
 
-    public void renewUPass(LoadingFloatingActionButton fab, School school, String username, String password) {
+    public void renewUPass(View view, LoadingFloatingActionButton fab, School school, String username, String password) {
         this.fab = fab;
+        this.view = view;
         fab.startLoading();
         startRenew(school, username, password);
     }
@@ -116,10 +118,10 @@ public class UPassLoader {
         @Override
         protected void onPostExecute(ca.alexland.renewpass.model.Status result) {
             if (result.isSuccessful()) {
-                fab.finishSuccess(view);
+                fab.finishSuccess();
             }
             else {
-                fab.finishFailure(view);
+                fab.finishFailure();
             }
             if (result.getStatusText().equals(ca.alexland.renewpass.model.Status.NETWORK_ERROR)) {
                 Snackbar.make(view, result.getStatusText(), Snackbar.LENGTH_INDEFINITE)

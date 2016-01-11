@@ -29,6 +29,7 @@
         android:layout_height="@dimen/fab_size"
         android:layout_gravity="center"
         app:fabIcon="@drawable/ic_autorenew"
-        app:completeIcon="@drawable/ic_done"/>
+        app:completeIcon="@drawable/ic_done"
+        app:failureIcon="@drawable/ic_fail"/>
 
 </android.support.design.widget.CoordinatorLayout>

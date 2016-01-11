@@ -39,12 +39,17 @@ public class MainActivity extends AppCompatActivity {
         loadingFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onRenew(loadingFab);
+                onRenew(view, loadingFab);
             }
         });
         Drawable completeIcon = loadingFab.getCompleteIconDrawable();
         if (completeIcon != null) {
             DrawableUtil.tint(completeIcon, Color.WHITE);
+        }
+
+        Drawable failureIcon = loadingFab.getFailureIconDrawable();
+        if (failureIcon != null) {
+            DrawableUtil.tint(failureIcon, Color.WHITE);
         }
     }
 
@@ -120,11 +125,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onRenew(LoadingFloatingActionButton fab) {
+    public void onRenew(View view, LoadingFloatingActionButton fab) {
         UPassLoader mService = new UPassLoader();
         School school = new SimonFraserUniversity();
         String username = preferenceHelper.getUsername();
         String password = preferenceHelper.getPassword();
-        mService.renewUPass(fab, school, username, password);
+        mService.renewUPass(view, fab, school, username, password);
     }
 }

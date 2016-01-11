@@ -3,6 +3,7 @@
     <declare-styleable name="LoadingFab">
         <attr name="fabIcon" format="integer"/>
         <attr name="completeIcon" format="integer"/>
+        <attr name="failureIcon" format="integer"/>
         <attr name="progressColor" format="color"/>
     </declare-styleable>
 </resources>
