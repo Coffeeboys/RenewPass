@@ -11,6 +11,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <receiver android:name="ca.alexland.renewpass.utils.Receiver"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

@@ -20,6 +20,7 @@ import ca.alexland.renewpass.model.Callback;
 import ca.alexland.renewpass.model.Status;
 import ca.alexland.renewpass.schools.School;
 import ca.alexland.renewpass.schools.SimonFraserUniversity;
+import ca.alexland.renewpass.utils.AlarmUtil;
 import ca.alexland.renewpass.views.LoadingFloatingActionButton;
 import ca.alexland.renewpass.utils.DrawableUtil;
 import ca.alexland.renewpass.utils.PreferenceHelper;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         this.preferenceHelper = new PreferenceHelper(getApplicationContext());
 
         doFirstRun();
+
+        AlarmUtil.setAlarm(getApplicationContext());
 
         final LoadingFloatingActionButton loadingFab = (LoadingFloatingActionButton) findViewById(R.id.loading_fab);
         loadingFab.setOnClickListener(new View.OnClickListener() {

@@ -8,4 +8,6 @@
     <string name="preference_username_description">The username associated with your school account</string>
     <string name="preference_password">Password</string>
     <string name="preference_password_description">The password associated with your school account</string>
+    <string name="available_notification_title">New UPass Available!</string>
+    <string name="available_notification_text">Click to renew.</string>
 </resources>
