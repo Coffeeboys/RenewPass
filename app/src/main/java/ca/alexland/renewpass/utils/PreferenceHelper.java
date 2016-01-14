@@ -12,8 +12,10 @@ public class PreferenceHelper {
     private static final String USERNAME_PREFERENCE = "Username";
     private static final String PASSWORD_PREFERENCE = "Password";
 
-    SharedPreferences settings;
-    SharedPreferences.Editor editor;
+    private SharedPreferences settings;
+    private SharedPreferences.Editor editor;
+    private KeyStoreUtil keyStoreUtil;
+    private boolean keysExist;
 
     public PreferenceHelper(Context context) {
         this.settings = context.getSharedPreferences(RENEWPASS_PREFERENCES, Context.MODE_PRIVATE);
@@ -34,6 +36,7 @@ public class PreferenceHelper {
     }
 
     public String getPassword() {
+        // TODO: Decrypt password
         return settings.getString(PASSWORD_PREFERENCE, "");
     }
 
@@ -43,11 +46,17 @@ public class PreferenceHelper {
     }
 
     public void addPassword(String password) {
+        // TODO: Encrypt password
         editor.putString(PASSWORD_PREFERENCE, password);
         editor.commit();
     }
 
     public boolean credentialsEntered() {
-        return getUsername() != "" && getPassword() != "";
+        return !getUsername().equals("") && !getPassword().equals("");
+    }
+
+    public void setupKeys(Context context) {
+        this.keyStoreUtil = new KeyStoreUtil(this.getUsername());
+        keysExist = keyStoreUtil.createKeys(context);
     }
 }
