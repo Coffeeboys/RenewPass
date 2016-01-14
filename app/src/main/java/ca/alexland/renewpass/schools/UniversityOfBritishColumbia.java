@@ -1,7 +1,5 @@
 package ca.alexland.renewpass.schools;
 
-import android.text.Html;
-
 import com.gistlabs.mechanize.document.html.HtmlDocument;
 import com.gistlabs.mechanize.document.html.form.Form;
 import com.gistlabs.mechanize.document.html.form.Password;
@@ -24,7 +22,8 @@ public class UniversityOfBritishColumbia implements School {
 
         usernameField.setValue(username);
         passwordField.setValue(password);
-        HtmlDocument submittedPage = authForm.submit();
+        HtmlDocument translinkRedirect = authForm.submit();
+        HtmlDocument submittedPage = translinkRedirect.forms().get(0).submit();
         if(submittedPage.getUri().contains("https://upassbc.translink.ca")) {
             return submittedPage;
         }
