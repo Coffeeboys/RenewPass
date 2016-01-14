@@ -1,5 +1,6 @@
 package ca.alexland.renewpass.utils;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -13,9 +14,12 @@ import com.gistlabs.mechanize.impl.MechanizeAgent;
 
 import java.util.List;
 
+import ca.alexland.renewpass.MainActivity;
+import ca.alexland.renewpass.SettingsActivity;
 import ca.alexland.renewpass.exceptions.NothingToRenewException;
 import ca.alexland.renewpass.exceptions.SchoolAuthenticationFailedException;
 import ca.alexland.renewpass.exceptions.SchoolNotFoundException;
+import ca.alexland.renewpass.model.Callback;
 import ca.alexland.renewpass.model.Status;
 import ca.alexland.renewpass.schools.School;
 import ca.alexland.renewpass.views.LoadingFloatingActionButton;
@@ -24,12 +28,11 @@ import ca.alexland.renewpass.views.LoadingFloatingActionButton;
  * Created by AlexLand on 2015-12-28.
  */
 public class UPassLoader {
-    LoadingFloatingActionButton fab;
+    private Callback callback;
     private final String UPASS_SITE_URL = "http://upassbc.translink.ca";
 
-    public void renewUPass(LoadingFloatingActionButton fab, School school, String username, String password) {
-        this.fab = fab;
-        fab.startLoading();
+    public void renewUPass(School school, String username, String password, Callback callback) {
+        this.callback = callback;
         startRenew(school, username, password);
     }
 
@@ -115,26 +118,7 @@ public class UPassLoader {
 
         @Override
         protected void onPostExecute(ca.alexland.renewpass.model.Status result) {
-            if (result.isSuccessful()) {
-                fab.finishSuccess();
-            }
-            else {
-                fab.finishFailure();
-            }
-            if (result.getStatusText().equals(ca.alexland.renewpass.model.Status.NETWORK_ERROR)) {
-                Snackbar.make(fab, result.getStatusText(), Snackbar.LENGTH_INDEFINITE)
-                        .setAction("Retry", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                startRenew(school, username, password);
-                            }
-                        })
-                        .show();
-            }
-            else {
-                Snackbar.make(fab, result.getStatusText(), Snackbar.LENGTH_LONG).show();
-            }
-
+            callback.onUPassLoaded(result);
         }
     }
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import ca.alexland.renewpass.model.Callback;
+import ca.alexland.renewpass.model.Status;
 import ca.alexland.renewpass.schools.School;
 import ca.alexland.renewpass.schools.SimonFraserUniversity;
 import ca.alexland.renewpass.views.LoadingFloatingActionButton;
@@ -77,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (preferenceHelper.credentialsEntered()) {
                 preferenceHelper.setFirstRun(false);
+                preferenceHelper.setupKeys(getApplicationContext());
             }
         }
     }
@@ -128,11 +132,47 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onRenew(LoadingFloatingActionButton fab) {
+    public void onRenew(final LoadingFloatingActionButton fab) {
         UPassLoader mService = new UPassLoader();
         School school = new SimonFraserUniversity();
         String username = preferenceHelper.getUsername();
         String password = preferenceHelper.getPassword();
-        mService.renewUPass(fab, school, username, password);
+        mService.renewUPass(school, username, password, new Callback() {
+            @Override
+            public void onUPassLoaded(Status result) {
+                if (result.isSuccessful()) {
+                    fab.finishSuccess();
+                }
+                else {
+                    fab.finishFailure();
+                }
+                switch (result.getStatusText()) {
+                    case Status.NETWORK_ERROR:
+                        Snackbar.make(fab, result.getStatusText(), Snackbar.LENGTH_INDEFINITE)
+                                .setAction("Retry", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        onRenew(fab);
+                                    }
+                                })
+                                .show();
+                        break;
+                    case Status.AUTHENTICATION_ERROR:
+                        Snackbar.make(fab, result.getStatusText(), Snackbar.LENGTH_INDEFINITE)
+                                .setAction("Settings", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .show();
+                        break;
+                    default:
+                        Snackbar.make(fab, result.getStatusText(), Snackbar.LENGTH_LONG).show();
+                        break;
+                }
+            }
+        });
     }
 }
