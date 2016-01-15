@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onRenew(final LoadingFloatingActionButton fab) {
+        fab.startLoading();
         UPassLoader.renewUPass(getApplicationContext(), new Callback() {
             @Override
             public void onUPassLoaded(Status result) {

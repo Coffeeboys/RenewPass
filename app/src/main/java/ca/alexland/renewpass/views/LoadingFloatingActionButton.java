@@ -13,6 +13,7 @@ import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -32,6 +33,7 @@ public class LoadingFloatingActionButton extends FrameLayout {
     private Drawable completeIcon;
     private Drawable failureIcon;
     private Drawable fabIcon;
+    private boolean isLoading;
 
     public LoadingFloatingActionButton(Context context) {
         super(context);
@@ -106,13 +108,16 @@ public class LoadingFloatingActionButton extends FrameLayout {
 
     public void startLoading() {
         fabProgressBar.setVisibility(View.VISIBLE);
+        isLoading = true;
     }
 
     public void finishSuccess() {
+        isLoading = false;
         initCompleteFabView(completeIcon, ContextCompat.getColor(getContext(), R.color.colorSuccess));
     }
 
     public void finishFailure() {
+        isLoading = false;
         initCompleteFabView(failureIcon, ContextCompat.getColor(getContext(), R.color.colorFailure));
         completeFABView.reset();
     }
@@ -141,5 +146,15 @@ public class LoadingFloatingActionButton extends FrameLayout {
 
     public Drawable getFailureIconDrawable() {
         return failureIcon;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (!isLoading) {
+            return super.onTouchEvent(event);
+        }
+        else {
+            return true;
+        }
     }
 }
