@@ -10,6 +10,7 @@ public class Status {
     public static final String UNKNOWN_ERROR = "Unknown error.";
     public static final String NOTHING_TO_RENEW = "You already have the latest UPass!";
     public static final String RENEW_SUCCESSFUL = "UPass successfully requested!";
+    public static final String UPASS_AVAILABLE = "New UPass available!";
 
     private final String statusText;
     private final boolean successful;

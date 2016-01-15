@@ -1,5 +1,6 @@
 package ca.alexland.renewpass.utils;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
@@ -22,6 +23,7 @@ import ca.alexland.renewpass.exceptions.SchoolNotFoundException;
 import ca.alexland.renewpass.model.Callback;
 import ca.alexland.renewpass.model.Status;
 import ca.alexland.renewpass.schools.School;
+import ca.alexland.renewpass.schools.SimonFraserUniversity;
 import ca.alexland.renewpass.views.LoadingFloatingActionButton;
 
 /**
@@ -31,17 +33,32 @@ public class UPassLoader {
     private Callback callback;
     private final String UPASS_SITE_URL = "http://upassbc.translink.ca";
 
-    public void renewUPass(School school, String username, String password, Callback callback) {
+    public static void renewUPass(Context context, Callback callback) {
+        UPassLoader mService = new UPassLoader();
+        School school = new SimonFraserUniversity();
+        PreferenceHelper preferenceHelper = new PreferenceHelper(context);
+        String username = preferenceHelper.getUsername();
+        String password = preferenceHelper.getPassword();
+        boolean doRenew = true;
+        mService.startRenew(doRenew, school, username, password, callback);
+    }
+
+    public static void checkUPassAvailable(Context context, Callback callback) {
+        UPassLoader mService = new UPassLoader();
+        School school = new SimonFraserUniversity();
+        PreferenceHelper preferenceHelper = new PreferenceHelper(context);
+        String username = preferenceHelper.getUsername();
+        String password = preferenceHelper.getPassword();
+        boolean doRenew = false;
+        mService.startRenew(doRenew, school, username, password, callback);
+    }
+
+    private void startRenew(boolean doRenew, School school, String username, String password, Callback callback) {
         this.callback = callback;
-        startRenew(school, username, password);
+        new RenewTask(school, username, password).execute(doRenew);
     }
 
-    private void startRenew(School school, String username, String password) {
-        new RenewTask(school, username, password).execute(UPASS_SITE_URL);
-    }
-
-    private class RenewTask extends AsyncTask<String, Void, Status> {
-        private final int MESSAGE_DURATION = 5000;
+    private class RenewTask extends AsyncTask<Boolean, Void, Status> {
         School school;
         String username;
         String password;
@@ -53,11 +70,20 @@ public class UPassLoader {
         }
 
         @Override
-        protected ca.alexland.renewpass.model.Status doInBackground(String... params) {
+        protected ca.alexland.renewpass.model.Status doInBackground(Boolean... params) {
+            Boolean doRenew = params[0];
+            ca.alexland.renewpass.model.Status returnStatus;
             try {
                 HtmlDocument authPage = selectSchool(UPASS_SITE_URL, school.getID());
                 HtmlDocument upassPage = authorizeAccount(authPage);
-                requestUpass(upassPage);
+                Form requestForm = checkUpass(upassPage);
+                if (doRenew) {
+                    requestUpass(requestForm);
+                    returnStatus = new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.RENEW_SUCCESSFUL, true);
+                }
+                else {
+                    returnStatus = new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.UPASS_AVAILABLE, true);
+                }
             }
             catch(SchoolNotFoundException e) {
                 return new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.SCHOOL_NOT_FOUND, false);
@@ -75,7 +101,7 @@ public class UPassLoader {
                 return new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.UNKNOWN_ERROR, false);
             }
 
-            return new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.RENEW_SUCCESSFUL, true);
+            return returnStatus;
         }
 
         private HtmlDocument selectSchool(String siteURL, String schoolId) throws SchoolNotFoundException {
@@ -103,17 +129,22 @@ public class UPassLoader {
             return this.school.login(authPage, this.username, this.password);
         }
 
-        private void requestUpass(HtmlDocument upassPage) throws NothingToRenewException {
+        private Form checkUpass(HtmlDocument upassPage) throws NothingToRenewException {
             Form requestForm = upassPage.form("form-request");
             Checkbox requestCheckbox = requestForm.findCheckbox("Selected");
             if (requestCheckbox != null) {
-                requestCheckbox.check();
-                HtmlDocument resultPage = requestForm.submit();
-                // TODO: Check table for successful request
+                return requestForm;
             }
             else {
                 throw new NothingToRenewException();
             }
+        }
+
+        private void requestUpass(Form requestForm) {
+            Checkbox requestCheckbox = requestForm.findCheckbox("Selected");
+            requestCheckbox.check();
+            HtmlDocument resultPage = requestForm.submit();
+            // TODO: Check table for successful request
         }
 
         @Override

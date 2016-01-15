@@ -18,8 +18,6 @@ import android.widget.EditText;
 
 import ca.alexland.renewpass.model.Callback;
 import ca.alexland.renewpass.model.Status;
-import ca.alexland.renewpass.schools.School;
-import ca.alexland.renewpass.schools.SimonFraserUniversity;
 import ca.alexland.renewpass.utils.AlarmUtil;
 import ca.alexland.renewpass.views.LoadingFloatingActionButton;
 import ca.alexland.renewpass.utils.DrawableUtil;
@@ -136,11 +134,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onRenew(final LoadingFloatingActionButton fab) {
-        UPassLoader mService = new UPassLoader();
-        School school = new SimonFraserUniversity();
-        String username = preferenceHelper.getUsername();
-        String password = preferenceHelper.getPassword();
-        mService.renewUPass(school, username, password, new Callback() {
+        UPassLoader.renewUPass(getApplicationContext(), new Callback() {
             @Override
             public void onUPassLoaded(Status result) {
                 if (result.isSuccessful()) {

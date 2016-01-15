@@ -11,14 +11,23 @@ import android.util.Log;
 
 import ca.alexland.renewpass.MainActivity;
 import ca.alexland.renewpass.R;
+import ca.alexland.renewpass.model.Callback;
+import ca.alexland.renewpass.model.Status;
 
 /**
  * Created by AlexLand on 2016-01-14.
  */
-public class Receiver extends BroadcastReceiver {
+public class AlarmReceiver extends BroadcastReceiver {
     @Override
-    public void onReceive(Context context, Intent intent) {
-        showNotification(context);
+    public void onReceive(final Context context, Intent intent) {
+        UPassLoader.checkUPassAvailable(context, new Callback() {
+            @Override
+            public void onUPassLoaded(Status result) {
+                if (result.getStatusText().equals(Status.UPASS_AVAILABLE)) {
+                    showNotification(context);
+                }
+            }
+        });
     }
 
     public void showNotification(Context context) {
