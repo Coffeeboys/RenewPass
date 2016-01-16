@@ -10,4 +10,9 @@
     <string name="preference_password_description">The password associated with your school account</string>
     <string name="available_notification_title">New UPass Available!</string>
     <string name="available_notification_text">Click to renew.</string>
+    <string name="preference_header_notifications">Notifications</string>
+    <string name="preference_notificationdate_title">Refresh Date</string>
+    <string name="preference_notificationdate_description">The day of the month to check for a new UPass</string>
+    <string name="preference_notificationsenabled_title">Renewal Notifications</string>
+    <string name="preference_notificationsenabled_description" />
 </resources>
