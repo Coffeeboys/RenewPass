@@ -47,7 +47,7 @@ public class IntroActivity extends AppIntro2 {
 
         addSlide(getCredentialSlide());
 
-        showStatusBar(false);
+        showStatusBar(true);
 
         setVibrate(false);
         setVibrateIntensity(0);

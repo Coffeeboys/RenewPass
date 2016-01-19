@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.preferenceHelper = new PreferenceHelper(getApplicationContext());
         startIntroActivity();
-        doFirstRun();
+       // doFirstRun();
 
         final LoadingFloatingActionButton loadingFab = (LoadingFloatingActionButton) findViewById(R.id.loading_fab);
         loadingFab.setOnClickListener(new View.OnClickListener() {
