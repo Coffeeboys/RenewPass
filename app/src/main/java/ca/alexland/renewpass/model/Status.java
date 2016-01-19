@@ -11,6 +11,8 @@ public class Status {
     public static final String NOTHING_TO_RENEW = "You already have the latest UPass!";
     public static final String RENEW_SUCCESSFUL = "UPass successfully requested!";
     public static final String UPASS_AVAILABLE = "New UPass available!";
+    public static final String RENEW_FAILED = "Failed to renew UPass.";
+
 
     private final String statusText;
     private final boolean successful;

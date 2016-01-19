@@ -9,11 +9,16 @@ import android.view.View;
 import com.gistlabs.mechanize.document.html.HtmlDocument;
 import com.gistlabs.mechanize.document.html.form.Checkbox;
 import com.gistlabs.mechanize.document.html.form.Form;
+import com.gistlabs.mechanize.document.html.form.FormElement;
+import com.gistlabs.mechanize.document.html.form.Hidden;
 import com.gistlabs.mechanize.document.html.form.Select;
+import com.gistlabs.mechanize.document.html.form.SubmitButton;
 import com.gistlabs.mechanize.exceptions.MechanizeException;
 import com.gistlabs.mechanize.impl.MechanizeAgent;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import ca.alexland.renewpass.MainActivity;
 import ca.alexland.renewpass.SettingsActivity;
@@ -76,10 +81,15 @@ public class UPassLoader {
             try {
                 HtmlDocument authPage = selectSchool(UPASS_SITE_URL, school.getID());
                 HtmlDocument upassPage = authorizeAccount(authPage);
-                Form requestForm = checkUpass(upassPage);
+                checkUpass(upassPage);
                 if (doRenew) {
-                    requestUpass(requestForm);
-                    returnStatus = new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.RENEW_SUCCESSFUL, true);
+                    boolean requestSuccess = requestUpass(upassPage);
+                    if (requestSuccess) {
+                        returnStatus = new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.RENEW_SUCCESSFUL, true);
+                    }
+                    else {
+                        returnStatus = new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.RENEW_FAILED, false);
+                    }
                 }
                 else {
                     returnStatus = new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.UPASS_AVAILABLE, true);
@@ -129,22 +139,49 @@ public class UPassLoader {
             return this.school.login(authPage, this.username, this.password);
         }
 
-        private Form checkUpass(HtmlDocument upassPage) throws NothingToRenewException {
+        private boolean checkUpass(HtmlDocument upassPage) throws NothingToRenewException {
             Form requestForm = upassPage.form("form-request");
-            Checkbox requestCheckbox = requestForm.findCheckbox("Selected");
+            Checkbox requestCheckbox = null;
+            for (Object element : requestForm) {
+                if (element instanceof Checkbox) {
+                    requestCheckbox = (Checkbox) element;
+                }
+            }
             if (requestCheckbox != null) {
-                return requestForm;
+                return true;
             }
             else {
                 throw new NothingToRenewException();
             }
         }
 
-        private void requestUpass(Form requestForm) {
-            Checkbox requestCheckbox = requestForm.findCheckbox("Selected");
+        private boolean requestUpass(HtmlDocument upassPage) {
+            List prevRequestedUpasses = upassPage.findAll(".status");
+
+            Form requestForm = upassPage.form("form-request");
+            Checkbox requestCheckbox = requestForm.findCheckbox("input");
             requestCheckbox.check();
-            HtmlDocument resultPage = requestForm.submit();
-            // TODO: Check table for successful request
+            String boxName = requestCheckbox.getName();
+            Iterator elementIter = requestForm.iterator();
+            while (elementIter.hasNext()) {
+                Object element = elementIter.next();
+                if (element instanceof Hidden) {
+                    Hidden hiddenElement = (Hidden) element;
+                    if (boxName.equals(hiddenElement.getName())) {
+                        elementIter.remove();
+                    }
+                }
+            }
+            SubmitButton requestButton = requestForm.findSubmitButton("input");
+            HtmlDocument resultPage = requestButton.submit();
+
+            List requestedUpasses = resultPage.findAll(".status");
+            if (requestedUpasses.size() > prevRequestedUpasses.size()) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
 
         @Override

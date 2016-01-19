@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
         startIntroActivity();
         doFirstRun();
 
-        AlarmUtil.setAlarm(getApplicationContext());
-
         final LoadingFloatingActionButton loadingFab = (LoadingFloatingActionButton) findViewById(R.id.loading_fab);
         loadingFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             if (preferenceHelper.credentialsEntered()) {
                 preferenceHelper.setFirstRun(false);
                 preferenceHelper.setupKeys(getApplicationContext());
+                AlarmUtil.setAlarm(getApplicationContext(), false);
             }
         }
     }
