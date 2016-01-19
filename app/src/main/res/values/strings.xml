@@ -10,4 +10,17 @@
     <string name="preference_password_description">The password associated with your school account</string>
     <string name="available_notification_title">New UPass Available!</string>
     <string name="available_notification_text">Click to renew.</string>
+    <string name="title_activity_intro">IntroActivity</string>
+    <string name = "username_hint">Enter your username</string>
+    <string name = "password_hint">Enter your password</string>
+    <string name="enter_credentials_prompt">To get started, enter your credentials</string>
+    <string name="provider_hint">Select your school</string>
+    <string name="app_description">Renew your U-pass with the press of a button</string>
+    <string name="app_welcome">Welcome to RenewPass</string>
+
+    <string-array name="school_list">
+        <item>SFU</item>
+        <item>UBC</item>
+        <item>etc</item>
+    </string-array>
 </resources>

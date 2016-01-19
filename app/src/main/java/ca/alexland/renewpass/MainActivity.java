@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         this.preferenceHelper = new PreferenceHelper(getApplicationContext());
-
+        startIntroActivity();
         doFirstRun();
 
         AlarmUtil.setAlarm(getApplicationContext());
@@ -172,5 +172,36 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+
+
+
+
+
+
+
+
+    private void startIntroActivity() {
+
+        Thread introActivityThread = new Thread(new Runnable() {
+            @Override
+            public void run(){
+                PreferenceHelper preferences = new PreferenceHelper(MainActivity.this);
+
+                boolean credentialsEntered = preferences.credentialsEntered();
+
+                if (!credentialsEntered) {
+
+                    Intent i = new Intent(MainActivity.this, IntroActivity.class);
+                    startActivity(i);
+
+                }
+
+            }
+        });
+
+        introActivityThread.start();
+
     }
 }
