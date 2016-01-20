@@ -1,21 +1,20 @@
 package ca.alexland.renewpass;
 
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
+import ca.alexland.renewpass.utils.AlarmUtil;
 import ca.alexland.renewpass.utils.PreferenceHelper;
 
 public class IntroActivity extends AppIntro2 {
@@ -74,8 +73,19 @@ public class IntroActivity extends AppIntro2 {
     public void onDonePressed() {
         boolean isValid = true;
 
+        Spinner school = (Spinner)findViewById(R.id.school_selection_spinner);
         EditText username = (EditText)findViewById(R.id.username_field);
         EditText password = (EditText)findViewById(R.id.password_field);
+
+        String schoolString = (String)school.getSelectedItem();
+        String defaultSchoolString = getResources().getStringArray(R.array.school_list)[0];
+        if (schoolString.equals(defaultSchoolString)) {
+            TextView errorText = (TextView)school.getSelectedView();
+            errorText.setError("Invalid school selection");
+            errorText.setTextColor(Color.RED);
+            errorText.setText(R.string.error_school_selection);
+            isValid = false;
+        }
 
         String usernameString = username.getText().toString();
         if (usernameString.equals("")) {
@@ -90,8 +100,11 @@ public class IntroActivity extends AppIntro2 {
 
         if (isValid) {
             PreferenceHelper preferenceHelper = new PreferenceHelper(this);
-            preferenceHelper.addUsername(usernameString);
-            preferenceHelper.addPassword(passwordString);
+            preferenceHelper.setUsername(usernameString);
+            preferenceHelper.setPassword(passwordString);
+            preferenceHelper.setSchool(schoolString);
+            preferenceHelper.setupKeys(getApplicationContext());
+            AlarmUtil.setAlarm(getApplicationContext(), false);
             finish();
         }
     }

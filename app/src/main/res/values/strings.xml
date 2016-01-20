@@ -22,10 +22,11 @@
     <string name="provider_hint">Select your school</string>
     <string name="app_description">Renew your U-pass with the press of a button</string>
     <string name="app_welcome">Welcome to RenewPass</string>
+    <string name="error_school_selection">Please select a school</string>
 
     <string-array name="school_list">
+        <item>Select your school...</item>
         <item>SFU</item>
         <item>UBC</item>
-        <item>etc</item>
     </string-array>
 </resources>

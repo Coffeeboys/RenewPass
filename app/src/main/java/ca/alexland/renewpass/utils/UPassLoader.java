@@ -29,6 +29,7 @@ import ca.alexland.renewpass.model.Callback;
 import ca.alexland.renewpass.model.Status;
 import ca.alexland.renewpass.schools.School;
 import ca.alexland.renewpass.schools.SimonFraserUniversity;
+import ca.alexland.renewpass.schools.UniversityOfBritishColumbia;
 import ca.alexland.renewpass.views.LoadingFloatingActionButton;
 
 /**
@@ -40,12 +41,24 @@ public class UPassLoader {
 
     public static void renewUPass(Context context, Callback callback) {
         UPassLoader mService = new UPassLoader();
-        School school = new SimonFraserUniversity();
         PreferenceHelper preferenceHelper = new PreferenceHelper(context);
         String username = preferenceHelper.getUsername();
         String password = preferenceHelper.getPassword();
+        String schoolID = preferenceHelper.getSchool();
+        School school = makeNewSchool(schoolID);
         boolean doRenew = true;
         mService.startRenew(doRenew, school, username, password, callback);
+    }
+
+    private static School makeNewSchool(String schoolID) {
+        switch(schoolID) {
+            case "SFU":
+                return new SimonFraserUniversity();
+            case "UBC":
+                return new UniversityOfBritishColumbia();
+            default:
+                return null;
+        }
     }
 
     public static void checkUPassAvailable(Context context, Callback callback) {

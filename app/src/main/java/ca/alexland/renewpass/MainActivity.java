@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        preferenceHelper.addUsername(usernameInput.getText().toString());
+                        preferenceHelper.setUsername(usernameInput.getText().toString());
                         makePasswordPopup();
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        preferenceHelper.addPassword(passwordInput.getText().toString());
+                        preferenceHelper.setPassword(passwordInput.getText().toString());
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override

@@ -12,6 +12,7 @@ import java.util.Calendar;
 public class PreferenceHelper {
     private static final String RENEWPASS_PREFERENCES = "RenewPass Preferences";
     private static final String FIRST_RUN_PREFERENCE = "First Run";
+    private static final String SCHOOL_PREFERENCE = "School";
     private static final String USERNAME_PREFERENCE = "Username";
     private static final String PASSWORD_PREFERENCE = "Password";
     public static final String NOTIFICATION_DATE_PREFERENCE = "NotificationDate";
@@ -46,14 +47,23 @@ public class PreferenceHelper {
         return settings.getString(PASSWORD_PREFERENCE, "");
     }
 
-    public void addUsername(String username) {
+    public String getSchool() {
+        return settings.getString(SCHOOL_PREFERENCE, "");
+    }
+
+    public void setUsername(String username) {
         editor.putString(USERNAME_PREFERENCE, username);
         editor.commit();
     }
 
-    public void addPassword(String password) {
+    public void setPassword(String password) {
         // TODO: Encrypt password
         editor.putString(PASSWORD_PREFERENCE, password);
+        editor.commit();
+    }
+
+    public void setSchool(String school) {
+        editor.putString(SCHOOL_PREFERENCE, school);
         editor.commit();
     }
 
