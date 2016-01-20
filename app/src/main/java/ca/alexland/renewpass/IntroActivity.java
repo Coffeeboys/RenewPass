@@ -43,17 +43,16 @@ public class IntroActivity extends AppIntro2 {
         addSlide(AppIntroFragment.newInstance(getString(R.string.app_welcome),
                 getString(R.string.app_description),
                 R.drawable.ic_autorenew,
-                ContextCompat.getColor(this, R.color.colorPrimaryDark)));
+                ContextCompat.getColor(this, R.color.colorPrimary)));
 
         addSlide(getCredentialSlide());
 
-        showStatusBar(true);
+        showStatusBar(false);
 
         setVibrate(false);
         setVibrateIntensity(0);
 
         setFadeAnimation();
-
     }
 
     private Fragment getCredentialSlide() {
