@@ -23,9 +23,13 @@
     <string name="app_description">Renew your U-pass with the press of a button</string>
     <string name="app_welcome">Welcome to RenewPass</string>
     <string name="error_school_selection">Please select a school</string>
+    <string name="school_spinner_default">Select your school...</string>
+    <string name="preference_reset">Reset credentials</string>
+    <string name="preference_reset_description">Reset the username and password information</string>
+    <string name="preference_school">School</string>
+    <string name="preference_school_description">The post-secondary institution that your school account belongs to</string>
 
     <string-array name="school_list">
-        <item>Select your school...</item>
         <item>SFU</item>
         <item>UBC</item>
     </string-array>

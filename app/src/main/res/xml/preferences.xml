@@ -17,6 +17,19 @@
             android:dialogTitle="@string/preference_password"
             android:inputType="textWebPassword"/>
 
+        <ListPreference
+            android:key="School"
+            android:title="@string/preference_school"
+            android:summary="@string/preference_school_description"
+            android:dialogTitle="@string/preference_school"
+            android:entries="@array/school_list"
+            android:entryValues="@array/school_list"/>
+
+        <Preference
+            android:key="Reset"
+            android:title="@string/preference_reset"
+            android:summary="@string/preference_reset_description"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

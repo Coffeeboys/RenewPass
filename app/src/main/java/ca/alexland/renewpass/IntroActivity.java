@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -59,8 +60,20 @@ public class IntroActivity extends AppIntro2 {
         return new Fragment() {
             @Override
             public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+                View view = inflater.inflate(R.layout.credential_slide, container, false);
 
-                return inflater.inflate(R.layout.credential_slide, container, false);
+                Spinner spinner = (Spinner) view.findViewById(R.id.school_selection_spinner);
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.school_list, android.R.layout.simple_spinner_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setPrompt(getString(R.string.school_spinner_default));
+                spinner.setAdapter(
+                        new NothingSelectedSpinnerAdapter(
+                                adapter,
+                                R.layout.contact_spinner_row_nothing_selected,
+                                // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
+                                getApplicationContext()));
+
+                return view;
             }
         };
     }
@@ -78,8 +91,7 @@ public class IntroActivity extends AppIntro2 {
         EditText password = (EditText)findViewById(R.id.password_field);
 
         String schoolString = (String)school.getSelectedItem();
-        String defaultSchoolString = getResources().getStringArray(R.array.school_list)[0];
-        if (schoolString.equals(defaultSchoolString)) {
+        if (schoolString == null) {
             TextView errorText = (TextView)school.getSelectedView();
             errorText.setError("Invalid school selection");
             errorText.setTextColor(Color.RED);
