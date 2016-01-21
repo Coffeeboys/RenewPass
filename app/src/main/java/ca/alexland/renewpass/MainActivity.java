@@ -18,7 +18,6 @@ import android.widget.EditText;
 
 import ca.alexland.renewpass.model.Callback;
 import ca.alexland.renewpass.model.Status;
-import ca.alexland.renewpass.utils.AlarmUtil;
 import ca.alexland.renewpass.views.LoadingFloatingActionButton;
 import ca.alexland.renewpass.utils.DrawableUtil;
 import ca.alexland.renewpass.utils.PreferenceHelper;
@@ -80,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
             if (preferenceHelper.credentialsEntered()) {
                 preferenceHelper.setFirstRun(false);
                 preferenceHelper.setupKeys(getApplicationContext());
-                AlarmUtil.setAlarm(getApplicationContext(), false);
             }
         }
     }

@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
-import ca.alexland.renewpass.utils.AlarmUtil;
 import ca.alexland.renewpass.utils.PreferenceHelper;
 
 public class IntroActivity extends AppIntro2 {
@@ -115,7 +114,6 @@ public class IntroActivity extends AppIntro2 {
             preferenceHelper.setPassword(passwordString);
             preferenceHelper.setSchool(schoolString);
             preferenceHelper.setupKeys(getApplicationContext());
-            AlarmUtil.setAlarm(getApplicationContext(), false);
             finish();
         }
     }
