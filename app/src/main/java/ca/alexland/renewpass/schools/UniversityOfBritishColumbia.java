@@ -22,14 +22,16 @@ public class UniversityOfBritishColumbia implements School {
 
         usernameField.setValue(username);
         passwordField.setValue(password);
-        HtmlDocument translinkRedirect = authForm.submit();
-        HtmlDocument submittedPage = translinkRedirect.forms().get(0).submit();
-        if(submittedPage.getUri().contains("https://upassbc.translink.ca")) {
-            return submittedPage;
+        HtmlDocument ubcRedirect = authForm.submit();
+        HtmlDocument translinkRedirect = ubcRedirect.forms().get(0).submit();
+        HtmlDocument upassPage = translinkRedirect.forms().get(0).submit();
+        if(upassPage.getUri().contains("https://upassbc.translink.ca")) {
+            return upassPage;
         }
         else {
             throw new SchoolAuthenticationFailedException();
-        }    }
+        }
+    }
 
     @Override
     public String getID() {
