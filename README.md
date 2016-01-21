@@ -15,7 +15,8 @@ More schools are coming soon! If you want to speed up the process, help us test 
 Pull requests and issues are welcome. Check out the issues for what we're working on.
 
 ## License
-```The MIT License (MIT)
+```
+The MIT License (MIT)
 
 Copyright (c) 2016 Coffeeboys
 
@@ -35,4 +36,5 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.```
+SOFTWARE.
+```
