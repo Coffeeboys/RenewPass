@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,23 +19,6 @@ import com.github.paolorotolo.appintro.AppIntroFragment;
 import ca.alexland.renewpass.utils.PreferenceHelper;
 
 public class IntroActivity extends AppIntro2 {
-
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_intro);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    }*/
 
     @Override
     public void init(Bundle savedInstanceState) {
@@ -120,5 +104,16 @@ public class IntroActivity extends AppIntro2 {
     @Override
     public void onSlideChanged(){
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        // Don't let the user back out of the intro, they need to enter credentials.
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            return true;
+        }
+        else {
+            return super.onKeyDown(keyCode, event);
+        }
     }
 }
