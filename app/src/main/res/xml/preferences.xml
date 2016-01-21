@@ -25,10 +25,7 @@
             android:entries="@array/school_list"
             android:entryValues="@array/school_list"/>
 
-        <Preference
-            android:key="Reset"
-            android:title="@string/preference_reset"
-            android:summary="@string/preference_reset_description"/>
+        <!--TODO: Add Reset preference-->
 
     </PreferenceCategory>
 
