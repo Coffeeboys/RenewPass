@@ -28,6 +28,7 @@
         <item name="windowNoTitle">true</item>
         <item name="colorAccent">@color/colorWhite</item>
         <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textColorHint">@color/colorWhite</item>
     </style>
 </resources>

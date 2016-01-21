@@ -27,11 +27,6 @@ public class PreferenceHelper {
     private PreferenceHelper(Context context) {
         this.settings = PreferenceManager.getDefaultSharedPreferences(context);
         this.editor = settings.edit();
-        this.keyStoreUtil = new KeyStoreUtil(this.getUsername());
-        keysExist = keyStoreUtil.keysExist();
-        if (!keysExist) {
-            setupKeys(context);
-        }
     }
 
     public static PreferenceHelper getInstance(Context context) {
@@ -102,5 +97,13 @@ public class PreferenceHelper {
 
     private void setupKeys(Context context) {
         keysExist = keyStoreUtil.createKeys(context);
+    }
+
+    public void setupEncryption(Context context) {
+        this.keyStoreUtil = new KeyStoreUtil(this.getUsername());
+        keysExist = keyStoreUtil.keysExist();
+        if (!keysExist) {
+            setupKeys(context);
+        }
     }
 }

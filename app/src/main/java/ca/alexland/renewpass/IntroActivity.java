@@ -95,6 +95,7 @@ public class IntroActivity extends AppIntro2 {
         if (isValid) {
             PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(this);
             preferenceHelper.setUsername(usernameString);
+            preferenceHelper.setupEncryption(getApplicationContext());
             preferenceHelper.setPassword(passwordString);
             preferenceHelper.setSchool(schoolString);
             finish();
