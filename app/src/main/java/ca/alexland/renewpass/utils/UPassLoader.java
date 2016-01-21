@@ -41,7 +41,7 @@ public class UPassLoader {
 
     public static void renewUPass(Context context, Callback callback) {
         UPassLoader mService = new UPassLoader();
-        PreferenceHelper preferenceHelper = new PreferenceHelper(context);
+        PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
         String username = preferenceHelper.getUsername();
         String password = preferenceHelper.getPassword();
         String schoolID = preferenceHelper.getSchool();
@@ -64,7 +64,7 @@ public class UPassLoader {
     public static void checkUPassAvailable(Context context, Callback callback) {
         UPassLoader mService = new UPassLoader();
         School school = new SimonFraserUniversity();
-        PreferenceHelper preferenceHelper = new PreferenceHelper(context);
+        PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
         String username = preferenceHelper.getUsername();
         String password = preferenceHelper.getPassword();
         boolean doRenew = false;

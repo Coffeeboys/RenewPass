@@ -22,9 +22,13 @@ import android.util.Base64;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
@@ -155,5 +159,17 @@ public class KeyStoreUtil {
 
     public void setAlias(String alias) {
         mAlias = alias;
+    }
+
+    public boolean keysExist() {
+        KeyStore.Entry entry = null;
+        try {
+            KeyStore keyStore = KeyStore.getInstance(SecurityConstants.KEYSTORE_PROVIDER_ANDROID_KEYSTORE);
+            keyStore.load(null);
+            entry = keyStore.getEntry(mAlias, null);
+        } catch (Exception e) {
+            return false;
+        }
+        return entry != null;
     }
 }

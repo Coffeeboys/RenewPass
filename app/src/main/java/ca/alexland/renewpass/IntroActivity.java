@@ -109,11 +109,10 @@ public class IntroActivity extends AppIntro2 {
         }
 
         if (isValid) {
-            PreferenceHelper preferenceHelper = new PreferenceHelper(this);
+            PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(this);
             preferenceHelper.setUsername(usernameString);
             preferenceHelper.setPassword(passwordString);
             preferenceHelper.setSchool(schoolString);
-            preferenceHelper.setupKeys(getApplicationContext());
             finish();
         }
     }

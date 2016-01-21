@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        this.preferenceHelper = new PreferenceHelper(getApplicationContext());
+        this.preferenceHelper = PreferenceHelper.getInstance(getApplicationContext());
         startIntroActivity();
        // doFirstRun();
 
@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
 
             if (preferenceHelper.credentialsEntered()) {
                 preferenceHelper.setFirstRun(false);
-                preferenceHelper.setupKeys(getApplicationContext());
             }
         }
     }
@@ -184,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
         Thread introActivityThread = new Thread(new Runnable() {
             @Override
             public void run(){
-                PreferenceHelper preferences = new PreferenceHelper(MainActivity.this);
+                PreferenceHelper preferences = PreferenceHelper.getInstance(MainActivity.this);
 
                 boolean credentialsEntered = preferences.credentialsEntered();
 
