@@ -25,6 +25,10 @@
             android:entries="@array/school_list"
             android:entryValues="@array/school_list"/>
 
+        <Preference
+            android:key="Credits"
+            android:title="@string/preference_credits"/>
+
         <!--TODO: Add Reset preference-->
 
     </PreferenceCategory>

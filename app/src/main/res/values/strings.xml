@@ -28,6 +28,9 @@
     <string name="preference_reset_description">Reset the username and password information</string>
     <string name="preference_school">School</string>
     <string name="preference_school_description">The post-secondary institution that your school account belongs to</string>
+    <string name="preference_credits">Credits</string>
+    <string name="preference_credits_description">Alex Land - Lead Developer\nAaryaman Girish - Developer, Cappuccino Lover\nTrevor Clelland - Developer, Stupid Question Answerer\nEvan Chisholm - Developer, Thane\nEmre Erhan - Developer, Dishwasher\n\n\nSpecial thanks to: Alfred Sin, Akshiv Bansal and Tina Ly for testing.\n\nRenewPass was heavily inspired by Alireza Alidousti\'s upassbc library.\n\nLibraries used: Mechanize for Java (GistLabs), MaterialProgressBar (Zhang Hai), and AppIntro (Paolo Rotolo).
+    </string>
 
     <string-array name="school_list">
         <item>SFU</item>
