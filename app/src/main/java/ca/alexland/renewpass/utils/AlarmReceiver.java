@@ -21,32 +21,51 @@ import ca.alexland.renewpass.model.Status;
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
-        Toast.makeText(context, "Recieved!", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Received!", Toast.LENGTH_LONG).show();
+        final PendingResult pendingResult = goAsync();
         Bundle bundle = intent.getBundleExtra("bundle");
         final boolean notificationsEnabled = bundle.getBoolean(PreferenceHelper.NOTIFICATIONS_ENABLED_PREFERENCE);
         UPassLoader.checkUPassAvailable(context, new Callback() {
             @Override
             public void onUPassLoaded(Status result) {
-                if (result.getStatusText().equals(Status.UPASS_AVAILABLE)) {
+                if (result.getStatusText().equals(Status.UPASS_AVAILABLE) ||
+                        result.getStatusText().equals(Status.NOTHING_TO_RENEW)) {
                     if (notificationsEnabled) {
-                        showNotification(context);
+                        showSuccessNotification(context);
+                        //TODO: make this set an alarm a month from now instead of setting the same alarm
                         AlarmUtil.setAlarm(context, false);
                     }
                 }
                 else {
+                    if (notificationsEnabled) {
+                        showFailureNotification(context);
+                    }
                     AlarmUtil.setAlarm(context, true);
                 }
+                pendingResult.finish();
             }
         });
     }
 
-    public void showNotification(Context context) {
+    private void showSuccessNotification(Context context) {
+        showNotification(context,
+                context.getString(R.string.available_notification_title),
+                context.getString(R.string.available_notification_text));
+    }
+
+    private void showFailureNotification(Context context) {
+        showNotification(context,
+                context.getString(R.string.unavailable_notification_title),
+                context.getString(R.string.unavailable_notification_text));
+    }
+
+    private void showNotification(Context context, String contentTitle, String contentText) {
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_autorenew)
-                .setContentTitle(context.getString(R.string.available_notification_title))
-                .setContentText(context.getString(R.string.available_notification_text));
+                .setContentTitle(contentTitle)
+                .setContentText(contentText);
         mBuilder.setContentIntent(pi);
         mBuilder.setDefaults(Notification.DEFAULT_SOUND);
         mBuilder.setAutoCancel(true);
