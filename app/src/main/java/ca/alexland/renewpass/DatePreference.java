@@ -13,12 +13,15 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.DatePicker;
 
-public class DatePreference extends DialogPreference {
+import ca.alexland.renewpass.interfaces.IPreference;
+
+public class DatePreference extends DialogPreference implements IPreference {
     private int lastDate = 0;
     private int lastMonth = 0;
     private int lastYear = 0;
     private String dateval;
     private DatePicker picker = null;
+    private PreferenceSelectedListener preferenceSelectedListener;
 
     public static int getDate(String dateval) {
         String[] pieces = dateval.split("-");
@@ -28,8 +31,8 @@ public class DatePreference extends DialogPreference {
     public DatePreference(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
 
-        setPositiveButtonText("Set");
-        setNegativeButtonText("Cancel");
+        setPositiveButtonText(getContext().getString(R.string.preference_dialog_button_positive));
+        setNegativeButtonText(getContext().getString(R.string.preference_dialog_button_negative));
     }
 
     @Override
@@ -67,6 +70,9 @@ public class DatePreference extends DialogPreference {
             if (callChangeListener(dateval)) {
                 persistString(dateval);
             }
+            if (preferenceSelectedListener != null) {
+                preferenceSelectedListener.onPreferenceSelected();
+            }
         }
     }
 
@@ -96,5 +102,9 @@ public class DatePreference extends DialogPreference {
         lastYear = cal.get(Calendar.YEAR);
         lastMonth = cal.get(Calendar.MONTH);
         lastDate = getDate(dateval);
+    }
+
+    public void setPreferenceSelectedListener(PreferenceSelectedListener preferenceSelectedListener) {
+        this.preferenceSelectedListener = preferenceSelectedListener;
     }
 }

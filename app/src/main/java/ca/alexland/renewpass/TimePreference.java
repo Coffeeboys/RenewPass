@@ -13,13 +13,20 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import ca.alexland.renewpass.interfaces.IPreference;
+import ca.alexland.renewpass.utils.SimpleTimeFormat;
+
 /**
  * Created by Trevor on 1/21/2016.
  * A Time Preference for use when setting the default time for
  */
-public class TimePreference extends DialogPreference {
+public class TimePreference extends DialogPreference implements IPreference {
+    //default value to be used if no default value is set from xml
+    public static final String DEFAULT_VALUE = "00:00";
+
     private Calendar calendar;
     private TimePickerCompat timePicker;
+    private PreferenceSelectedListener preferenceSelectedListener;
 
     public TimePreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -51,26 +58,30 @@ public class TimePreference extends DialogPreference {
     }
 
     @Override
-    protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
+    protected void onSetInitialValue(boolean restorePersistedValue, Object xmlDefaultValue) {
+        String timeVal;
         if (restorePersistedValue) {
             //this is kind of confusing... what it's doing is:
             //try to set the value to the value stored in userprefs
             //if somehow, this fails, set it to the default (specified in xml).
-            //if the default isn't specified, set it to 0
-            if (defaultValue == null) {
-                calendar.setTimeInMillis(getPersistedLong(0));
+            //if the default isn't specified, set it to the hardcoded default value
+            if (xmlDefaultValue == null) {
+                timeVal = getPersistedString(DEFAULT_VALUE);
             } else {
-                calendar.setTimeInMillis(getPersistedLong(getCalendarMillisFromString((String)defaultValue)));
+                timeVal = getPersistedString((String) xmlDefaultValue);
             }
         } else {
-            if (defaultValue == null) {
-                calendar.setTimeInMillis(0);
+            if (xmlDefaultValue == null) {
+                timeVal = DEFAULT_VALUE;
             } else {
-                calendar.setTimeInMillis(getCalendarMillisFromString((String) defaultValue));
+                timeVal = (String) xmlDefaultValue;
             }
             //set the time so that there will be a value to restore next time this is called
-            setTime(calendar.getTimeInMillis());
+            //setTime();
         }
+        SimpleTimeFormat simpleTimeFormat = new SimpleTimeFormat(timeVal);
+        calendar.set(Calendar.HOUR_OF_DAY, simpleTimeFormat.getHour());
+        calendar.set(Calendar.MINUTE, simpleTimeFormat.getMinute());
     }
 
     @Override
@@ -80,7 +91,10 @@ public class TimePreference extends DialogPreference {
             calendar.set(Calendar.MINUTE, timePicker.getMinuteCompat());
 
             if (callChangeListener(calendar.getTimeInMillis())) {
-                setTime(calendar.getTimeInMillis());
+                setTime();
+            }
+            if (preferenceSelectedListener != null) {
+                preferenceSelectedListener.onPreferenceSelected();
             }
         }
     }
@@ -93,34 +107,19 @@ public class TimePreference extends DialogPreference {
         return DateFormat.getTimeFormat(getContext()).format(new Date(calendar.getTimeInMillis()));
     }
 
-    private void setTime(long time) {
-        persistLong(time);
+    private void setTime() {
+        persistString(new SimpleTimeFormat(
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE))
+                .toString());
         notifyChanged();
     }
 
-    private Calendar helperCalendar;
-
-    private long getCalendarMillisFromString(String defaultValue) {
-        if (helperCalendar == null) {
-            helperCalendar = new GregorianCalendar();
-        }
-        helperCalendar.set(Calendar.HOUR_OF_DAY, getHour(defaultValue));
-        helperCalendar.set(Calendar.MINUTE, getMinute(defaultValue));
-        return helperCalendar.getTimeInMillis();
+    public void setPreferenceSelectedListener(PreferenceSelectedListener preferenceSelectedListener) {
+        this.preferenceSelectedListener = preferenceSelectedListener;
     }
 
-    public static int getHour(String time) {
-        String[] pieces=time.split(":");
-
-        return(Integer.parseInt(pieces[0]));
-    }
-
-    public static int getMinute(String time) {
-        String[] pieces=time.split(":");
-
-        return(Integer.parseInt(pieces[1]));
-    }
-//-----------------------Gross sub-class--------------------------------------------------------
+    //-----------------------Gross sub-class--------------------------------------------------------
     private class TimePickerCompat {
         private TimePicker timePicker;
 

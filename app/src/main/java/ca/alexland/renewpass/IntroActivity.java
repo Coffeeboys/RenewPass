@@ -115,7 +115,7 @@ public class IntroActivity extends AppIntro2 {
             preferenceHelper.setPassword(passwordString);
             preferenceHelper.setSchool(schoolString);
             preferenceHelper.setupKeys(getApplicationContext());
-            AlarmUtil.setAlarm(getApplicationContext(), false);
+           // AlarmUtil.setAlarm(getApplicationContext(), false);
             finish();
         }
     }

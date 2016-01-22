@@ -6,6 +6,8 @@ import android.preference.PreferenceManager;
 
 import java.util.Calendar;
 
+import ca.alexland.renewpass.TimePreference;
+
 /**
  * Created by AlexLand on 2015-12-30.
  */
@@ -16,6 +18,7 @@ public class PreferenceHelper {
     private static final String USERNAME_PREFERENCE = "Username";
     private static final String PASSWORD_PREFERENCE = "Password";
     public static final String NOTIFICATION_DATE_PREFERENCE = "NotificationDate";
+    public static final String NOTIFICATION_TIME_PREFERENCE = "NotificationTime";
     public static final String NOTIFICATIONS_ENABLED_PREFERENCE = "NotificationsEnabled";
 
     private SharedPreferences settings;
@@ -82,7 +85,13 @@ public class PreferenceHelper {
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = getDay(dateVal);
-        cal.set(year, month, day);
+
+        String timeVal = settings.getString(NOTIFICATION_TIME_PREFERENCE, TimePreference.DEFAULT_VALUE);
+        SimpleTimeFormat simpleTimeFormat = new SimpleTimeFormat(timeVal);
+        int hour = simpleTimeFormat.getHour();
+        int minute = simpleTimeFormat.getMinute();
+
+        cal.set(year, month, day, hour, minute);
         return cal;
     }
 

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.widget.Toast;
 
 import ca.alexland.renewpass.MainActivity;
 import ca.alexland.renewpass.R;
@@ -20,6 +21,7 @@ import ca.alexland.renewpass.model.Status;
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
+        Toast.makeText(context, "Recieved!", Toast.LENGTH_LONG).show();
         Bundle bundle = intent.getBundleExtra("bundle");
         final boolean notificationsEnabled = bundle.getBoolean(PreferenceHelper.NOTIFICATIONS_ENABLED_PREFERENCE);
         UPassLoader.checkUPassAvailable(context, new Callback() {
