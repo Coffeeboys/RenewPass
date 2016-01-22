@@ -24,12 +24,12 @@ public class AlarmUtil {
 
         // Set an alarm to check every day if we didn't get the availability successfully
         if (urgent) {
-            am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+            am.setInexactRepeating(AlarmManager.RTC_WAKEUP,
                     System.currentTimeMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
         else {
             Calendar cal = preferenceHelper.getDate();
-            am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+            am.set(AlarmManager.RTC_WAKEUP,
                     cal.getTimeInMillis(), pendingIntent);
         }
     }

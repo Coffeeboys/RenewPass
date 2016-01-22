@@ -13,8 +13,12 @@
     <string name="preference_header_notifications">Notifications</string>
     <string name="preference_notificationdate_title">Refresh Date</string>
     <string name="preference_notificationdate_description">The day of the month to check for a new UPass</string>
+    <string name="preference_notificationtime_title">Refresh Time</string>
+    <string name="preference_notificationtime_description">The time of day to check for a new UPass</string>
     <string name="preference_notificationsenabled_title">Renewal Notifications</string>
     <string name="preference_notificationsenabled_description" />
+    <string name="preference_dialog_button_positive">Set</string>
+    <string name="preference_dialog_button_negative">Cancel</string>
     <string name="title_activity_intro">IntroActivity</string>
     <string name = "username_hint">Enter your username</string>
     <string name = "password_hint">Enter your password</string>
