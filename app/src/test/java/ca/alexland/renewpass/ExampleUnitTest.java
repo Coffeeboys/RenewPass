@@ -1,4 +1,4 @@
-package ca.alexland.renewpass;
+package ca.coffeeboys.renewpass;
 
 import org.junit.Test;
 
