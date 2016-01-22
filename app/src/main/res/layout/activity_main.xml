@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="ca.coffeeboys.renewpass.MainActivity">
+    tools:context="ca.alexland.renewpass.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
 
     <include layout="@layout/content_main" />
 
-    <ca.coffeeboys.renewpass.views.LoadingFloatingActionButton
+    <ca.alexland.renewpass.views.LoadingFloatingActionButton
         android:id="@+id/loading_fab"
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"

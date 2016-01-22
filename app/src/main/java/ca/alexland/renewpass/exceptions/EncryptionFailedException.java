@@ -1,0 +1,7 @@
+package ca.alexland.renewpass.exceptions;
+
+/**
+ * Created by AlexLand on 2016-01-13.
+ */
+public class EncryptionFailedException extends Throwable {
+}

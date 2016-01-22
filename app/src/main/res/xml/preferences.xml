@@ -10,7 +10,7 @@
             android:dialogTitle="@string/preference_username"
             android:inputType="text"/>
 
-        <ca.coffeeboys.renewpass.PasswordPreference
+        <ca.alexland.renewpass.PasswordPreference
             android:key="Password"
             android:title="@string/preference_password"
             android:summary="@string/preference_password_description"
