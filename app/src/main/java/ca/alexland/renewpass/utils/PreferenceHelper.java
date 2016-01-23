@@ -16,6 +16,7 @@ public class PreferenceHelper {
     public static final String SCHOOL_PREFERENCE = "School";
     public static final String USERNAME_PREFERENCE = "Username";
     public static final String PASSWORD_PREFERENCE = "Password";
+    public static final String PREFERENCE_KEY_ALIAS = "KeyAlias";
 
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
@@ -100,10 +101,24 @@ public class PreferenceHelper {
     }
 
     public void setupEncryption(Context context) {
-        this.keyStoreUtil = new KeyStoreUtil(this.getUsername());
+        String alias = getKeyAlias();
+        if (alias.equals("")) {
+            alias = this.getUsername();
+            setKeyAlias(alias);
+        }
+        this.keyStoreUtil = new KeyStoreUtil(alias);
         keysExist = keyStoreUtil.keysExist();
         if (!keysExist) {
             setupKeys(context);
         }
+    }
+
+    private String getKeyAlias() {
+        return settings.getString(PREFERENCE_KEY_ALIAS, "");
+    }
+
+    private void setKeyAlias(String alias) {
+        editor.putString(PREFERENCE_KEY_ALIAS, alias);
+        editor.commit();
     }
 }
