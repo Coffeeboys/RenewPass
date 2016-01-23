@@ -121,7 +121,7 @@ public class UPassLoader {
                 return new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.NETWORK_ERROR, false);
             }
             catch(Exception e) {
-                return new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.UNKNOWN_ERROR, false);
+                return new ca.alexland.renewpass.model.Status(e.getMessage(), false);
             }
 
             return returnStatus;
