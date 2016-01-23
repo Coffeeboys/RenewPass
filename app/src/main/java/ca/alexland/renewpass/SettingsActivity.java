@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
+import android.view.View;
 
+import ca.alexland.renewpass.utils.PreferenceHelper;
 import de.psdev.licensesdialog.LicenseResolver;
 import de.psdev.licensesdialog.LicensesDialog;
 import de.psdev.licensesdialog.licenses.License;
@@ -31,6 +34,15 @@ public class SettingsActivity extends PreferenceActivity
         {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
+
+            Preference username = findPreference(PreferenceHelper.USERNAME_PREFERENCE);
+            username.setOnPreferenceChangeListener(makeNotifier());
+
+            Preference password = findPreference(PreferenceHelper.PASSWORD_PREFERENCE);
+            password.setOnPreferenceChangeListener(makeNotifier());
+
+            Preference school = findPreference(PreferenceHelper.SCHOOL_PREFERENCE);
+            school.setOnPreferenceChangeListener(makeNotifier());
 
             Preference credits = findPreference("Credits");
             credits.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -63,6 +75,16 @@ public class SettingsActivity extends PreferenceActivity
                     return true;
                 }
             });
+        }
+
+        private Preference.OnPreferenceChangeListener makeNotifier() {
+            return new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    Snackbar.make(getView(), preference.getTitle() + " has been saved", Snackbar.LENGTH_LONG).show();
+                    return true;
+                }
+            };
         }
     }
 
