@@ -29,6 +29,10 @@
             android:key="Credits"
             android:title="@string/preference_credits"/>
 
+        <Preference
+            android:key="Licenses"
+            android:title="@string/preference_licenses"/>
+
         <!--TODO: Add Reset preference-->
 
     </PreferenceCategory>
