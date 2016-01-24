@@ -24,13 +24,18 @@ public class SimonFraserUniversity implements School {
         passwordField.setValue(password);
         HtmlDocument sfuRedirect = authForm.submit();
 
-        HtmlDocument translinkRedirect = sfuRedirect.forms().get(0).submit();
-        HtmlDocument submittedPage = translinkRedirect.forms().get(0).submit();
-
-        if(submittedPage.getUri().contains("https://upassbc.translink.ca")) {
-            return submittedPage;
+        HtmlDocument submittedPage;
+        try {
+            HtmlDocument translinkRedirect = sfuRedirect.forms().get(0).submit();
+            submittedPage = translinkRedirect.forms().get(0).submit();
         }
-        else {
+        catch (Exception e) {
+            throw new SchoolAuthenticationFailedException();
+        }
+
+        if (submittedPage.getUri().contains("https://upassbc.translink.ca")) {
+            return submittedPage;
+        } else {
             throw new SchoolAuthenticationFailedException();
         }
     }
