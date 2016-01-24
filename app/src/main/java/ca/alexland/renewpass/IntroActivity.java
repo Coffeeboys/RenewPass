@@ -4,11 +4,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -54,6 +57,20 @@ public class IntroActivity extends AppIntro2 {
                                 R.layout.contact_spinner_row_nothing_selected,
                                 // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                                 getApplicationContext()));
+
+                final EditText editText = (EditText) view.findViewById(R.id.password_field);
+
+                CheckBox checkBox = (CheckBox) view.findViewById(R.id.password_checkbox);
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            editText.setTransformationMethod(null);
+                        } else {
+                            editText.setTransformationMethod(new PasswordTransformationMethod());
+                        }
+                    }
+                });
 
                 return view;
             }

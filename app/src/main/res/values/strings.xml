@@ -39,6 +39,7 @@
     </string>
     <string name="privacy_notice">Your credentials are stored locally, only accessible by RenewPass, and your password is encrypted by default.</string>
     <string name="preference_licenses">Licenses</string>
+    <string name="checkbox_show_password">Show password</string>
 
     <string-array name="school_list">
         <item>SFU</item>

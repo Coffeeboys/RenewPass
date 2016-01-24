@@ -170,14 +170,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
-
-
-
-
     private void startIntroActivity() {
 
         Thread introActivityThread = new Thread(new Runnable() {
