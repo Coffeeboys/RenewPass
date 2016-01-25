@@ -1,5 +1,5 @@
 # RenewPass
-An Android app for renewing your UPass
+An Android app for renewing your UPass ([Play Store](https://play.google.com/store/apps/details?id=ca.alexland.renewpass))
 
 RenewPass does the work of renewing your UPass for you. Enter your school credentials, and RenewPass will log in to your UPassBC account and request the latest available UPass, all with a single tap.
 
