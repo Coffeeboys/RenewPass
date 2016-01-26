@@ -48,10 +48,8 @@ public class AlarmUtil {
     }
 
     private static PendingIntent createPendingIntent(Context context, PreferenceHelper preferenceHelper) {
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(PreferenceHelper.EXTRA_NOTIFICATIONS_ENABLED, preferenceHelper.getNotificationsEnabled());
         Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.putExtra("bundle", bundle);
+        intent.putExtra(PreferenceHelper.EXTRA_NOTIFICATIONS_ENABLED, preferenceHelper.getNotificationsEnabled());
         return PendingIntent.getBroadcast(context, ALARM_REQUEST_CODE, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 }
