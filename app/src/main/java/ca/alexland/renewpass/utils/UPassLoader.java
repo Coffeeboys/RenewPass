@@ -1,15 +1,11 @@
 package ca.alexland.renewpass.utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 
 import com.gistlabs.mechanize.document.html.HtmlDocument;
 import com.gistlabs.mechanize.document.html.form.Checkbox;
 import com.gistlabs.mechanize.document.html.form.Form;
-import com.gistlabs.mechanize.document.html.form.FormElement;
 import com.gistlabs.mechanize.document.html.form.Hidden;
 import com.gistlabs.mechanize.document.html.form.Select;
 import com.gistlabs.mechanize.document.html.form.SubmitButton;
@@ -18,10 +14,7 @@ import com.gistlabs.mechanize.impl.MechanizeAgent;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
-import ca.alexland.renewpass.MainActivity;
-import ca.alexland.renewpass.SettingsActivity;
 import ca.alexland.renewpass.exceptions.NothingToRenewException;
 import ca.alexland.renewpass.exceptions.SchoolAuthenticationFailedException;
 import ca.alexland.renewpass.exceptions.SchoolNotFoundException;
@@ -33,7 +26,6 @@ import ca.alexland.renewpass.schools.LangaraCollege;
 import ca.alexland.renewpass.schools.School;
 import ca.alexland.renewpass.schools.SimonFraserUniversity;
 import ca.alexland.renewpass.schools.UniversityOfBritishColumbia;
-import ca.alexland.renewpass.views.LoadingFloatingActionButton;
 
 /**
  * Created by AlexLand on 2015-12-28.
@@ -121,18 +113,22 @@ public class UPassLoader {
                 }
             }
             catch(SchoolNotFoundException e) {
+                LoggerUtil.appendLogWithStacktrace(context, "School not found: ", e);
                 return new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.SCHOOL_NOT_FOUND, false);
             }
             catch(SchoolAuthenticationFailedException e) {
+                LoggerUtil.appendLogWithStacktrace(context, "School authentication failed: ", e);
                 return new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.AUTHENTICATION_ERROR, false);
             }
             catch(NothingToRenewException e) {
                 return new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.NOTHING_TO_RENEW, true);
             }
             catch(MechanizeException e) {
+                LoggerUtil.appendLogWithStacktrace(context, "Mechanize exception: ", e);
                 return new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.NETWORK_ERROR, false);
             }
             catch(Exception e) {
+                LoggerUtil.appendLogWithStacktrace(context, "Unknown exception: ", e);
                 return new ca.alexland.renewpass.model.Status(e.getMessage(), false);
             }
 

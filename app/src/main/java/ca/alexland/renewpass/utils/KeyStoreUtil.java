@@ -89,6 +89,7 @@ public class KeyStoreUtil {
                 return true;
             }
             catch(Exception e) {
+                LoggerUtil.appendLogWithStacktrace(context, "Key generation failed: ", e);
                 return false;
             }
         }

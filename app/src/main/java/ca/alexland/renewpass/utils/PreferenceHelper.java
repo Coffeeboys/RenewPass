@@ -3,7 +3,6 @@ package ca.alexland.renewpass.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import ca.alexland.renewpass.exceptions.DecryptionFailedException;
 import ca.alexland.renewpass.exceptions.EncryptionFailedException;
@@ -24,8 +23,10 @@ public class PreferenceHelper {
     private boolean keysExist;
     private boolean passwordEncrypted;
     private static PreferenceHelper instance = null;
+    private Context context;
 
     private PreferenceHelper(Context context) {
+        this.context = context;
         this.settings = PreferenceManager.getDefaultSharedPreferences(context);
         this.editor = settings.edit();
     }
@@ -57,7 +58,7 @@ public class PreferenceHelper {
                 password = keyStoreUtil.decryptPassword(password);
             } catch (DecryptionFailedException e) {
                 // TODO: Deal with failure, possibly ask for credentials and fall back to unencrypted?
-                Log.d("RenewPass", "Password decryption failed: " + e.getLocalizedMessage());
+                LoggerUtil.appendLogWithStacktrace(context, "Password decryption failed: ", e);
             }
         }
         return password;
@@ -79,7 +80,7 @@ public class PreferenceHelper {
                 passwordEncrypted = true;
             } catch (EncryptionFailedException e) {
                 // TODO: Notify user of failed encryption
-                Log.d("RenewPass", "Password encryption failed: " + e.getLocalizedMessage());
+                LoggerUtil.appendLogWithStacktrace(context, "Password encryption failed: ", e);
                 passwordEncrypted = false;
             }
         }

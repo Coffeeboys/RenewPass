@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -113,6 +115,13 @@ public class LoggerUtil {
 		}
 	}
 
+    public static void appendLogWithStacktrace(Context context, String text, Exception exception) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        exception.printStackTrace(pw);
+        LoggerUtil.appendLog(context, text + pw.toString());
+    }
+
     public static boolean isLogging(Context context) {
 		return getPrefBoolean(context, getAppName(context)+PREFS_KEY_IS_LOGGING, false);
 	}
@@ -140,7 +149,7 @@ public class LoggerUtil {
         Log.d(TAG, "canRead?" + (logFile.canRead()?"true":"false"));
 
         if (logFile.canRead()) {
-            emailIntent.putExtra(Intent.EXTRA_TEXT,"Attached is "+appName+" log file!");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Attached is " + appName + " log file!");
             Uri uri = FileProvider.getUriForFile(context, "ca.alexland.fileprovider", logFile);
             emailIntent.setData(uri);
             emailIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
