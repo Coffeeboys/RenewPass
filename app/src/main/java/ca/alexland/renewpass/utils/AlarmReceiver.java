@@ -31,8 +31,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         result.getStatusText().equals(Status.NOTHING_TO_RENEW)) {
                     if (notificationsEnabled) {
                         showSuccessNotification(context);
-                        //TODO: make this set an alarm a month from now instead of setting the same alarm
-                        AlarmUtil.setAlarm(context, false);
+                        AlarmUtil.setAlarmNextMonth(context);
                     }
                 }
                 else {

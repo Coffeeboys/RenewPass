@@ -4,7 +4,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -19,15 +18,11 @@ public class AlarmUtil {
     public static void setAlarm(Context context, boolean urgent) {
         PreferenceHelper preferenceHelper = new PreferenceHelper(context);
         PendingIntent pendingIntent = createPendingIntent(context, preferenceHelper);
-        AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-
         // Set an alarm to check every day if we didn't get the availability successfully
         //TODO: delete debug toast messages
         if (urgent) {
             Toast.makeText(context, "Setting alarm to be checked again in a day", Toast.LENGTH_LONG).show();
-            am.set(AlarmManager.RTC_WAKEUP,
-                    System.currentTimeMillis() + AlarmManager.INTERVAL_DAY,
-                    pendingIntent);
+            setAlarm(context, System.currentTimeMillis() + AlarmManager.INTERVAL_DAY, pendingIntent);
         }
         else {
             Calendar cal = preferenceHelper.getDate();
@@ -35,10 +30,22 @@ public class AlarmUtil {
                     " Date: " + cal.get(Calendar.DATE) +
                     " Hour: " + cal.get(Calendar.HOUR_OF_DAY) +
                     " Minute: " + cal.get(Calendar.MINUTE), Toast.LENGTH_LONG).show();
-            am.set(AlarmManager.RTC_WAKEUP,
-                    cal.getTimeInMillis(),
-                    pendingIntent);
+            setAlarm(context, cal.getTimeInMillis(), pendingIntent);
         }
+    }
+
+    public static void setAlarmNextMonth(Context context) {
+        PreferenceHelper preferenceHelper = new PreferenceHelper(context);
+        PendingIntent pendingIntent = createPendingIntent(context, preferenceHelper);
+        Calendar cal = preferenceHelper.getDate();
+        setAlarm(context, CalendarUtil.getNextMonthTimeInMillis(cal.getTimeInMillis()), pendingIntent);
+    }
+
+    private static void setAlarm(Context context, long timeInMillis, PendingIntent pendingIntent) {
+        AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        am.set(AlarmManager.RTC_WAKEUP,
+                timeInMillis,
+                pendingIntent);
     }
 
     public static void cancelAlarm(Context context) {
