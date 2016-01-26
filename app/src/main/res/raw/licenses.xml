@@ -36,4 +36,10 @@
         <copyright>Copyright 2013 Philip Schiffer</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
+    <notice>
+        <name>RemoteLogger</name>
+        <url>https://github.com/sschendel/RemoteLogger</url>
+        <copyright>Copyright 2015 sschendel</copyright>
+        <license>MIT License</license>
+    </notice>
 </notices>

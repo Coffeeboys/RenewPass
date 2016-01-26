@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.view.View;
 
+import ca.alexland.renewpass.utils.LoggerUtil;
 import ca.alexland.renewpass.utils.PreferenceHelper;
 import de.psdev.licensesdialog.LicenseResolver;
 import de.psdev.licensesdialog.LicensesDialog;
@@ -72,6 +73,15 @@ public class SettingsActivity extends PreferenceActivity
                             .setNotices(R.raw.licenses)
                             .build()
                             .show();
+                    return true;
+                }
+            });
+
+            Preference debug = findPreference("Debug");
+            debug.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    LoggerUtil.launchSendLogWithAttachment(getActivity());
                     return true;
                 }
             });
