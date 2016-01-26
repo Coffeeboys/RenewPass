@@ -28,6 +28,8 @@ import ca.alexland.renewpass.exceptions.SchoolNotFoundException;
 import ca.alexland.renewpass.model.Callback;
 import ca.alexland.renewpass.model.Status;
 import ca.alexland.renewpass.schools.BCIT;
+import ca.alexland.renewpass.schools.CapilanoUniversity;
+import ca.alexland.renewpass.schools.LangaraCollege;
 import ca.alexland.renewpass.schools.School;
 import ca.alexland.renewpass.schools.SimonFraserUniversity;
 import ca.alexland.renewpass.schools.UniversityOfBritishColumbia;
@@ -60,6 +62,10 @@ public class UPassLoader {
                 return new UniversityOfBritishColumbia();
             case "BCIT":
                 return new BCIT();
+            case "Cap U":
+                return new CapilanoUniversity();
+            case "Langara":
+                return new LangaraCollege();
             default:
                 return null;
         }
