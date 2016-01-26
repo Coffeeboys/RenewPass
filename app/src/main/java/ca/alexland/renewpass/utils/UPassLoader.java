@@ -27,6 +27,7 @@ import ca.alexland.renewpass.exceptions.SchoolAuthenticationFailedException;
 import ca.alexland.renewpass.exceptions.SchoolNotFoundException;
 import ca.alexland.renewpass.model.Callback;
 import ca.alexland.renewpass.model.Status;
+import ca.alexland.renewpass.schools.BCIT;
 import ca.alexland.renewpass.schools.School;
 import ca.alexland.renewpass.schools.SimonFraserUniversity;
 import ca.alexland.renewpass.schools.UniversityOfBritishColumbia;
@@ -38,6 +39,7 @@ import ca.alexland.renewpass.views.LoadingFloatingActionButton;
 public class UPassLoader {
     private Callback callback;
     private final String UPASS_SITE_URL = "http://upassbc.translink.ca";
+    private Context context;
 
     public static void renewUPass(Context context, Callback callback) {
         UPassLoader mService = new UPassLoader();
@@ -47,7 +49,7 @@ public class UPassLoader {
         String schoolID = preferenceHelper.getSchool();
         School school = makeNewSchool(schoolID);
         boolean doRenew = true;
-        mService.startRenew(doRenew, school, username, password, callback);
+        mService.startRenew(doRenew, school, username, password, callback, context);
     }
 
     private static School makeNewSchool(String schoolID) {
@@ -56,6 +58,8 @@ public class UPassLoader {
                 return new SimonFraserUniversity();
             case "UBC":
                 return new UniversityOfBritishColumbia();
+            case "BCIT":
+                return new BCIT();
             default:
                 return null;
         }
@@ -63,16 +67,18 @@ public class UPassLoader {
 
     public static void checkUPassAvailable(Context context, Callback callback) {
         UPassLoader mService = new UPassLoader();
-        School school = new SimonFraserUniversity();
         PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
         String username = preferenceHelper.getUsername();
         String password = preferenceHelper.getPassword();
+        String schoolID = preferenceHelper.getSchool();
+        School school = makeNewSchool(schoolID);
         boolean doRenew = false;
-        mService.startRenew(doRenew, school, username, password, callback);
+        mService.startRenew(doRenew, school, username, password, callback, context);
     }
 
-    private void startRenew(boolean doRenew, School school, String username, String password, Callback callback) {
+    private void startRenew(boolean doRenew, School school, String username, String password, Callback callback, Context context) {
         this.callback = callback;
+        this.context = context;
         new RenewTask(school, username, password).execute(doRenew);
     }
 
@@ -149,7 +155,7 @@ public class UPassLoader {
         }
 
         private HtmlDocument authorizeAccount(HtmlDocument authPage) throws SchoolAuthenticationFailedException {
-            return this.school.login(authPage, this.username, this.password);
+            return this.school.login(authPage, this.username, this.password, context);
         }
 
         private boolean checkUpass(HtmlDocument upassPage) throws NothingToRenewException {
