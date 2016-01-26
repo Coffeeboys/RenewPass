@@ -24,7 +24,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Toast.makeText(context, "Received!", Toast.LENGTH_LONG).show();
         final PendingResult pendingResult = goAsync();
         Bundle bundle = intent.getBundleExtra("bundle");
-        final boolean notificationsEnabled = bundle.getBoolean(PreferenceHelper.NOTIFICATIONS_ENABLED_PREFERENCE);
+        final boolean notificationsEnabled = bundle.getBoolean(PreferenceHelper.EXTRA_NOTIFICATIONS_ENABLED);
         UPassLoader.checkUPassAvailable(context, new Callback() {
             @Override
             public void onUPassLoaded(Status result) {

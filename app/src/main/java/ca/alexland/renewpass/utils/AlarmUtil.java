@@ -14,16 +14,15 @@ import java.util.Calendar;
  * Created by AlexLand on 2016-01-14.
  */
 public class AlarmUtil {
+    private static final int ALARM_REQUEST_CODE = 0;
+
     public static void setAlarm(Context context, boolean urgent) {
         PreferenceHelper preferenceHelper = new PreferenceHelper(context);
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(PreferenceHelper.NOTIFICATIONS_ENABLED_PREFERENCE, preferenceHelper.getNotificationsEnabled());
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.putExtra("bundle", bundle);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent = createPendingIntent(context, preferenceHelper);
         AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 
         // Set an alarm to check every day if we didn't get the availability successfully
+        //TODO: delete debug toast messages
         if (urgent) {
             Toast.makeText(context, "Setting alarm to be checked again in a day", Toast.LENGTH_LONG).show();
             am.set(AlarmManager.RTC_WAKEUP,
@@ -40,5 +39,19 @@ public class AlarmUtil {
                     cal.getTimeInMillis(),
                     pendingIntent);
         }
+    }
+
+    public static void cancelAlarm(Context context) {
+        PendingIntent pendingIntent = createPendingIntent(context, new PreferenceHelper(context));
+        AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        am.cancel(pendingIntent);
+    }
+
+    private static PendingIntent createPendingIntent(Context context, PreferenceHelper preferenceHelper) {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(PreferenceHelper.EXTRA_NOTIFICATIONS_ENABLED, preferenceHelper.getNotificationsEnabled());
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.putExtra("bundle", bundle);
+        return PendingIntent.getBroadcast(context, ALARM_REQUEST_CODE, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 }

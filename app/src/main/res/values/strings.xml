@@ -35,6 +35,16 @@
     <string name="preference_school">School</string>
     <string name="preference_school_description">The post-secondary institution that your school account belongs to</string>
 
+    <!--Preference keys-->
+    <string name="preference_key_username">Username</string>
+    <string name="preference_key_password">Password</string>
+    <string name="preference_key_School">School</string>
+    <string name="preference_key_Reset">Reset</string>
+    <string name="preference_key_notifications_enabled">NotificationsEnabled</string>
+    <string name="preference_key_notification_date">NotificationDate</string>
+    <string name="preference_key_notification_time">NotificationTime</string>
+
+
     <string-array name="school_list">
         <item>SFU</item>
         <item>UBC</item>

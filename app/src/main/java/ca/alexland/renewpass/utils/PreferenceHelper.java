@@ -6,72 +6,61 @@ import android.preference.PreferenceManager;
 
 import java.util.Calendar;
 
+import ca.alexland.renewpass.R;
 import ca.alexland.renewpass.TimePreference;
 
 /**
  * Created by AlexLand on 2015-12-30.
  */
 public class PreferenceHelper {
-    private static final String RENEWPASS_PREFERENCES = "RenewPass Preferences";
-    private static final String FIRST_RUN_PREFERENCE = "First Run";
-    private static final String SCHOOL_PREFERENCE = "School";
-    private static final String USERNAME_PREFERENCE = "Username";
-    private static final String PASSWORD_PREFERENCE = "Password";
-    public static final String NOTIFICATION_DATE_PREFERENCE = "NotificationDate";
-    public static final String NOTIFICATION_TIME_PREFERENCE = "NotificationTime";
-    public static final String NOTIFICATIONS_ENABLED_PREFERENCE = "NotificationsEnabled";
+    //TODO: perhaps find a better place for this extra variable such as a notification util class
+    public static final String EXTRA_NOTIFICATIONS_ENABLED = "EXTRA_NOTIFICATIONS_ENABLED";
+    private static final String DEFAULT_VALUE = "";
 
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
     private KeyStoreUtil keyStoreUtil;
+    private Context context;
     private boolean keysExist;
     private boolean preference;
 
     public PreferenceHelper(Context context) {
         this.settings = PreferenceManager.getDefaultSharedPreferences(context);
         this.editor = settings.edit();
-    }
-
-    public boolean getFirstRun() {
-        return settings.getBoolean(FIRST_RUN_PREFERENCE, true);
-    }
-
-    public void setFirstRun(boolean firstRun) {
-        editor.putBoolean(FIRST_RUN_PREFERENCE, firstRun);
-        editor.commit();
+        this.context = context;
     }
 
     public String getUsername() {
-        return settings.getString(USERNAME_PREFERENCE, "");
+        return settings.getString(context.getString(R.string.preference_key_username), DEFAULT_VALUE);
     }
 
     public String getPassword() {
         // TODO: Decrypt password
-        return settings.getString(PASSWORD_PREFERENCE, "");
+        return settings.getString(context.getString(R.string.preference_key_password), DEFAULT_VALUE);
     }
 
     public String getSchool() {
-        return settings.getString(SCHOOL_PREFERENCE, "");
+        return settings.getString(context.getString(R.string.preference_key_School), DEFAULT_VALUE);
     }
 
     public void setUsername(String username) {
-        editor.putString(USERNAME_PREFERENCE, username);
+        editor.putString(context.getString(R.string.preference_key_username), username);
         editor.commit();
     }
 
     public void setPassword(String password) {
         // TODO: Encrypt password
-        editor.putString(PASSWORD_PREFERENCE, password);
+        editor.putString(context.getString(R.string.preference_key_password, password), password);
         editor.commit();
     }
 
     public void setSchool(String school) {
-        editor.putString(SCHOOL_PREFERENCE, school);
+        editor.putString(context.getString(R.string.preference_key_School), school);
         editor.commit();
     }
 
     public boolean credentialsEntered() {
-        return !getUsername().equals("") && !getPassword().equals("");
+        return !getUsername().equals(DEFAULT_VALUE) && !getPassword().equals(DEFAULT_VALUE);
     }
 
     public void setupKeys(Context context) {
@@ -80,13 +69,13 @@ public class PreferenceHelper {
     }
 
     public Calendar getDate() {
-        String dateVal = settings.getString(NOTIFICATION_DATE_PREFERENCE, "2016-01-21");
+        String dateVal = settings.getString(context.getString(R.string.preference_key_notification_date), "2016-01-21");
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = getDay(dateVal);
 
-        String timeVal = settings.getString(NOTIFICATION_TIME_PREFERENCE, TimePreference.DEFAULT_VALUE);
+        String timeVal = settings.getString(context.getString(R.string.preference_key_notification_time), TimePreference.DEFAULT_VALUE);
         SimpleTimeFormat simpleTimeFormat = new SimpleTimeFormat(timeVal);
         int hour = simpleTimeFormat.getHour();
         int minute = simpleTimeFormat.getMinute();
@@ -101,6 +90,6 @@ public class PreferenceHelper {
     }
 
     public boolean getNotificationsEnabled() {
-        return settings.getBoolean(NOTIFICATIONS_ENABLED_PREFERENCE, false);
+        return settings.getBoolean(context.getString(R.string.preference_key_notifications_enabled), false);
     }
 }
