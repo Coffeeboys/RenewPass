@@ -2,6 +2,7 @@ package ca.alexland.renewpass;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -14,6 +15,10 @@ import android.widget.TextView;
 
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.github.paolorotolo.appintro.AppIntroFragment;
+
+import net.soulwolf.widget.materialradio.MaterialRadioButton;
+import net.soulwolf.widget.materialradio.MaterialRadioGroup;
+import net.soulwolf.widget.materialradio.listener.OnCheckedChangeListener;
 
 import ca.alexland.renewpass.utils.AlarmUtil;
 import ca.alexland.renewpass.utils.PreferenceHelper;
@@ -64,23 +69,11 @@ public class IntroActivity extends AppIntro2 {
         return new Fragment() {
             @Override
             public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-                View view = inflater.inflate(R.layout.credential_slide, container, false);
-
-                Spinner spinner = (Spinner) view.findViewById(R.id.school_selection_spinner);
-                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.school_list, android.R.layout.simple_spinner_item);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setPrompt(getString(R.string.school_spinner_default));
-                spinner.setAdapter(
-                        new NothingSelectedSpinnerAdapter(
-                                adapter,
-                                R.layout.contact_spinner_row_nothing_selected,
-                                // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                                getApplicationContext()));
-
-                return view;
+                return inflater.inflate(R.layout.credential_slide, container, false);
             }
         };
     }
+
     @Override
     public void onNextPressed() {
 
@@ -90,13 +83,27 @@ public class IntroActivity extends AppIntro2 {
     public void onDonePressed() {
         boolean isValid = true;
 
-        Spinner school = (Spinner)findViewById(R.id.school_selection_spinner);
-        EditText username = (EditText)findViewById(R.id.username_field);
-        EditText password = (EditText)findViewById(R.id.password_field);
+        MaterialRadioGroup mrg = (MaterialRadioGroup) findViewById(R.id.school_radio_group);
+        EditText username = (EditText) findViewById(R.id.username_field);
+        EditText password = (EditText) findViewById(R.id.password_field);
 
-        String schoolString = (String)school.getSelectedItem();
+        String schoolString;
+        int id = mrg.getCheckedRadioButtonId();
+        switch (id) {
+            case R.id.rb_sfu:
+                schoolString = "SFU";
+                break;
+            case R.id.rb_ubc:
+                schoolString = "UBC";
+                break;
+            default:
+                schoolString = null;
+                break;
+        }
+
+
         if (schoolString == null) {
-            TextView errorText = (TextView)school.getSelectedView();
+            TextView errorText = (TextView) findViewById(R.id.school_selection_text);
             errorText.setError("Invalid school selection");
             errorText.setTextColor(Color.RED);
             errorText.setText(R.string.error_school_selection);
@@ -124,13 +131,15 @@ public class IntroActivity extends AppIntro2 {
             finish();
         }
     }
-/*
-    TODO
-    enable done only when all fields are filled
-    Also try connection once to make sure all fields inputted are correct
- */
+
+    /*
+        TODO
+        enable done only when all fields are filled
+        Also try connection once to make sure all fields inputted are correct
+     */
+
     @Override
-    public void onSlideChanged(){
+    public void onSlideChanged() {
 
     }
 }
