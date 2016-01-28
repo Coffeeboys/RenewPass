@@ -36,13 +36,13 @@ public class KwantlenUniversity implements School{
 
         }
         catch (Exception e) {
-            throw new SchoolAuthenticationFailedException();
+            throw new SchoolAuthenticationFailedException(e);
         }
 
         if (submittedPage.getUri().contains("https://upassbc.translink.ca")) {
             return submittedPage;
         } else {
-            throw new SchoolAuthenticationFailedException();
+            throw new SchoolAuthenticationFailedException(new Exception("Invalid submitted page URI"));
         }
     }
 

@@ -123,7 +123,7 @@ public class KeyStoreUtil {
             return Base64.encodeToString(vals, Base64.DEFAULT);
         }
         catch(Exception e) {
-            throw new EncryptionFailedException();
+            throw new EncryptionFailedException(e);
         }
     }
 
@@ -154,7 +154,7 @@ public class KeyStoreUtil {
             return new String(bytes, 0, bytes.length, "UTF-8");
 
         } catch (Exception e) {
-            throw new DecryptionFailedException();
+            throw new DecryptionFailedException(e);
         }
     }
 
