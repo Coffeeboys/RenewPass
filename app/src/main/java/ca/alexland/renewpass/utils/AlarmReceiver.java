@@ -28,11 +28,11 @@ public class AlarmReceiver extends BroadcastReceiver {
                 if (result.getStatusText().equals(Status.UPASS_AVAILABLE)) {
                     if (notificationsEnabled) {
                         showNotification(context);
-                        AlarmUtil.setAlarm(context, false);
+                        AlarmUtil.setAlarm(context, false); // Set the alarm for next month
                     }
                 }
                 else {
-                    AlarmUtil.setAlarm(context, true);
+                    AlarmUtil.setAlarm(context, true); // Set the alarm for the next day
                 }
             }
         });
