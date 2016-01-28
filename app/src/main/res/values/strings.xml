@@ -35,4 +35,5 @@
     </string-array>
     <string name="title_activity_test">TestActivity</string>
     <string name="school_select">Select your school</string>
+    <string name="notifications_disabled">You have disabled notifications</string>
 </resources>

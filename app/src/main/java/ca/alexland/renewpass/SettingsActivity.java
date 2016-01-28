@@ -40,6 +40,18 @@ public class SettingsActivity extends PreferenceActivity {
                 Snackbar.make(getView(), textToShow, Snackbar.LENGTH_SHORT).show();
                 // AlarmUtil.setAlarm(getActivity(), false); TODO
                 // Do we need to call setAlarm here??
+            } else if (key.equals(PreferenceHelper.NOTIFICATIONS_ENABLED_PREFERENCE)) {
+                PreferenceHelper pHelper = new PreferenceHelper(getActivity());
+                if (pHelper.getNotificationsEnabled()) {
+                    String textToShow = "You will be updated on the " +
+                            pHelper.getDate().get(Calendar.DAY_OF_MONTH)
+                            + "th of every month";
+                    Snackbar.make(getView(), textToShow, Snackbar.LENGTH_SHORT).show();
+                    // AlarmUtil.setAlarm(getActivity(), false); TODO
+                    // Do we need to call setAlarm here??
+                } else {
+                    Snackbar.make(getView(), getString(R.string.notifications_disabled), Snackbar.LENGTH_SHORT).show();
+                }
             }
         }
 
