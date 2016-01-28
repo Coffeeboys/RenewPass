@@ -25,11 +25,11 @@ public class LangaraCollege implements School {
 
         usernameField.setValue(username);
         passwordField.setValue(password);
-        HtmlDocument sfuRedirect = authForm.submit();
+        HtmlDocument lcRedirect = authForm.submit();
 
         HtmlDocument submittedPage;
         try {
-            HtmlDocument translinkRedirect = sfuRedirect.forms().get(0).submit();
+            HtmlDocument translinkRedirect = lcRedirect.forms().get(0).submit();
             LoggerUtil.appendLog(context, "translinkRedirect: " + translinkRedirect.getUri());
             submittedPage = translinkRedirect.forms().get(0).submit();
             LoggerUtil.appendLog(context, "submittedPage: " + submittedPage.getUri());

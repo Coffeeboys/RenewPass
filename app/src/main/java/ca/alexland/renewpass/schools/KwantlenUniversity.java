@@ -11,28 +11,29 @@ import ca.alexland.renewpass.exceptions.SchoolAuthenticationFailedException;
 import ca.alexland.renewpass.utils.LoggerUtil;
 
 /**
- * Created by AlexLand on 2016-01-25.
+ * Created by eyqs on 2016-01-27.
  */
-public class CapilanoUniversity implements School {
-    private final String ID = "cu";
+public class KwantlenUniversity implements School{
+    public final String ID = "ku";
 
     @Override
     public HtmlDocument login(HtmlDocument authPage, String username, String password, Context context) throws SchoolAuthenticationFailedException {
-        Form authForm = authPage.form("aspnetForm");
+        Form authForm = authPage.forms().get(0);    // form has no id or name
 
-        Text usernameField = (Text) authForm.get("ctl00$ContentPlaceHolder1$UsernameTextBox");
-        Password passwordField = (Password) authForm.get("ctl00$ContentPlaceHolder1$PasswordTextBox");
+        Text usernameField = (Text) authForm.get("username");
+        Password passwordField = (Password) authForm.get("password");
 
         usernameField.setValue(username);
         passwordField.setValue(password);
-        HtmlDocument cuRedirect = authForm.submit();
+        HtmlDocument kuRedirect = authForm.submit();
 
         HtmlDocument submittedPage;
         try {
-            HtmlDocument translinkRedirect = cuRedirect.forms().get(0).submit();
+            HtmlDocument translinkRedirect = kuRedirect.forms().get(0).submit();
             LoggerUtil.appendLog(context, "translinkRedirect: " + translinkRedirect.getUri());
             submittedPage = translinkRedirect.forms().get(0).submit();
             LoggerUtil.appendLog(context, "submittedPage: " + submittedPage.getUri());
+
         }
         catch (Exception e) {
             throw new SchoolAuthenticationFailedException();

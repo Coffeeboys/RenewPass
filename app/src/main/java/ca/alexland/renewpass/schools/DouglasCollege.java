@@ -11,10 +11,10 @@ import ca.alexland.renewpass.exceptions.SchoolAuthenticationFailedException;
 import ca.alexland.renewpass.utils.LoggerUtil;
 
 /**
- * Created by AlexLand on 2016-01-25.
+ * Created by eyqs on 2016-01-27.
  */
-public class CapilanoUniversity implements School {
-    private final String ID = "cu";
+public class DouglasCollege implements School{
+    public final String ID = "dc";
 
     @Override
     public HtmlDocument login(HtmlDocument authPage, String username, String password, Context context) throws SchoolAuthenticationFailedException {
@@ -25,14 +25,15 @@ public class CapilanoUniversity implements School {
 
         usernameField.setValue(username);
         passwordField.setValue(password);
-        HtmlDocument cuRedirect = authForm.submit();
+        HtmlDocument dcRedirect = authForm.submit();
 
         HtmlDocument submittedPage;
         try {
-            HtmlDocument translinkRedirect = cuRedirect.forms().get(0).submit();
+            HtmlDocument translinkRedirect = dcRedirect.forms().get(0).submit();
             LoggerUtil.appendLog(context, "translinkRedirect: " + translinkRedirect.getUri());
             submittedPage = translinkRedirect.forms().get(0).submit();
             LoggerUtil.appendLog(context, "submittedPage: " + submittedPage.getUri());
+
         }
         catch (Exception e) {
             throw new SchoolAuthenticationFailedException();
