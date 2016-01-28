@@ -38,6 +38,11 @@ public class IntroActivity extends AppIntro2 {
     }*/
 
     @Override
+    public void onBackPressed() {
+        getPager().setCurrentItem(0);
+    }
+
+    @Override
     public void init(Bundle savedInstanceState) {
 
         addSlide(AppIntroFragment.newInstance(getString(R.string.app_welcome),
@@ -119,7 +124,11 @@ public class IntroActivity extends AppIntro2 {
             finish();
         }
     }
-
+/*
+    TODO
+    enable done only when all fields are filled
+    Also try connection once to make sure all fields inputted are correct
+ */
     @Override
     public void onSlideChanged(){
 
