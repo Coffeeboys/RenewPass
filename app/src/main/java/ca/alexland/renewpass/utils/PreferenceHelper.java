@@ -58,7 +58,7 @@ public class PreferenceHelper {
                 password = keyStoreUtil.decryptPassword(password);
             } catch (DecryptionFailedException e) {
                 // TODO: Deal with failure, possibly ask for credentials and fall back to unencrypted?
-                LoggerUtil.appendLogWithStacktrace(context, "Password decryption failed: ", e);
+                LoggerUtil.appendLogWithStacktrace(context, "Password decryption failed: ", e.getOriginalException());
             }
         }
         return password;
@@ -80,7 +80,7 @@ public class PreferenceHelper {
                 passwordEncrypted = true;
             } catch (EncryptionFailedException e) {
                 // TODO: Notify user of failed encryption
-                LoggerUtil.appendLogWithStacktrace(context, "Password encryption failed: ", e);
+                LoggerUtil.appendLogWithStacktrace(context, "Password encryption failed: ", e.getOriginalException());
                 passwordEncrypted = false;
             }
         }

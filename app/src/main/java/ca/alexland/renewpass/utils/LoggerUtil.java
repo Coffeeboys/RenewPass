@@ -119,7 +119,7 @@ public class LoggerUtil {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         exception.printStackTrace(pw);
-        LoggerUtil.appendLog(context, text + pw.toString());
+        LoggerUtil.appendLog(context, text + sw.toString());
     }
 
     public static boolean isLogging(Context context) {

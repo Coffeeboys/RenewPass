@@ -117,7 +117,7 @@ public class UPassLoader {
                 return new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.SCHOOL_NOT_FOUND, false);
             }
             catch(SchoolAuthenticationFailedException e) {
-                LoggerUtil.appendLogWithStacktrace(context, "School authentication failed: ", e);
+                LoggerUtil.appendLogWithStacktrace(context, "School authentication failed: ", e.getOriginalException());
                 return new ca.alexland.renewpass.model.Status(ca.alexland.renewpass.model.Status.AUTHENTICATION_ERROR, false);
             }
             catch(NothingToRenewException e) {
