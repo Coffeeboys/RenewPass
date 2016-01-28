@@ -29,10 +29,15 @@ import ca.alexland.renewpass.model.Callback;
 import ca.alexland.renewpass.model.Status;
 import ca.alexland.renewpass.schools.BCIT;
 import ca.alexland.renewpass.schools.CapilanoUniversity;
+import ca.alexland.renewpass.schools.DouglasCollege;
+import ca.alexland.renewpass.schools.EmilyCarrUniversity;
+import ca.alexland.renewpass.schools.KwantlenUniversity;
 import ca.alexland.renewpass.schools.LangaraCollege;
+import ca.alexland.renewpass.schools.NVIT;
 import ca.alexland.renewpass.schools.School;
 import ca.alexland.renewpass.schools.SimonFraserUniversity;
 import ca.alexland.renewpass.schools.UniversityOfBritishColumbia;
+import ca.alexland.renewpass.schools.VancouverCommunityCollege;
 import ca.alexland.renewpass.views.LoadingFloatingActionButton;
 
 /**
@@ -56,16 +61,26 @@ public class UPassLoader {
 
     private static School makeNewSchool(String schoolID) {
         switch(schoolID) {
-            case "SFU":
-                return new SimonFraserUniversity();
-            case "UBC":
-                return new UniversityOfBritishColumbia();
             case "BCIT":
                 return new BCIT();
             case "Cap U":
                 return new CapilanoUniversity();
+            case "Douglas":
+                return new DouglasCollege();
+            case "Emily Carr":
+                return new EmilyCarrUniversity();
+            case "Kwantlen":
+                return new KwantlenUniversity();
             case "Langara":
                 return new LangaraCollege();
+            case "NVIT":
+                return new NVIT();
+            case "SFU":
+                return new SimonFraserUniversity();
+            case "UBC":
+                return new UniversityOfBritishColumbia();
+            case "VCC":
+                return new VancouverCommunityCollege();
             default:
                 return null;
         }
