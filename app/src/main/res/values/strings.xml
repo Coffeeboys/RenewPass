@@ -16,8 +16,8 @@
     <string name="preference_notificationsenabled_title">Renewal Notifications</string>
     <string name="preference_notificationsenabled_description" />
     <string name="title_activity_intro">IntroActivity</string>
-    <string name = "username_hint">Enter your username</string>
-    <string name = "password_hint">Enter your password</string>
+    <string name="username_hint">Enter your username</string>
+    <string name="password_hint">Enter your password</string>
     <string name="enter_credentials_prompt">To get started, enter your credentials</string>
     <string name="provider_hint">Select your school</string>
     <string name="app_description">Renew your U-pass with the press of a button</string>
@@ -33,4 +33,7 @@
         <item>SFU</item>
         <item>UBC</item>
     </string-array>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="school_select">Select your school</string>
+    <string name="notifications_disabled">You have disabled notifications</string>
 </resources>

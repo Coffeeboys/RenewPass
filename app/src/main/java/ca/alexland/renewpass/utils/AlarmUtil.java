@@ -13,6 +13,10 @@ import java.util.Calendar;
  * Created by AlexLand on 2016-01-14.
  */
 public class AlarmUtil {
+    /**
+     * If urgent is true, Sets the alarm for the next month as per the date from preferences, else
+     * sets an alarm for each day
+     */
     public static void setAlarm(Context context, boolean urgent) {
         PreferenceHelper preferenceHelper = new PreferenceHelper(context);
         Bundle bundle = new Bundle();
