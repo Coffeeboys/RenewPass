@@ -18,7 +18,7 @@ import android.widget.EditText;
 
 import ca.alexland.renewpass.model.Callback;
 import ca.alexland.renewpass.model.Status;
-import ca.alexland.renewpass.utils.AlarmUtil;
+import ca.alexland.renewpass.utils.LoggerUtil;
 import ca.alexland.renewpass.views.LoadingFloatingActionButton;
 import ca.alexland.renewpass.utils.DrawableUtil;
 import ca.alexland.renewpass.utils.PreferenceHelper;
@@ -34,9 +34,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        this.preferenceHelper = new PreferenceHelper(getApplicationContext());
+        // Clear the log on start
+        LoggerUtil.deleteLog(getApplicationContext());
+
+        this.preferenceHelper = PreferenceHelper.getInstance(getApplicationContext());
         startIntroActivity();
-        // doFirstRun();
 
         final LoadingFloatingActionButton loadingFab = (LoadingFloatingActionButton) findViewById(R.id.loading_fab);
         loadingFab.setOnClickListener(new View.OnClickListener() {
@@ -54,57 +56,6 @@ public class MainActivity extends AppCompatActivity {
         if (failureIcon != null) {
             DrawableUtil.tint(failureIcon, Color.WHITE);
         }
-    }
-
-    private void doFirstRun() {
-        boolean firstRun = preferenceHelper.getFirstRun();
-        if (firstRun) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Add Username");
-
-            final EditText usernameInput = new EditText(this);
-            usernameInput.setInputType(InputType.TYPE_CLASS_TEXT);
-            builder.setView(usernameInput)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            preferenceHelper.setUsername(usernameInput.getText().toString());
-                            makePasswordPopup();
-                        }
-                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            }).show();
-
-            if (preferenceHelper.credentialsEntered()) {
-                preferenceHelper.setFirstRun(false);
-                preferenceHelper.setupKeys(getApplicationContext());
-                AlarmUtil.setAlarm(getApplicationContext(), false);
-            }
-        }
-    }
-
-    private void makePasswordPopup() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setTitle("Add Password");
-
-        final EditText passwordInput = new EditText(this);
-        passwordInput.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        builder.setView(passwordInput)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        preferenceHelper.setPassword(passwordInput.getText().toString());
-                    }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        }).show();
     }
 
     @Override
@@ -178,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
 
         Thread introActivityThread = new Thread(new Runnable() {
             @Override
-            public void run() {
-                PreferenceHelper preferences = new PreferenceHelper(MainActivity.this);
+            public void run(){
+                PreferenceHelper preferences = PreferenceHelper.getInstance(MainActivity.this);
 
                 boolean credentialsEntered = preferences.credentialsEntered();
 

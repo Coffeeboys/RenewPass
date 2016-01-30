@@ -22,9 +22,13 @@ import android.util.Base64;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
@@ -85,6 +89,7 @@ public class KeyStoreUtil {
                 return true;
             }
             catch(Exception e) {
+                LoggerUtil.appendLogWithStacktrace(context, "Key generation failed: ", e);
                 return false;
             }
         }
@@ -118,7 +123,7 @@ public class KeyStoreUtil {
             return Base64.encodeToString(vals, Base64.DEFAULT);
         }
         catch(Exception e) {
-            throw new EncryptionFailedException();
+            throw new EncryptionFailedException(e);
         }
     }
 
@@ -128,10 +133,9 @@ public class KeyStoreUtil {
             keyStore.load(null);
 
             KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry)keyStore.getEntry(mAlias, null);
-            RSAPrivateKey privateKey = (RSAPrivateKey) privateKeyEntry.getPrivateKey();
 
-            Cipher output = Cipher.getInstance("RSA/ECB/PKCS1Padding", "AndroidOpenSSL");
-            output.init(Cipher.DECRYPT_MODE, privateKey);
+            Cipher output = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            output.init(Cipher.DECRYPT_MODE, privateKeyEntry.getPrivateKey());
 
             CipherInputStream cipherInputStream = new CipherInputStream(
                     new ByteArrayInputStream(Base64.decode(encryptedPassword, Base64.DEFAULT)), output);
@@ -149,11 +153,23 @@ public class KeyStoreUtil {
             return new String(bytes, 0, bytes.length, "UTF-8");
 
         } catch (Exception e) {
-            throw new DecryptionFailedException();
+            throw new DecryptionFailedException(e);
         }
     }
 
     public void setAlias(String alias) {
         mAlias = alias;
+    }
+
+    public boolean keysExist() {
+        KeyStore.Entry entry = null;
+        try {
+            KeyStore keyStore = KeyStore.getInstance(SecurityConstants.KEYSTORE_PROVIDER_ANDROID_KEYSTORE);
+            keyStore.load(null);
+            entry = keyStore.getEntry(mAlias, null);
+        } catch (Exception e) {
+            return false;
+        }
+        return entry != null;
     }
 }

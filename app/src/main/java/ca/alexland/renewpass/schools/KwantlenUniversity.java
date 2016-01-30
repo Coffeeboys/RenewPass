@@ -11,28 +11,29 @@ import ca.alexland.renewpass.exceptions.SchoolAuthenticationFailedException;
 import ca.alexland.renewpass.utils.LoggerUtil;
 
 /**
- * Created by AlexLand on 2015-12-30.
+ * Created by eyqs on 2016-01-27.
  */
-public class SimonFraserUniversity implements School {
-    public final String ID = "sfu";
+public class KwantlenUniversity implements School{
+    public final String ID = "ku";
 
     @Override
     public HtmlDocument login(HtmlDocument authPage, String username, String password, Context context) throws SchoolAuthenticationFailedException {
-        Form authForm = authPage.form("fm1");
+        Form authForm = authPage.forms().get(0);    // form has no id or name
 
         Text usernameField = (Text) authForm.get("username");
         Password passwordField = (Password) authForm.get("password");
 
         usernameField.setValue(username);
         passwordField.setValue(password);
-        HtmlDocument sfuRedirect = authForm.submit();
+        HtmlDocument kuRedirect = authForm.submit();
 
         HtmlDocument submittedPage;
         try {
-            HtmlDocument translinkRedirect = sfuRedirect.forms().get(0).submit();
+            HtmlDocument translinkRedirect = kuRedirect.forms().get(0).submit();
             LoggerUtil.appendLog(context, "translinkRedirect: " + translinkRedirect.getUri());
             submittedPage = translinkRedirect.forms().get(0).submit();
             LoggerUtil.appendLog(context, "submittedPage: " + submittedPage.getUri());
+
         }
         catch (Exception e) {
             throw new SchoolAuthenticationFailedException(e);
@@ -45,6 +46,7 @@ public class SimonFraserUniversity implements School {
         }
     }
 
+    @Override
     public String getID() {
         return this.ID;
     }

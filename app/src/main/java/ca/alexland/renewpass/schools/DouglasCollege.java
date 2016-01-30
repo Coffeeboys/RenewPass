@@ -11,28 +11,29 @@ import ca.alexland.renewpass.exceptions.SchoolAuthenticationFailedException;
 import ca.alexland.renewpass.utils.LoggerUtil;
 
 /**
- * Created by AlexLand on 2015-12-30.
+ * Created by eyqs on 2016-01-27.
  */
-public class SimonFraserUniversity implements School {
-    public final String ID = "sfu";
+public class DouglasCollege implements School{
+    public final String ID = "dc";
 
     @Override
     public HtmlDocument login(HtmlDocument authPage, String username, String password, Context context) throws SchoolAuthenticationFailedException {
-        Form authForm = authPage.form("fm1");
+        Form authForm = authPage.form("aspnetForm");
 
-        Text usernameField = (Text) authForm.get("username");
-        Password passwordField = (Password) authForm.get("password");
+        Text usernameField = (Text) authForm.get("ctl00$ContentPlaceHolder1$UsernameTextBox");
+        Password passwordField = (Password) authForm.get("ctl00$ContentPlaceHolder1$PasswordTextBox");
 
         usernameField.setValue(username);
         passwordField.setValue(password);
-        HtmlDocument sfuRedirect = authForm.submit();
+        HtmlDocument dcRedirect = authForm.submit();
 
         HtmlDocument submittedPage;
         try {
-            HtmlDocument translinkRedirect = sfuRedirect.forms().get(0).submit();
+            HtmlDocument translinkRedirect = dcRedirect.forms().get(0).submit();
             LoggerUtil.appendLog(context, "translinkRedirect: " + translinkRedirect.getUri());
             submittedPage = translinkRedirect.forms().get(0).submit();
             LoggerUtil.appendLog(context, "submittedPage: " + submittedPage.getUri());
+
         }
         catch (Exception e) {
             throw new SchoolAuthenticationFailedException(e);
@@ -45,6 +46,7 @@ public class SimonFraserUniversity implements School {
         }
     }
 
+    @Override
     public String getID() {
         return this.ID;
     }

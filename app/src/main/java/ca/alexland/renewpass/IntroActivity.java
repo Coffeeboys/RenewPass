@@ -5,10 +5,14 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.method.PasswordTransformationMethod;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,23 +28,6 @@ import ca.alexland.renewpass.utils.AlarmUtil;
 import ca.alexland.renewpass.utils.PreferenceHelper;
 
 public class IntroActivity extends AppIntro2 {
-
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_intro);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    }*/
 
     @Override
     public void onBackPressed() {
@@ -69,11 +56,26 @@ public class IntroActivity extends AppIntro2 {
         return new Fragment() {
             @Override
             public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-                return inflater.inflate(R.layout.credential_slide, container, false);
+                View view = inflater.inflate(R.layout.credential_slide, container, false);
+                
+                final EditText editText = (EditText) view.findViewById(R.id.password_field);
+
+                CheckBox checkBox = (CheckBox) view.findViewById(R.id.password_checkbox);
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            editText.setTransformationMethod(null);
+                        } else {
+                            editText.setTransformationMethod(new PasswordTransformationMethod());
+                        }
+                    }
+                });
+
+                return view;
             }
         };
     }
-
     @Override
     public void onNextPressed() {
 
@@ -115,12 +117,11 @@ public class IntroActivity extends AppIntro2 {
         }
 
         if (isValid) {
-            PreferenceHelper preferenceHelper = new PreferenceHelper(this);
+            PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(this);
             preferenceHelper.setUsername(usernameString);
+            preferenceHelper.setupEncryption(getApplicationContext());
             preferenceHelper.setPassword(passwordString);
             preferenceHelper.setSchool(schoolString);
-            preferenceHelper.setupKeys(getApplicationContext());
-            AlarmUtil.setAlarm(getApplicationContext(), false);
             finish();
         }
     }
@@ -134,5 +135,16 @@ public class IntroActivity extends AppIntro2 {
     @Override
     public void onSlideChanged() {
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        // Don't let the user back out of the intro, they need to enter credentials.
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            return true;
+        }
+        else {
+            return super.onKeyDown(keyCode, event);
+        }
     }
 }

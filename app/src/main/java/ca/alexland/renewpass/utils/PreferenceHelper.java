@@ -4,29 +4,38 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import java.util.Calendar;
+import ca.alexland.renewpass.exceptions.DecryptionFailedException;
+import ca.alexland.renewpass.exceptions.EncryptionFailedException;
 
 /**
  * Created by AlexLand on 2015-12-30.
  */
 public class PreferenceHelper {
-    private static final String RENEWPASS_PREFERENCES = "RenewPass Preferences";
-    private static final String FIRST_RUN_PREFERENCE = "First Run";
-    private static final String SCHOOL_PREFERENCE = "School";
-    private static final String USERNAME_PREFERENCE = "Username";
-    private static final String PASSWORD_PREFERENCE = "Password";
-    public static final String NOTIFICATION_DATE_PREFERENCE = "NotificationDate";
-    public static final String NOTIFICATIONS_ENABLED_PREFERENCE = "NotificationsEnabled";
+    public static final String FIRST_RUN_PREFERENCE = "First Run";
+    public static final String SCHOOL_PREFERENCE = "School";
+    public static final String USERNAME_PREFERENCE = "Username";
+    public static final String PASSWORD_PREFERENCE = "Password";
+    public static final String PREFERENCE_KEY_ALIAS = "KeyAlias";
 
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
     private KeyStoreUtil keyStoreUtil;
     private boolean keysExist;
-    private boolean preference;
+    private boolean passwordEncrypted;
+    private static PreferenceHelper instance = null;
+    private Context context;
 
-    public PreferenceHelper(Context context) {
+    private PreferenceHelper(Context context) {
+        this.context = context;
         this.settings = PreferenceManager.getDefaultSharedPreferences(context);
         this.editor = settings.edit();
+    }
+
+    public static PreferenceHelper getInstance(Context context) {
+        if (instance == null) {
+            instance = new PreferenceHelper(context);
+        }
+        return instance;
     }
 
     public boolean getFirstRun() {
@@ -43,8 +52,16 @@ public class PreferenceHelper {
     }
 
     public String getPassword() {
-        // TODO: Decrypt password
-        return settings.getString(PASSWORD_PREFERENCE, "");
+        String password = settings.getString(PASSWORD_PREFERENCE, "");
+        if (keysExist && passwordEncrypted) {
+            try {
+                password = keyStoreUtil.decryptPassword(password);
+            } catch (DecryptionFailedException e) {
+                // TODO: Deal with failure, possibly ask for credentials and fall back to unencrypted?
+                LoggerUtil.appendLogWithStacktrace(context, "Password decryption failed: ", e.getOriginalException());
+            }
+        }
+        return password;
     }
 
     public String getSchool() {
@@ -57,7 +74,16 @@ public class PreferenceHelper {
     }
 
     public void setPassword(String password) {
-        // TODO: Encrypt password
+        if (keysExist) {
+            try {
+                password = keyStoreUtil.encryptPassword(password);
+                passwordEncrypted = true;
+            } catch (EncryptionFailedException e) {
+                // TODO: Notify user of failed encryption
+                LoggerUtil.appendLogWithStacktrace(context, "Password encryption failed: ", e.getOriginalException());
+                passwordEncrypted = false;
+            }
+        }
         editor.putString(PASSWORD_PREFERENCE, password);
         editor.commit();
     }
@@ -71,27 +97,29 @@ public class PreferenceHelper {
         return !getUsername().equals("") && !getPassword().equals("");
     }
 
-    public void setupKeys(Context context) {
-        this.keyStoreUtil = new KeyStoreUtil(this.getUsername());
+    private void setupKeys(Context context) {
         keysExist = keyStoreUtil.createKeys(context);
     }
 
-    public Calendar getDate() {
-        String dateVal = settings.getString(NOTIFICATION_DATE_PREFERENCE, "2016-01-21");
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = getDay(dateVal);
-        cal.set(year, month, day);
-        return cal;
+    public void setupEncryption(Context context) {
+        String alias = getKeyAlias();
+        if (alias.equals("")) {
+            alias = this.getUsername();
+            setKeyAlias(alias);
+        }
+        this.keyStoreUtil = new KeyStoreUtil(alias);
+        keysExist = keyStoreUtil.keysExist();
+        if (!keysExist) {
+            setupKeys(context);
+        }
     }
 
-    private int getDay(String dateval) {
-        String[] pieces = dateval.split("-");
-        return (Integer.parseInt(pieces[2]));
+    private String getKeyAlias() {
+        return settings.getString(PREFERENCE_KEY_ALIAS, "");
     }
 
-    public boolean getNotificationsEnabled() {
-        return settings.getBoolean(NOTIFICATIONS_ENABLED_PREFERENCE, false);
+    private void setKeyAlias(String alias) {
+        editor.putString(PREFERENCE_KEY_ALIAS, alias);
+        editor.commit();
     }
 }

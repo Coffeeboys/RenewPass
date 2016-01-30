@@ -10,7 +10,7 @@
             android:dialogTitle="@string/preference_username"
             android:inputType="text"/>
 
-        <EditTextPreference
+        <ca.alexland.renewpass.PasswordPreference
             android:key="Password"
             android:title="@string/preference_password"
             android:summary="@string/preference_password_description"
@@ -26,26 +26,18 @@
             android:entryValues="@array/school_list"/>
 
         <Preference
-            android:key="Reset"
-            android:title="@string/preference_reset"
-            android:summary="@string/preference_reset_description"/>
+            android:key="Credits"
+            android:title="@string/preference_credits"/>
 
-    </PreferenceCategory>
+        <Preference
+            android:key="Licenses"
+            android:title="@string/preference_licenses"/>
 
-    <PreferenceCategory
-        android:title="@string/preference_header_notifications">
+        <Preference
+            android:key="Debug"
+            android:title="@string/preference_debug"/>
 
-        <CheckBoxPreference
-            android:key="NotificationsEnabled"
-            android:title="@string/preference_notificationsenabled_title"
-            android:summary="@string/preference_notificationsenabled_description"/>
-
-        <ca.alexland.renewpass.DatePreference
-            android:key="NotificationDate"
-            android:dependency="NotificationsEnabled"
-            android:title="@string/preference_notificationdate_title"
-            android:defaultValue="2016-01-21"
-            android:summary="@string/preference_notificationdate_description"/>
+        <!--TODO: Add Reset preference-->
 
     </PreferenceCategory>
 
