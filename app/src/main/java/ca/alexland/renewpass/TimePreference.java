@@ -13,27 +13,25 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import ca.alexland.renewpass.interfaces.IPreference;
 import ca.alexland.renewpass.utils.SimpleTimeFormat;
 
 /**
  * Created by Trevor on 1/21/2016.
  * A Time Preference for use when setting the default time for
  */
-public class TimePreference extends DialogPreference implements IPreference {
-    //default value to be used if no default value is set from xml
-    public static final String DEFAULT_VALUE = "00:00";
+public class TimePreference extends DialogPreference {
 
     private Calendar calendar;
     private TimePickerCompat timePicker;
-    private PreferenceSelectedListener preferenceSelectedListener;
+    private String defaultValue;
 
     public TimePreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
-    private void init() {
+    private void init(Context context) {
+        defaultValue = context.getString(R.string.preference_value_notification_default_time);
         setPositiveButtonText(getContext().getResources().getString(R.string.preference_dialog_button_positive));
         setNegativeButtonText(getContext().getResources().getString(R.string.preference_dialog_button_negative));
         calendar = new GregorianCalendar();
@@ -66,13 +64,13 @@ public class TimePreference extends DialogPreference implements IPreference {
             //if somehow, this fails, set it to the default (specified in xml).
             //if the default isn't specified, set it to the hardcoded default value
             if (xmlDefaultValue == null) {
-                timeVal = getPersistedString(DEFAULT_VALUE);
+                timeVal = getPersistedString(defaultValue);
             } else {
                 timeVal = getPersistedString((String) xmlDefaultValue);
             }
         } else {
             if (xmlDefaultValue == null) {
-                timeVal = DEFAULT_VALUE;
+                timeVal = defaultValue;
             } else {
                 timeVal = (String) xmlDefaultValue;
             }
@@ -93,9 +91,6 @@ public class TimePreference extends DialogPreference implements IPreference {
             if (callChangeListener(calendar.getTimeInMillis())) {
                 setTime();
             }
-            if (preferenceSelectedListener != null) {
-                preferenceSelectedListener.onPreferenceSelected();
-            }
         }
     }
 
@@ -113,10 +108,6 @@ public class TimePreference extends DialogPreference implements IPreference {
                 calendar.get(Calendar.MINUTE))
                 .toString());
         notifyChanged();
-    }
-
-    public void setPreferenceSelectedListener(PreferenceSelectedListener preferenceSelectedListener) {
-        this.preferenceSelectedListener = preferenceSelectedListener;
     }
 
     //-----------------------Gross sub-class--------------------------------------------------------

@@ -40,18 +40,20 @@
             android:title="@string/preference_notificationsenabled_title"
             android:summary="@string/preference_notificationsenabled_description"/>
 
-        <ca.alexland.renewpass.DatePreference
+        <ListPreference
             android:key="@string/preference_key_notification_date"
             android:dependency="NotificationsEnabled"
             android:title="@string/preference_notificationdate_title"
-            android:defaultValue="2016-01-21"
+            android:entries="@array/date_list"
+            android:entryValues="@array/date_list"
+            android:defaultValue="@string/preference_value_notification_default_date"
             android:summary="@string/preference_notificationdate_description"/>
         <ca.alexland.renewpass.TimePreference
             android:key="@string/preference_key_notification_time"
             android:dependency="NotificationsEnabled"
             android:title="@string/preference_notificationtime_title"
             android:summary="@string/preference_notificationtime_description"
-            android:defaultValue="00:00"/>
+            android:defaultValue="@string/preference_value_notification_default_time"/>
 
     </PreferenceCategory>
 

@@ -43,10 +43,26 @@
     <string name="preference_key_notifications_enabled">NotificationsEnabled</string>
     <string name="preference_key_notification_date">NotificationDate</string>
     <string name="preference_key_notification_time">NotificationTime</string>
-
+    <string name="preference_value_notification_default_time">00:00</string>
+    <string name="preference_value_notification_default_date">21</string>
 
     <string-array name="school_list">
         <item>SFU</item>
         <item>UBC</item>
+    </string-array>
+
+    <string-array name="date_list">
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
     </string-array>
 </resources>

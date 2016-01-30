@@ -1,13 +1,9 @@
 package ca.alexland.renewpass;
 
-import android.app.AlarmManager;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
-
-import ca.alexland.renewpass.interfaces.IPreference;
 import ca.alexland.renewpass.utils.AlarmUtil;
 import ca.alexland.renewpass.utils.PreferenceHelper;
 
@@ -20,38 +16,48 @@ public class SettingsActivity extends PreferenceActivity
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
     }
 
-    public static class SettingsFragment extends PreferenceFragment implements IPreference.PreferenceSelectedListener
+    public static class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener
     {
+        private String preferenceKeyNotificationsEnabled;
+        private String preferenceKeyNotificationDate;
+        private String preferenceKeyNotificationTime;
+        private PreferenceHelper preferenceHelper;
+
         @Override
         public void onCreate(final Bundle savedInstanceState)
         {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
-            final CheckBoxPreference checkBoxPreference = (CheckBoxPreference) findPreference(getActivity().getString(R.string.preference_key_notifications_enabled));
-            checkBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object o) {
-                    if (checkBoxPreference.isChecked()) {
-                        AlarmUtil.setAlarm(getActivity(), false);
-                    } else {
-                        AlarmUtil.cancelAlarm(getActivity());
-                    }
-                    //update the preference value as usual
-                    return true;
-                }
-            });
-            ((IPreference)findPreference(
-                    getActivity().getString(R.string.preference_key_notification_date)))
-                    .setPreferenceSelectedListener(this);
-            ((IPreference)findPreference(
-                    getActivity().getString(R.string.preference_key_notification_time)))
-                    .setPreferenceSelectedListener(this);
+
+            preferenceKeyNotificationsEnabled = getActivity().getString(R.string.preference_key_notifications_enabled);
+            preferenceKeyNotificationDate = getActivity().getString(R.string.preference_key_notification_date);
+            preferenceKeyNotificationTime = getActivity().getString(R.string.preference_key_notification_time);
+
+            preferenceHelper = new PreferenceHelper(getActivity());
         }
 
         @Override
-        public void onPreferenceSelected() {
-            if (System.currentTimeMillis() < new PreferenceHelper(getActivity()).getDate().getTimeInMillis()) {
-                AlarmUtil.setAlarm(getActivity(), false);
+        public void onResume() {
+            super.onResume();
+            getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+            getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        }
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if (key.equals(preferenceKeyNotificationsEnabled) ||
+                    key.equals(preferenceKeyNotificationDate) ||
+                    key.equals(preferenceKeyNotificationTime)) {
+                if (preferenceHelper.getNotificationsEnabled()) {
+                    AlarmUtil.setAlarm(getActivity(), false);
+                } else {
+                    AlarmUtil.cancelAlarm(getActivity());
+                }
             }
         }
     }

@@ -25,7 +25,7 @@ public class AlarmUtil {
             setAlarm(context, System.currentTimeMillis() + AlarmManager.INTERVAL_DAY, pendingIntent);
         }
         else {
-            Calendar cal = preferenceHelper.getDate();
+            Calendar cal = preferenceHelper.getNextNotificationDate();
             Toast.makeText(context, "Setting Alarm for" +
                     " Date: " + cal.get(Calendar.DATE) +
                     " Hour: " + cal.get(Calendar.HOUR_OF_DAY) +
@@ -37,7 +37,7 @@ public class AlarmUtil {
     public static void setAlarmNextMonth(Context context) {
         PreferenceHelper preferenceHelper = new PreferenceHelper(context);
         PendingIntent pendingIntent = createPendingIntent(context, preferenceHelper);
-        Calendar cal = preferenceHelper.getDate();
+        Calendar cal = preferenceHelper.getNextNotificationDate();
         setAlarm(context, CalendarUtil.getNextMonthTimeInMillis(cal.getTimeInMillis()), pendingIntent);
     }
 

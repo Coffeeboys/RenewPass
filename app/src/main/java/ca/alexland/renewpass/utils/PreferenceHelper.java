@@ -68,25 +68,30 @@ public class PreferenceHelper {
         keysExist = keyStoreUtil.createKeys(context);
     }
 
-    public Calendar getDate() {
-        String dateVal = settings.getString(context.getString(R.string.preference_key_notification_date), "2016-01-21");
+    public Calendar getNextNotificationDate() {
+        String dateVal = settings.getString(
+                context.getString(R.string.preference_key_notification_date),
+                context.getString(R.string.preference_value_notification_default_date));
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
-        int day = getDay(dateVal);
+        int day = Integer.parseInt(dateVal);
 
-        String timeVal = settings.getString(context.getString(R.string.preference_key_notification_time), TimePreference.DEFAULT_VALUE);
+        String timeVal = settings.getString(
+                context.getString(R.string.preference_key_notification_time),
+                context.getString(R.string.preference_value_notification_default_time));
         SimpleTimeFormat simpleTimeFormat = new SimpleTimeFormat(timeVal);
         int hour = simpleTimeFormat.getHour();
         int minute = simpleTimeFormat.getMinute();
 
         cal.set(year, month, day, hour, minute);
-        return cal;
-    }
 
-    private int getDay(String dateval) {
-        String[] pieces = dateval.split("-");
-        return (Integer.parseInt(pieces[2]));
+        boolean hasDateAlreadyPassed = System.currentTimeMillis() > cal.getTimeInMillis();
+        if (hasDateAlreadyPassed) {
+            cal.setTimeInMillis(CalendarUtil.getNextMonthTimeInMillis(cal.getTimeInMillis()));
+        }
+
+        return cal;
     }
 
     public boolean getNotificationsEnabled() {
