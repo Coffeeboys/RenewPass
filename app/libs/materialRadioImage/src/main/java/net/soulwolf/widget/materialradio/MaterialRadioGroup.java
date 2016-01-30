@@ -18,9 +18,12 @@ package net.soulwolf.widget.materialradio;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Point;
 import android.util.AttributeSet;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.LinearLayout;
@@ -33,6 +36,7 @@ import net.soulwolf.widget.materialradio.utils.Utils;
  * author : Soulwolf Create by 2015/7/15 15:11
  * email  : ToakerQin@gmail.com.
  */
+
 public class MaterialRadioGroup extends LinearLayout {
 
 
@@ -344,5 +348,6 @@ public class MaterialRadioGroup extends LinearLayout {
             }
         }
     }
-
 }
+
+

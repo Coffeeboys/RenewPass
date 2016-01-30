@@ -87,18 +87,11 @@ public class IntroActivity extends AppIntro2 {
         EditText username = (EditText) findViewById(R.id.username_field);
         EditText password = (EditText) findViewById(R.id.password_field);
 
-        String schoolString;
+        String schoolString = null;
         int id = mrg.getCheckedRadioButtonId();
-        switch (id) {
-            case R.id.rb_sfu:
-                schoolString = "SFU";
-                break;
-            case R.id.rb_ubc:
-                schoolString = "UBC";
-                break;
-            default:
-                schoolString = null;
-                break;
+        if (id != -1) {
+            MaterialRadioButton rb = (MaterialRadioButton) findViewById(id);
+            schoolString = rb.getText().toString();
         }
 
 
