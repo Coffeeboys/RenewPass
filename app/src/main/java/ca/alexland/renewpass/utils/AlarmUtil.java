@@ -22,7 +22,7 @@ public class AlarmUtil {
         //TODO: delete debug toast messages
         if (urgent) {
             Toast.makeText(context, "Setting alarm to be checked again in a day", Toast.LENGTH_LONG).show();
-            setAlarm(context, System.currentTimeMillis() + AlarmManager.INTERVAL_DAY, pendingIntent);
+            setAlarm(context, System.currentTimeMillis() + AlarmManager.INTERVAL_DAY, pendingIntent, preferenceHelper);
         }
         else {
             Calendar cal = preferenceHelper.getNextNotificationDate();
@@ -30,7 +30,7 @@ public class AlarmUtil {
                     " Date: " + cal.get(Calendar.DATE) +
                     " Hour: " + cal.get(Calendar.HOUR_OF_DAY) +
                     " Minute: " + cal.get(Calendar.MINUTE), Toast.LENGTH_LONG).show();
-            setAlarm(context, cal.getTimeInMillis(), pendingIntent);
+            setAlarm(context, cal.getTimeInMillis(), pendingIntent, preferenceHelper);
         }
     }
 
@@ -38,14 +38,21 @@ public class AlarmUtil {
         PreferenceHelper preferenceHelper = new PreferenceHelper(context);
         PendingIntent pendingIntent = createPendingIntent(context, preferenceHelper);
         Calendar cal = preferenceHelper.getNextNotificationDate();
-        setAlarm(context, CalendarUtil.getNextMonthTimeInMillis(cal.getTimeInMillis()), pendingIntent);
+        setAlarm(context, CalendarUtil.getNextMonthTimeInMillis(cal.getTimeInMillis()), pendingIntent, preferenceHelper);
     }
 
-    private static void setAlarm(Context context, long timeInMillis, PendingIntent pendingIntent) {
+    public static void setAlarmAtTime(Context context, long timeInMillis) {
+        PreferenceHelper preferenceHelper = new PreferenceHelper(context);
+        PendingIntent pendingIntent = createPendingIntent(context, preferenceHelper);
+        setAlarm(context, timeInMillis, pendingIntent, preferenceHelper);
+    }
+
+    private static void setAlarm(Context context, long timeInMillis, PendingIntent pendingIntent, PreferenceHelper preferenceHelper) {
         AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP,
                 timeInMillis,
                 pendingIntent);
+        preferenceHelper.setLastScheduledNotificationTime(timeInMillis);
     }
 
     public static void cancelAlarm(Context context) {

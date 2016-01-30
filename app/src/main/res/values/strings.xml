@@ -43,6 +43,7 @@
     <string name="preference_key_notifications_enabled">NotificationsEnabled</string>
     <string name="preference_key_notification_date">NotificationDate</string>
     <string name="preference_key_notification_time">NotificationTime</string>
+    <string name="preference_key_notification_last_scheduled">NotificationLastScheduled</string>
     <string name="preference_value_notification_default_time">00:00</string>
     <string name="preference_value_notification_default_date">21</string>
 

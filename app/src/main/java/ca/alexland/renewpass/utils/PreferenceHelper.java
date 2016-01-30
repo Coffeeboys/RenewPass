@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import java.util.Calendar;
 
 import ca.alexland.renewpass.R;
-import ca.alexland.renewpass.TimePreference;
 
 /**
  * Created by AlexLand on 2015-12-30.
@@ -15,7 +14,8 @@ import ca.alexland.renewpass.TimePreference;
 public class PreferenceHelper {
     //TODO: perhaps find a better place for this extra variable such as a notification util class
     public static final String EXTRA_NOTIFICATIONS_ENABLED = "EXTRA_NOTIFICATIONS_ENABLED";
-    private static final String DEFAULT_VALUE = "";
+    private static final String DEFAULT_VALUE_STRING = "";
+    private static final long DEFAULT_VALUE_LONG = -1;
 
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
@@ -31,16 +31,16 @@ public class PreferenceHelper {
     }
 
     public String getUsername() {
-        return settings.getString(context.getString(R.string.preference_key_username), DEFAULT_VALUE);
+        return settings.getString(context.getString(R.string.preference_key_username), DEFAULT_VALUE_STRING);
     }
 
     public String getPassword() {
         // TODO: Decrypt password
-        return settings.getString(context.getString(R.string.preference_key_password), DEFAULT_VALUE);
+        return settings.getString(context.getString(R.string.preference_key_password), DEFAULT_VALUE_STRING);
     }
 
     public String getSchool() {
-        return settings.getString(context.getString(R.string.preference_key_School), DEFAULT_VALUE);
+        return settings.getString(context.getString(R.string.preference_key_School), DEFAULT_VALUE_STRING);
     }
 
     public void setUsername(String username) {
@@ -60,12 +60,20 @@ public class PreferenceHelper {
     }
 
     public boolean credentialsEntered() {
-        return !getUsername().equals(DEFAULT_VALUE) && !getPassword().equals(DEFAULT_VALUE);
+        return !getUsername().equals(DEFAULT_VALUE_STRING) && !getPassword().equals(DEFAULT_VALUE_STRING);
     }
 
     public void setupKeys(Context context) {
         this.keyStoreUtil = new KeyStoreUtil(this.getUsername());
         keysExist = keyStoreUtil.createKeys(context);
+    }
+
+    public void setLastScheduledNotificationTime(long timeInMillis) {
+        editor.putLong(context.getString(R.string.preference_key_notification_last_scheduled), timeInMillis);
+    }
+
+    public long getLastScheduledNotificationTime() {
+        return settings.getLong(context.getString(R.string.preference_key_notification_last_scheduled), DEFAULT_VALUE_LONG);
     }
 
     public Calendar getNextNotificationDate() {

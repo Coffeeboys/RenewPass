@@ -22,27 +22,36 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
         Toast.makeText(context, "Received!", Toast.LENGTH_LONG).show();
-        final PendingResult pendingResult = goAsync();
-        final boolean notificationsEnabled = intent.getBooleanExtra(PreferenceHelper.EXTRA_NOTIFICATIONS_ENABLED, false);
-        UPassLoader.checkUPassAvailable(context, new Callback() {
-            @Override
-            public void onUPassLoaded(Status result) {
-                if (result.getStatusText().equals(Status.UPASS_AVAILABLE) ||
-                        result.getStatusText().equals(Status.NOTHING_TO_RENEW)) {
-                    if (notificationsEnabled) {
-                        showSuccessNotification(context);
-                        AlarmUtil.setAlarmNextMonth(context);
-                    }
+        switch(intent.getAction()) {
+            case Intent.ACTION_BOOT_COMPLETED :
+                PreferenceHelper preferenceHelper = new PreferenceHelper(context);
+                if (preferenceHelper.getNotificationsEnabled()) {
+                    AlarmUtil.setAlarmAtTime(context, preferenceHelper.getLastScheduledNotificationTime());
                 }
-                else {
-                    if (notificationsEnabled) {
-                        showFailureNotification(context);
+                break;
+            default:
+                final PendingResult pendingResult = goAsync();
+                final boolean notificationsEnabled = intent.getBooleanExtra(PreferenceHelper.EXTRA_NOTIFICATIONS_ENABLED, false);
+                UPassLoader.checkUPassAvailable(context, new Callback() {
+                    @Override
+                    public void onUPassLoaded(Status result) {
+                        if (result.getStatusText().equals(Status.UPASS_AVAILABLE) ||
+                                result.getStatusText().equals(Status.NOTHING_TO_RENEW)) {
+                            if (notificationsEnabled) {
+                                showSuccessNotification(context);
+                                AlarmUtil.setAlarmNextMonth(context);
+                            }
+                        }
+                        else {
+                            if (notificationsEnabled) {
+                                showFailureNotification(context);
+                            }
+                            AlarmUtil.setAlarm(context, true);
+                        }
+                        pendingResult.finish();
                     }
-                    AlarmUtil.setAlarm(context, true);
-                }
-                pendingResult.finish();
-            }
-        });
+                });
+        }
     }
 
     private void showSuccessNotification(Context context) {
