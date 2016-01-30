@@ -6,28 +6,45 @@ import android.preference.PreferenceManager;
 
 import java.util.Calendar;
 
+import ca.alexland.renewpass.exceptions.DecryptionFailedException;
+import ca.alexland.renewpass.exceptions.EncryptionFailedException;
+
 import ca.alexland.renewpass.R;
 
 /**
  * Created by AlexLand on 2015-12-30.
  */
 public class PreferenceHelper {
-    //TODO: perhaps find a better place for this extra variable such as a notification util class
+    //TODO: replace this with a string resource
+    public static final String PREFERENCE_KEY_ALIAS = "KeyAlias";
+
     public static final String EXTRA_NOTIFICATIONS_ENABLED = "EXTRA_NOTIFICATIONS_ENABLED";
     private static final String DEFAULT_VALUE_STRING = "";
     private static final long DEFAULT_VALUE_LONG = -1;
 
+//    public static final String NOTIFICATION_DATE_PREFERENCE = "NotificationDate";
+//    public static final String NOTIFICATIONS_ENABLED_PREFERENCE = "NotificationsEnabled";
+
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
     private KeyStoreUtil keyStoreUtil;
-    private Context context;
     private boolean keysExist;
-    private boolean preference;
+    private boolean passwordEncrypted;
+    private static PreferenceHelper instance = null;
+    private Context context;
 
-    public PreferenceHelper(Context context) {
+    private PreferenceHelper(Context context) {
+        this.context = context;
         this.settings = PreferenceManager.getDefaultSharedPreferences(context);
         this.editor = settings.edit();
         this.context = context;
+    }
+
+    public static PreferenceHelper getInstance(Context context) {
+        if (instance == null) {
+            instance = new PreferenceHelper(context);
+        }
+        return instance;
     }
 
     public String getUsername() {
@@ -35,8 +52,16 @@ public class PreferenceHelper {
     }
 
     public String getPassword() {
-        // TODO: Decrypt password
-        return settings.getString(context.getString(R.string.preference_key_password), DEFAULT_VALUE_STRING);
+        String password = settings.getString(context.getString(R.string.preference_key_password), DEFAULT_VALUE_STRING);
+        if (keysExist && passwordEncrypted) {
+            try {
+                password = keyStoreUtil.decryptPassword(password);
+            } catch (DecryptionFailedException e) {
+                // TODO: Deal with failure, possibly ask for credentials and fall back to unencrypted?
+                LoggerUtil.appendLogWithStacktrace(context, "Password decryption failed: ", e.getOriginalException());
+            }
+        }
+        return password;
     }
 
     public String getSchool() {
@@ -49,8 +74,17 @@ public class PreferenceHelper {
     }
 
     public void setPassword(String password) {
-        // TODO: Encrypt password
-        editor.putString(context.getString(R.string.preference_key_password, password), password);
+        if (keysExist) {
+            try {
+                password = keyStoreUtil.encryptPassword(password);
+                passwordEncrypted = true;
+            } catch (EncryptionFailedException e) {
+                // TODO: Notify user of failed encryption
+                LoggerUtil.appendLogWithStacktrace(context, "Password encryption failed: ", e.getOriginalException());
+                passwordEncrypted = false;
+            }
+        }
+        editor.putString(context.getString(R.string.preference_key_password), password);
         editor.commit();
     }
 
@@ -63,9 +97,30 @@ public class PreferenceHelper {
         return !getUsername().equals(DEFAULT_VALUE_STRING) && !getPassword().equals(DEFAULT_VALUE_STRING);
     }
 
-    public void setupKeys(Context context) {
-        this.keyStoreUtil = new KeyStoreUtil(this.getUsername());
+    private void setupKeys(Context context) {
         keysExist = keyStoreUtil.createKeys(context);
+    }
+
+    public void setupEncryption(Context context) {
+        String alias = getKeyAlias();
+        if (alias.equals("")) {
+            alias = this.getUsername();
+            setKeyAlias(alias);
+        }
+        this.keyStoreUtil = new KeyStoreUtil(alias);
+        keysExist = keyStoreUtil.keysExist();
+        if (!keysExist) {
+            setupKeys(context);
+        }
+    }
+
+    private String getKeyAlias() {
+        return settings.getString(PREFERENCE_KEY_ALIAS, "");
+    }
+
+    private void setKeyAlias(String alias) {
+        editor.putString(PREFERENCE_KEY_ALIAS, alias);
+        editor.commit();
     }
 
     public void setLastScheduledNotificationTime(long timeInMillis) {

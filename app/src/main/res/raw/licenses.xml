@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<notices>
+    <notice>
+        <name>Mechanize for Java</name>
+        <url>https://github.com/GistLabs/mechanize</url>
+        <copyright>Copyright 2012 Gist Labs, LLC.</copyright>
+        <license>Mozilla Public License 2.0</license>
+    </notice>
+    <notice>
+        <name>JSoup</name>
+        <url>https://github.com/jhy/jsoup/</url>
+        <copyright>Copyright 2009-2015, Jonathan Hedley</copyright>
+        <license>MIT License</license>
+    </notice>
+    <notice>
+        <name>css-selectors</name>
+        <url>https://github.com/chrsan/css-selectors/</url>
+        <copyright>Copyright 2012 Christer Sandberg</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Handy-URI-Templates</name>
+        <url>https://github.com/damnhandy/Handy-URI-Templates</url>
+        <copyright>Copyright 2012, Ryan J. McDonough</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>MaterialProgressBar</name>
+        <url>https://github.com/DreaminginCodeZH/MaterialProgressBar</url>
+        <copyright>Copyright 2015 Zhang Hai</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>LicensesDialog</name>
+        <url>https://github.com/PSDev/LicensesDialog/</url>
+        <copyright>Copyright 2013 Philip Schiffer</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>RemoteLogger</name>
+        <url>https://github.com/sschendel/RemoteLogger</url>
+        <copyright>Copyright 2015 sschendel</copyright>
+        <license>MIT License</license>
+    </notice>
+</notices>

@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 import ca.alexland.renewpass.model.Callback;
 import ca.alexland.renewpass.model.Status;
+import ca.alexland.renewpass.utils.LoggerUtil;
 import ca.alexland.renewpass.views.LoadingFloatingActionButton;
 import ca.alexland.renewpass.utils.DrawableUtil;
 import ca.alexland.renewpass.utils.PreferenceHelper;
@@ -29,7 +30,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        this.preferenceHelper = new PreferenceHelper(getApplicationContext());
+        // Clear the log on start
+        LoggerUtil.deleteLog(getApplicationContext());
+
+        this.preferenceHelper = PreferenceHelper.getInstance(getApplicationContext());
         startIntroActivity();
 
         final LoadingFloatingActionButton loadingFab = (LoadingFloatingActionButton) findViewById(R.id.loading_fab);
@@ -84,8 +88,7 @@ public class MainActivity extends AppCompatActivity {
             public void onUPassLoaded(Status result) {
                 if (result.isSuccessful()) {
                     fab.finishSuccess();
-                }
-                else {
+                } else {
                     fab.finishFailure();
                 }
                 switch (result.getStatusText()) {
@@ -118,30 +121,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
-
-
-
-
     private void startIntroActivity() {
 
         Thread introActivityThread = new Thread(new Runnable() {
             @Override
             public void run(){
-                PreferenceHelper preferences = new PreferenceHelper(MainActivity.this);
+                PreferenceHelper preferences = PreferenceHelper.getInstance(MainActivity.this);
 
                 boolean credentialsEntered = preferences.credentialsEntered();
 
                 if (!credentialsEntered) {
-
                     Intent i = new Intent(MainActivity.this, IntroActivity.class);
                     startActivity(i);
-
                 }
-
             }
         });
 

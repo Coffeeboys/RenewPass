@@ -22,8 +22,8 @@
     <string name="preference_dialog_button_positive">Set</string>
     <string name="preference_dialog_button_negative">Cancel</string>
     <string name="title_activity_intro">IntroActivity</string>
-    <string name = "username_hint">Enter your username</string>
-    <string name = "password_hint">Enter your password</string>
+    <string name="username_hint">Enter your username</string>
+    <string name="password_hint">Enter your password</string>
     <string name="enter_credentials_prompt">To get started, enter your credentials</string>
     <string name="provider_hint">Select your school</string>
     <string name="app_description">Renew your U-pass with the press of a button</string>
@@ -34,8 +34,26 @@
     <string name="preference_reset_description">Reset the username and password information</string>
     <string name="preference_school">School</string>
     <string name="preference_school_description">The post-secondary institution that your school account belongs to</string>
-
+    <string name="preference_credits">Credits</string>
+    <string name="preference_credits_description"><![CDATA[
+    <b>Alex Land</b> - Lead Developer<br>
+   <b>Aaryaman Girish</b> - Developer, Cappuccino Lover<br>
+   <b>Trevor Clelland</b> - Developer, Stupid Question Answerer<br>
+   <b>Evan Chisholm</b> - Developer, Thane<br>
+   <b>Emre Erhan</b> - Developer, Dishwasher<br><br>
+   <b>Huge thanks to our contributors:</b> Prayansh Srivastava, Eugene Shen<br><br>
+   Special thanks to: <b>Alfred Sin</b>, <b>Akshiv Bansal</b> and <b>Tina Ly</b> for testing.<br><br>RenewPass was heavily inspired by <b>Alireza Alidousti\'s</b> upassbc library.]]>
+    </string>
+    <string name="privacy_notice">Your credentials are stored locally, only accessible by RenewPass, and your password is encrypted by default.</string>
+    <string name="preference_licenses">Licenses</string>
+    <string name="checkbox_show_password">Show password</string>
+    <string name="preference_debug">Send debug log</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="school_select">Select your school</string>
+    <string name="notifications_disabled">You have disabled notifications</string>
+    
     <!--Preference keys-->
+    <!--IMPORTANT: These strings CANNOT CHANGE. Otherwise, preferences will be lost-->
     <string name="preference_key_username">Username</string>
     <string name="preference_key_password">Password</string>
     <string name="preference_key_School">School</string>
@@ -44,12 +62,22 @@
     <string name="preference_key_notification_date">NotificationDate</string>
     <string name="preference_key_notification_time">NotificationTime</string>
     <string name="preference_key_notification_last_scheduled">NotificationLastScheduled</string>
+    
+    <!-- Preference default values-->
     <string name="preference_value_notification_default_time">00:00</string>
     <string name="preference_value_notification_default_date">21</string>
 
     <string-array name="school_list">
         <item>SFU</item>
         <item>UBC</item>
+        <item>BCIT</item>
+        <item>Cap U</item>
+        <item>Langara</item>
+        <item>VCC</item>
+        <item>NVIT</item>
+        <item>Douglas</item>
+        <item>Kwantlen</item>
+        <item>Emily Carr</item>
     </string-array>
 
     <string-array name="date_list">

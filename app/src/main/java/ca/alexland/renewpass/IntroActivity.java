@@ -2,12 +2,17 @@ package ca.alexland.renewpass;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.method.PasswordTransformationMethod;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -15,27 +20,19 @@ import android.widget.TextView;
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
+import net.soulwolf.widget.materialradio.MaterialRadioButton;
+import net.soulwolf.widget.materialradio.MaterialRadioGroup;
+import net.soulwolf.widget.materialradio.listener.OnCheckedChangeListener;
+
 import ca.alexland.renewpass.utils.AlarmUtil;
 import ca.alexland.renewpass.utils.PreferenceHelper;
 
 public class IntroActivity extends AppIntro2 {
 
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_intro);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    }*/
+    @Override
+    public void onBackPressed() {
+        getPager().setCurrentItem(0);
+    }
 
     @Override
     public void init(Bundle savedInstanceState) {
@@ -60,17 +57,20 @@ public class IntroActivity extends AppIntro2 {
             @Override
             public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
                 View view = inflater.inflate(R.layout.credential_slide, container, false);
+                
+                final EditText editText = (EditText) view.findViewById(R.id.password_field);
 
-                Spinner spinner = (Spinner) view.findViewById(R.id.school_selection_spinner);
-                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.school_list, android.R.layout.simple_spinner_item);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setPrompt(getString(R.string.school_spinner_default));
-                spinner.setAdapter(
-                        new NothingSelectedSpinnerAdapter(
-                                adapter,
-                                R.layout.contact_spinner_row_nothing_selected,
-                                // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                                getApplicationContext()));
+                CheckBox checkBox = (CheckBox) view.findViewById(R.id.password_checkbox);
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            editText.setTransformationMethod(null);
+                        } else {
+                            editText.setTransformationMethod(new PasswordTransformationMethod());
+                        }
+                    }
+                });
 
                 return view;
             }
@@ -85,13 +85,20 @@ public class IntroActivity extends AppIntro2 {
     public void onDonePressed() {
         boolean isValid = true;
 
-        Spinner school = (Spinner)findViewById(R.id.school_selection_spinner);
-        EditText username = (EditText)findViewById(R.id.username_field);
-        EditText password = (EditText)findViewById(R.id.password_field);
+        MaterialRadioGroup mrg = (MaterialRadioGroup) findViewById(R.id.school_radio_group);
+        EditText username = (EditText) findViewById(R.id.username_field);
+        EditText password = (EditText) findViewById(R.id.password_field);
 
-        String schoolString = (String)school.getSelectedItem();
+        String schoolString = null;
+        int id = mrg.getCheckedRadioButtonId();
+        if (id != -1) {
+            MaterialRadioButton rb = (MaterialRadioButton) findViewById(id);
+            schoolString = rb.getText().toString();
+        }
+
+
         if (schoolString == null) {
-            TextView errorText = (TextView)school.getSelectedView();
+            TextView errorText = (TextView) findViewById(R.id.school_selection_text);
             errorText.setError("Invalid school selection");
             errorText.setTextColor(Color.RED);
             errorText.setText(R.string.error_school_selection);
@@ -110,18 +117,34 @@ public class IntroActivity extends AppIntro2 {
         }
 
         if (isValid) {
-            PreferenceHelper preferenceHelper = new PreferenceHelper(this);
+            PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(this);
             preferenceHelper.setUsername(usernameString);
+            preferenceHelper.setupEncryption(getApplicationContext());
             preferenceHelper.setPassword(passwordString);
             preferenceHelper.setSchool(schoolString);
-            preferenceHelper.setupKeys(getApplicationContext());
-           // AlarmUtil.setAlarm(getApplicationContext(), false);
             finish();
         }
     }
 
-    @Override
-    public void onSlideChanged(){
+    /*
+        TODO
+        enable done only when all fields are filled
+        Also try connection once to make sure all fields inputted are correct
+     */
 
+    @Override
+    public void onSlideChanged() {
+
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        // Don't let the user back out of the intro, they need to enter credentials.
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            return true;
+        }
+        else {
+            return super.onKeyDown(keyCode, event);
+        }
     }
 }

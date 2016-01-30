@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <declare-styleable name="MaterialCompoundButton">
+        <attr name="mcPadding"   format="reference|dimension"/>
+        <attr name="mcButton"    format="color|reference"/>
+        <attr name="mcText"      format="string|reference"/>
+        <attr name="mcTextSize"  format="dimension|reference"/>
+        <attr name="mcTextColor" format="reference"/>
+        <attr name="mcChecked"   format="boolean"/>
+        <attr name="mcAnimator"   format="boolean"/>
+    </declare-styleable>
+</resources>

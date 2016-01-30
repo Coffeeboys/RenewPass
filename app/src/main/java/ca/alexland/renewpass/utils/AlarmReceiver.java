@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
@@ -39,6 +38,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                                 result.getStatusText().equals(Status.NOTHING_TO_RENEW)) {
                             if (notificationsEnabled) {
                                 showSuccessNotification(context);
+//                              TODO: decide whether to use setAlarmNextMonth, or have setAlarm aware of the next month and handle this by itself
                                 AlarmUtil.setAlarmNextMonth(context);
                             }
                         }

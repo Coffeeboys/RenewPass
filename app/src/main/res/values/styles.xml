@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorHint">@color/colorWhite</item>
+        <item name="android:textColorHint">@color/colorAccent</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -25,6 +25,15 @@
 <!--Themes End-->
 
     <style name="IntroStyle">
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@color/colorWhite</item>
+    </style>
+
+
+    <style name="scroll">
+        <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
+        <item name="android:scrollbarStyle">outsideOverlay</item>
+        <item name="android:scrollbars">horizontal</item>
+        <item name="android:fadeScrollbars">false</item>
+        <item name="android:scrollbarThumbHorizontal">@drawable/scroll_thumb</item>
     </style>
 </resources>

@@ -13,10 +13,14 @@ import java.util.Calendar;
  * Created by AlexLand on 2016-01-14.
  */
 public class AlarmUtil {
+    /**
+     * If urgent is true, Sets the alarm for the next month as per the date from preferences, else
+     * sets an alarm for each day
+     */
     private static final int ALARM_REQUEST_CODE = 0;
 
     public static void setAlarm(Context context, boolean urgent) {
-        PreferenceHelper preferenceHelper = new PreferenceHelper(context);
+        PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
         PendingIntent pendingIntent = createPendingIntent(context, preferenceHelper);
         // Set an alarm to check every day if we didn't get the availability successfully
         //TODO: delete debug toast messages
