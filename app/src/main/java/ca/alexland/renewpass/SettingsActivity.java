@@ -39,51 +39,11 @@ public class SettingsActivity extends PreferenceActivity
     }
 
 
-    public static class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+    public static class SettingsFragment extends PreferenceFragment{
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
-        }
-
-        @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            if (key.equals(PreferenceHelper.NOTIFICATION_DATE_PREFERENCE)) {
-                PreferenceHelper pHelper = PreferenceHelper.getInstance(getActivity());
-                String textToShow = "You will be updated on the " +
-                        pHelper.getDate().get(Calendar.DAY_OF_MONTH)
-                        + "th of every month";
-                Snackbar.make(getView(), textToShow, Snackbar.LENGTH_SHORT).show();
-                // AlarmUtil.setAlarm(getActivity(), false); TODO
-                // Do we need to call setAlarm here??
-            } else if (key.equals(PreferenceHelper.NOTIFICATIONS_ENABLED_PREFERENCE)) {
-                PreferenceHelper pHelper = PreferenceHelper.getInstance(getActivity());
-                if (pHelper.getNotificationsEnabled()) {
-                    String textToShow = "You will be updated on the " +
-                            pHelper.getDate().get(Calendar.DAY_OF_MONTH)
-                            + "th of every month";
-                    Snackbar.make(getView(), textToShow, Snackbar.LENGTH_SHORT).show();
-                    // AlarmUtil.setAlarm(getActivity(), false); TODO
-                    // Do we need to call setAlarm here??
-                } else {
-                    Snackbar.make(getView(), getString(R.string.notifications_disabled), Snackbar.LENGTH_SHORT).show();
-                }
-            }
-        }
-
-        @Override
-        public void onResume() {
-            super.onResume();
-            getPreferenceManager().getSharedPreferences()
-                    .registerOnSharedPreferenceChangeListener(this);
-
-        }
-
-        @Override
-        public void onPause() {
-            getPreferenceManager().getSharedPreferences()
-                    .unregisterOnSharedPreferenceChangeListener(this);
-            super.onPause();
 
             Preference username = findPreference(PreferenceHelper.USERNAME_PREFERENCE);
             username.setOnPreferenceChangeListener(makeNotifier());
@@ -157,7 +117,7 @@ public class SettingsActivity extends PreferenceActivity
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     if (preference.getKey().equals(PreferenceHelper.NOTIFICATION_DATE_PREFERENCE) ||
-                        preference.getKey().equals(PreferenceHelper.NOTIFICATIONS_ENABLED_PREFERENCE)) {
+                            (Boolean) newValue) {
 
                         PreferenceHelper pHelper = PreferenceHelper.getInstance(getActivity());
                         String textToShow = "You will be updated on the " +
