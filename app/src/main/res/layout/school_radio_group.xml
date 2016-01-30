@@ -74,12 +74,12 @@
         soulwolf:mcTextSize="@dimen/school_text" />
 
     <net.soulwolf.widget.materialradio.MaterialRadioButton
-        android:id="@+id/rb_kwantglen"
+        android:id="@+id/rb_kwantlen"
         android:layout_width="@dimen/school_icon"
         android:layout_height="@dimen/school_icon"
         
         soulwolf:mcAnimator="true"
-        soulwolf:mcButton="@drawable/kwantglen_selector"
+        soulwolf:mcButton="@drawable/kwantlen_selector"
         soulwolf:mcChecked="false"
         soulwolf:mcPadding="@dimen/school_padding"
         soulwolf:mcText="Kwantlen"
