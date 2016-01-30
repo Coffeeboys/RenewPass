@@ -43,34 +43,35 @@ import net.soulwolf.widget.materialradio.widget.MaterialStateText;
 /**
  * author : Soulwolf Create by 2015/7/15 15:15
  * email  : ToakerQin@gmail.com.
+ * updates : getterMethod for mText
  */
 public class MaterialCompoundButton extends FrameLayout implements Checkable, OnStateButtonCheckedListener {
 
     private boolean mBroadcasting;
 
-    protected int     mPadding;
+    protected int mPadding;
 
-    protected int       mButtonRes;
+    protected int mButtonRes;
 
-    protected Drawable  mButtonDrawable;
+    protected Drawable mButtonDrawable;
 
     protected CharSequence mText;
 
-    protected float     mTextSize;
+    protected float mTextSize;
 
     protected ColorStateList mColorColorStateList;
 
     protected MaterialStateButton mButtonView;
 
-    protected MaterialStateText  mButtonText;
+    protected MaterialStateText mButtonText;
 
-    protected View      mSpaceView;
+    protected View mSpaceView;
 
-    protected boolean   mAnimator;
+    protected boolean mAnimator;
 
-    protected long      mDuration = 300;
+    protected long mDuration = 300;
 
-    protected boolean   mChecked;
+    protected boolean mChecked;
 
     private OnButtonCheckedChangeListener mOnButtonCheckedChangeListener;
 
@@ -92,23 +93,27 @@ public class MaterialCompoundButton extends FrameLayout implements Checkable, On
         mButtonText = (MaterialStateText) findViewById(R.id.mci_compound_button_text);
         mButtonView.setOnStateButtonCheckedListener(this);
         applyAttributeSet(context, attrs);
-        if(isAnimator()){
+        if (isAnimator()) {
             ViewHelper.setScaleX(this, 0.85f);
             ViewHelper.setScaleY(this, 0.85f);
         }
+    }
+
+    public CharSequence getText() {
+        return mText;
     }
 
     private void applyAttributeSet(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MaterialCompoundButton);
         mChecked = typedArray.getBoolean(R.styleable.MaterialCompoundButton_mcChecked, mChecked);
         setAnimator(typedArray.getBoolean(R.styleable.MaterialCompoundButton_mcAnimator, isAnimator()));
-        mButtonRes = typedArray.getResourceId(R.styleable.MaterialCompoundButton_mcButton,0);
-        if(mButtonRes != 0){
+        mButtonRes = typedArray.getResourceId(R.styleable.MaterialCompoundButton_mcButton, 0);
+        if (mButtonRes != 0) {
             setButtonRes(mButtonRes);
         }
         setButtonPadding(typedArray.getDimensionPixelOffset(R.styleable.MaterialCompoundButton_mcPadding, 0));
         setText(typedArray.getText(R.styleable.MaterialCompoundButton_mcText));
-        setTextSize(typedArray.getDimensionPixelSize(R.styleable.MaterialCompoundButton_mcTextSize,15));
+        setTextSize(typedArray.getDimensionPixelSize(R.styleable.MaterialCompoundButton_mcTextSize, 15));
         setTextColor(typedArray.getColorStateList(R.styleable.MaterialCompoundButton_mcTextColor));
         typedArray.recycle();
     }
@@ -149,17 +154,17 @@ public class MaterialCompoundButton extends FrameLayout implements Checkable, On
             mOnCheckedChangeWidgetListener.onCheckedChanged(MaterialCompoundButton.this, isChecked);
         }
         mBroadcasting = false;
-        if(isAnimator()){
-            if(isChecked()){
+        if (isAnimator()) {
+            if (isChecked()) {
                 start();
-            }else {
+            } else {
                 end();
             }
         }
     }
 
     private void start() {
-        if(canAnimate()){
+        if (canAnimate()) {
             clearAnimation();
         }
         AnimatorSet animatorSet = new AnimatorSet();
@@ -171,7 +176,7 @@ public class MaterialCompoundButton extends FrameLayout implements Checkable, On
     }
 
     private void end() {
-        if(canAnimate()){
+        if (canAnimate()) {
             clearAnimation();
         }
         AnimatorSet animatorSet = new AnimatorSet();

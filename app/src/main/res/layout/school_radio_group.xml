@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<net.soulwolf.widget.materialradio.MaterialRadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:soulwolf="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/school_radio_group"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="25dip">
+
+    <net.soulwolf.widget.materialradio.MaterialRadioButton
+        android:id="@+id/rb_ubc"
+        android:layout_width="@dimen/school_icon"
+        android:layout_height="@dimen/school_icon"
+        soulwolf:mcAnimator="true"
+        soulwolf:mcButton="@drawable/ubc_selector"
+        soulwolf:mcChecked="false"
+        soulwolf:mcPadding="@dimen/school_padding"
+        soulwolf:mcText="UBC"
+        soulwolf:mcTextColor="@drawable/radio_button_text_selector"
+        soulwolf:mcTextSize="@dimen/school_text" />
+
+    <net.soulwolf.widget.materialradio.MaterialRadioButton
+        android:id="@+id/rb_sfu"
+        android:layout_width="@dimen/school_icon"
+        android:layout_height="@dimen/school_icon"
+        
+        soulwolf:mcAnimator="true"
+        soulwolf:mcButton="@drawable/sfu_selector"
+        soulwolf:mcChecked="false"
+        soulwolf:mcPadding="@dimen/school_padding"
+        soulwolf:mcText="SFU"
+        soulwolf:mcTextColor="@drawable/radio_button_text_selector"
+        soulwolf:mcTextSize="@dimen/school_text" />
+
+    <net.soulwolf.widget.materialradio.MaterialRadioButton
+        android:id="@+id/rb_bcit"
+        android:layout_width="@dimen/school_icon"
+        android:layout_height="@dimen/school_icon"
+        
+        soulwolf:mcAnimator="true"
+        soulwolf:mcButton="@drawable/bcit_selector"
+        soulwolf:mcChecked="false"
+        soulwolf:mcPadding="@dimen/school_padding"
+        soulwolf:mcText="BCIT"
+        soulwolf:mcTextColor="@drawable/radio_button_text_selector"
+        soulwolf:mcTextSize="@dimen/school_text" />
+
+
+    <net.soulwolf.widget.materialradio.MaterialRadioButton
+        android:id="@+id/rb_douglas"
+        android:layout_width="@dimen/school_icon"
+        android:layout_height="@dimen/school_icon"
+        
+        soulwolf:mcAnimator="true"
+        soulwolf:mcButton="@drawable/douglas_selector"
+        soulwolf:mcChecked="false"
+        soulwolf:mcPadding="@dimen/school_padding"
+        soulwolf:mcText="Douglas"
+        soulwolf:mcTextColor="@drawable/radio_button_text_selector"
+        soulwolf:mcTextSize="@dimen/school_text" />
+
+    <net.soulwolf.widget.materialradio.MaterialRadioButton
+        android:id="@+id/rb_emily"
+        android:layout_width="@dimen/school_icon"
+        android:layout_height="@dimen/school_icon"
+        
+        soulwolf:mcAnimator="true"
+        soulwolf:mcButton="@drawable/emily_selector"
+        soulwolf:mcChecked="false"
+        soulwolf:mcPadding="@dimen/school_padding"
+        soulwolf:mcText="Emily Carr"
+        soulwolf:mcTextColor="@drawable/radio_button_text_selector"
+        soulwolf:mcTextSize="@dimen/school_text" />
+
+    <net.soulwolf.widget.materialradio.MaterialRadioButton
+        android:id="@+id/rb_kwantglen"
+        android:layout_width="@dimen/school_icon"
+        android:layout_height="@dimen/school_icon"
+        
+        soulwolf:mcAnimator="true"
+        soulwolf:mcButton="@drawable/kwantglen_selector"
+        soulwolf:mcChecked="false"
+        soulwolf:mcPadding="@dimen/school_padding"
+        soulwolf:mcText="Kwantlen"
+        soulwolf:mcTextColor="@drawable/radio_button_text_selector"
+        soulwolf:mcTextSize="@dimen/school_text" />
+
+    <net.soulwolf.widget.materialradio.MaterialRadioButton
+        android:id="@+id/rb_langara"
+        android:layout_width="@dimen/school_icon"
+        android:layout_height="@dimen/school_icon"
+        
+        soulwolf:mcAnimator="true"
+        soulwolf:mcButton="@drawable/langara_selector"
+        soulwolf:mcChecked="false"
+        soulwolf:mcPadding="@dimen/school_padding"
+        soulwolf:mcText="Langara"
+        soulwolf:mcTextColor="@drawable/radio_button_text_selector"
+        soulwolf:mcTextSize="@dimen/school_text" />
+
+    <net.soulwolf.widget.materialradio.MaterialRadioButton
+        android:id="@+id/rb_nvit"
+        android:layout_width="@dimen/school_icon"
+        android:layout_height="@dimen/school_icon"
+        
+        soulwolf:mcAnimator="true"
+        soulwolf:mcButton="@drawable/nvit_selector"
+        soulwolf:mcChecked="false"
+        soulwolf:mcPadding="@dimen/school_padding"
+        soulwolf:mcText="NVIT"
+        soulwolf:mcTextColor="@drawable/radio_button_text_selector"
+        soulwolf:mcTextSize="@dimen/school_text" />
+
+    <net.soulwolf.widget.materialradio.MaterialRadioButton
+        android:id="@+id/rb_ucap"
+        android:layout_width="@dimen/school_icon"
+        android:layout_height="@dimen/school_icon"
+        
+        soulwolf:mcAnimator="true"
+        soulwolf:mcButton="@drawable/ucap_selector"
+        soulwolf:mcChecked="false"
+        soulwolf:mcPadding="@dimen/school_padding"
+        soulwolf:mcText="Cap U"
+        soulwolf:mcTextColor="@drawable/radio_button_text_selector"
+        soulwolf:mcTextSize="@dimen/school_text" />
+
+    <net.soulwolf.widget.materialradio.MaterialRadioButton
+        android:id="@+id/rb_vcc"
+        android:layout_width="@dimen/school_icon"
+        android:layout_height="@dimen/school_icon"
+        
+        soulwolf:mcAnimator="true"
+        soulwolf:mcButton="@drawable/vcc_selector"
+        soulwolf:mcChecked="false"
+        soulwolf:mcPadding="@dimen/school_padding"
+        soulwolf:mcText="VCC"
+        soulwolf:mcTextColor="@drawable/radio_button_text_selector"
+        soulwolf:mcTextSize="@dimen/school_text" />
+
+</net.soulwolf.widget.materialradio.MaterialRadioGroup>

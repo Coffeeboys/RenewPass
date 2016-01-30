@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.preferenceHelper = new PreferenceHelper(getApplicationContext());
         startIntroActivity();
-       // doFirstRun();
+        // doFirstRun();
 
         final LoadingFloatingActionButton loadingFab = (LoadingFloatingActionButton) findViewById(R.id.loading_fab);
         loadingFab.setOnClickListener(new View.OnClickListener() {
@@ -65,17 +65,18 @@ public class MainActivity extends AppCompatActivity {
             final EditText usernameInput = new EditText(this);
             usernameInput.setInputType(InputType.TYPE_CLASS_TEXT);
             builder.setView(usernameInput)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        preferenceHelper.setUsername(usernameInput.getText().toString());
-                        makePasswordPopup();
-                    }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            preferenceHelper.setUsername(usernameInput.getText().toString());
+                            makePasswordPopup();
+                        }
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
-            }}).show();
+                }
+            }).show();
 
             if (preferenceHelper.credentialsEntered()) {
                 preferenceHelper.setFirstRun(false);
@@ -102,7 +103,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
-            }}).show();
+            }
+        }).show();
     }
 
     @Override
@@ -139,8 +141,7 @@ public class MainActivity extends AppCompatActivity {
             public void onUPassLoaded(Status result) {
                 if (result.isSuccessful()) {
                     fab.finishSuccess();
-                }
-                else {
+                } else {
                     fab.finishFailure();
                 }
                 switch (result.getStatusText()) {
@@ -173,19 +174,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
-
-
-
-
     private void startIntroActivity() {
 
         Thread introActivityThread = new Thread(new Runnable() {
             @Override
-            public void run(){
+            public void run() {
                 PreferenceHelper preferences = new PreferenceHelper(MainActivity.this);
 
                 boolean credentialsEntered = preferences.credentialsEntered();
