@@ -20,8 +20,8 @@ public class CapilanoUniversity implements School {
     public HtmlDocument login(HtmlDocument authPage, String username, String password, Context context) throws SchoolAuthenticationFailedException {
         Form authForm = authPage.form("aspnetForm");
 
-        Text usernameField = (Text) authForm.get("ctl00$ContentPlaceHolder1$UsernameTextBox");
-        Password passwordField = (Password) authForm.get("ctl00$ContentPlaceHolder1$PasswordTextBox");
+        Text usernameField = (Text) authForm.get("ctl00_ContentPlaceHolder1_UsernameTextBox");
+        Password passwordField = (Password) authForm.get("ctl00_ContentPlaceHolder1_PasswordTextBox");
 
         usernameField.setValue(username);
         passwordField.setValue(password);
