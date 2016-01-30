@@ -34,7 +34,8 @@
    <b>Aaryaman Girish</b> - Developer, Cappuccino Lover<br>
    <b>Trevor Clelland</b> - Developer, Stupid Question Answerer<br>
    <b>Evan Chisholm</b> - Developer, Thane<br>
-   <b>Emre Erhan</b> - Developer, Dishwasher<br><br><br>
+   <b>Emre Erhan</b> - Developer, Dishwasher<br><br>
+   <b>Huge thanks to our contributors:</b> Prayansh Srivastava, Eugene Shen<br><br>
    Special thanks to: <b>Alfred Sin</b>, <b>Akshiv Bansal</b> and <b>Tina Ly</b> for testing.<br><br>RenewPass was heavily inspired by <b>Alireza Alidousti\'s</b> upassbc library.]]>
     </string>
     <string name="privacy_notice">Your credentials are stored locally, only accessible by RenewPass, and your password is encrypted by default.</string>
