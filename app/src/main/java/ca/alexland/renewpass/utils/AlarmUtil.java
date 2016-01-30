@@ -18,7 +18,7 @@ public class AlarmUtil {
      * sets an alarm for each day
      */
     public static void setAlarm(Context context, boolean urgent) {
-        PreferenceHelper preferenceHelper = new PreferenceHelper(context);
+        PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
         Bundle bundle = new Bundle();
         bundle.putBoolean(PreferenceHelper.NOTIFICATIONS_ENABLED_PREFERENCE, preferenceHelper.getNotificationsEnabled());
         Intent intent = new Intent(context, AlarmReceiver.class);

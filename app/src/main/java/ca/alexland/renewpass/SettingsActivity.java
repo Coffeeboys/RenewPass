@@ -20,7 +20,6 @@ import java.util.Calendar;
 import ca.alexland.renewpass.utils.AlarmUtil;
 import ca.alexland.renewpass.utils.PreferenceHelper;
 
-public class SettingsActivity extends PreferenceActivity {
 import ca.alexland.renewpass.utils.LoggerUtil;
 import ca.alexland.renewpass.utils.PreferenceHelper;
 import de.psdev.licensesdialog.LicenseResolver;
@@ -50,7 +49,7 @@ public class SettingsActivity extends PreferenceActivity
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             if (key.equals(PreferenceHelper.NOTIFICATION_DATE_PREFERENCE)) {
-                PreferenceHelper pHelper = new PreferenceHelper(getActivity());
+                PreferenceHelper pHelper = PreferenceHelper.getInstance(getActivity());
                 String textToShow = "You will be updated on the " +
                         pHelper.getDate().get(Calendar.DAY_OF_MONTH)
                         + "th of every month";
@@ -58,7 +57,7 @@ public class SettingsActivity extends PreferenceActivity
                 // AlarmUtil.setAlarm(getActivity(), false); TODO
                 // Do we need to call setAlarm here??
             } else if (key.equals(PreferenceHelper.NOTIFICATIONS_ENABLED_PREFERENCE)) {
-                PreferenceHelper pHelper = new PreferenceHelper(getActivity());
+                PreferenceHelper pHelper = PreferenceHelper.getInstance(getActivity());
                 if (pHelper.getNotificationsEnabled()) {
                     String textToShow = "You will be updated on the " +
                             pHelper.getDate().get(Calendar.DAY_OF_MONTH)
@@ -135,6 +134,12 @@ public class SettingsActivity extends PreferenceActivity
                     return true;
                 }
             });
+
+            Preference notificationDate = findPreference(PreferenceHelper.NOTIFICATION_DATE_PREFERENCE);
+            notificationDate.setOnPreferenceChangeListener(makeDateNotifier());
+
+            Preference notificationsEnabled = findPreference(PreferenceHelper.NOTIFICATIONS_ENABLED_PREFERENCE);
+            notificationsEnabled.setOnPreferenceChangeListener(makeDateNotifier());
         }
 
         private Preference.OnPreferenceChangeListener makeNotifier() {
@@ -142,6 +147,27 @@ public class SettingsActivity extends PreferenceActivity
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     Snackbar.make(getView(), preference.getTitle() + " has been saved", Snackbar.LENGTH_LONG).show();
+                    return true;
+                }
+            };
+        }
+
+        private Preference.OnPreferenceChangeListener makeDateNotifier() {
+            return new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    if (preference.getKey().equals(PreferenceHelper.NOTIFICATION_DATE_PREFERENCE) ||
+                        preference.getKey().equals(PreferenceHelper.NOTIFICATIONS_ENABLED_PREFERENCE)) {
+
+                        PreferenceHelper pHelper = PreferenceHelper.getInstance(getActivity());
+                        String textToShow = "You will be updated on the " +
+                                pHelper.getDate().get(Calendar.DAY_OF_MONTH)
+                                + "th of every month";
+                        Snackbar.make(getView(), textToShow, Snackbar.LENGTH_LONG).show();
+                    }
+                    else {
+                        Snackbar.make(getView(), getString(R.string.notifications_disabled), Snackbar.LENGTH_SHORT).show();
+                    }
                     return true;
                 }
             };

@@ -14,7 +14,7 @@ import ca.alexland.renewpass.utils.LoggerUtil;
  * Created by eyqs on 2016-01-27.
  */
 public class EmilyCarrUniversity implements School{
-    public final String ID = "ecu";
+    public final String ID = "ecuad";
 
     @Override
     public HtmlDocument login(HtmlDocument authPage, String username, String password, Context context) throws SchoolAuthenticationFailedException {

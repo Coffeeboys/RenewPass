@@ -135,12 +135,9 @@ public class MainActivity extends AppCompatActivity {
                 boolean credentialsEntered = preferences.credentialsEntered();
 
                 if (!credentialsEntered) {
-
                     Intent i = new Intent(MainActivity.this, IntroActivity.class);
                     startActivity(i);
-
                 }
-
             }
         });
 

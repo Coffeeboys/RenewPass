@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.Calendar;
+
 import ca.alexland.renewpass.exceptions.DecryptionFailedException;
 import ca.alexland.renewpass.exceptions.EncryptionFailedException;
 
@@ -16,6 +18,8 @@ public class PreferenceHelper {
     public static final String USERNAME_PREFERENCE = "Username";
     public static final String PASSWORD_PREFERENCE = "Password";
     public static final String PREFERENCE_KEY_ALIAS = "KeyAlias";
+    public static final String NOTIFICATION_DATE_PREFERENCE = "NotificationDate";
+    public static final String NOTIFICATIONS_ENABLED_PREFERENCE = "NotificationsEnabled";
 
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
@@ -121,5 +125,24 @@ public class PreferenceHelper {
     private void setKeyAlias(String alias) {
         editor.putString(PREFERENCE_KEY_ALIAS, alias);
         editor.commit();
+    }
+
+    public Calendar getDate() {
+        String dateVal = settings.getString(NOTIFICATION_DATE_PREFERENCE, "2016-01-21");
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = getDay(dateVal);
+        cal.set(year, month, day);
+        return cal;
+    }
+
+    private int getDay(String dateval) {
+        String[] pieces = dateval.split("-");
+        return (Integer.parseInt(pieces[2]));
+    }
+
+    public boolean getNotificationsEnabled() {
+        return settings.getBoolean(NOTIFICATIONS_ENABLED_PREFERENCE, false);
     }
 }
