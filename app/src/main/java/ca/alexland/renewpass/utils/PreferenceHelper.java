@@ -129,6 +129,11 @@ public class PreferenceHelper {
         return settings.getLong(context.getString(R.string.preference_key_notification_last_scheduled), DEFAULT_VALUE_LONG);
     }
 
+    /**
+     * Returns a calendar object holding the next date to schedule for notifications.
+     * If the user set day and time have already passed for the current month, the date will be for the next month
+     * Ex: if it is January 22nd and the user has set their renew date to January 21st, the calendar date will be set to Feb. 21st
+     */
     public Calendar getNextNotificationDate() {
         String dateVal = settings.getString(
                 context.getString(R.string.preference_key_notification_date),
