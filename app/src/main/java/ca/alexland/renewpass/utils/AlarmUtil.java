@@ -39,14 +39,14 @@ public class AlarmUtil {
     }
 
     public static void setAlarmNextMonth(Context context) {
-        PreferenceHelper preferenceHelper = new PreferenceHelper(context);
+        PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
         PendingIntent pendingIntent = createPendingIntent(context, preferenceHelper);
         Calendar cal = preferenceHelper.getNextNotificationDate();
         setAlarm(context, CalendarUtil.getNextMonthTimeInMillis(cal.getTimeInMillis()), pendingIntent, preferenceHelper);
     }
 
     public static void setAlarmAtTime(Context context, long timeInMillis) {
-        PreferenceHelper preferenceHelper = new PreferenceHelper(context);
+        PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
         PendingIntent pendingIntent = createPendingIntent(context, preferenceHelper);
         setAlarm(context, timeInMillis, pendingIntent, preferenceHelper);
     }
@@ -60,7 +60,7 @@ public class AlarmUtil {
     }
 
     public static void cancelAlarm(Context context) {
-        PendingIntent pendingIntent = createPendingIntent(context, new PreferenceHelper(context));
+        PendingIntent pendingIntent = createPendingIntent(context, PreferenceHelper.getInstance(context));
         AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         am.cancel(pendingIntent);
     }

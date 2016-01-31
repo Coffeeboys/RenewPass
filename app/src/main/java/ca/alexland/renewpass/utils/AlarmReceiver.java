@@ -23,7 +23,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Toast.makeText(context, "Received!", Toast.LENGTH_LONG).show();
         switch(intent.getAction()) {
             case Intent.ACTION_BOOT_COMPLETED :
-                PreferenceHelper preferenceHelper = new PreferenceHelper(context);
+                PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
                 if (preferenceHelper.getNotificationsEnabled()) {
                     AlarmUtil.setAlarmAtTime(context, preferenceHelper.getLastScheduledNotificationTime());
                 }

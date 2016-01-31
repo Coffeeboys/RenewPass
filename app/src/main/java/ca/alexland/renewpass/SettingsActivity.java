@@ -3,7 +3,6 @@ package ca.alexland.renewpass;
 import android.content.SharedPreferences;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -11,20 +10,12 @@ import android.preference.PreferenceFragment;
 import ca.alexland.renewpass.utils.AlarmUtil;
 import ca.alexland.renewpass.utils.PreferenceHelper;
 import android.support.design.widget.Snackbar;
-import android.view.Window;
-import android.view.WindowManager;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
-import android.view.View;
 
 import java.util.Calendar;
 
-import ca.alexland.renewpass.utils.AlarmUtil;
-import ca.alexland.renewpass.utils.PreferenceHelper;
-
 import ca.alexland.renewpass.utils.LoggerUtil;
-import ca.alexland.renewpass.utils.PreferenceHelper;
 import de.psdev.licensesdialog.LicenseResolver;
 import de.psdev.licensesdialog.LicensesDialog;
 import de.psdev.licensesdialog.licenses.License;
@@ -41,7 +32,7 @@ public class SettingsActivity extends PreferenceActivity
 
     }
 
-    public static class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+    public static class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceChangeListener {
         private String preferenceKeyNotificationsEnabled;
         private String preferenceKeyNotificationDate;
         private String preferenceKeyNotificationTime;
@@ -56,16 +47,14 @@ public class SettingsActivity extends PreferenceActivity
             preferenceKeyNotificationDate = getActivity().getString(R.string.preference_key_notification_date);
             preferenceKeyNotificationTime = getActivity().getString(R.string.preference_key_notification_time);
 
-            preferenceHelper = new PreferenceHelper(getActivity());
+            preferenceHelper = PreferenceHelper.getInstance(getActivity());
 
-            Preference username = findPreference(PreferenceHelper.USERNAME_PREFERENCE);
-            username.setOnPreferenceChangeListener(makeNotifier());
-
-            Preference password = findPreference(PreferenceHelper.PASSWORD_PREFERENCE);
-            password.setOnPreferenceChangeListener(makeNotifier());
-
-            Preference school = findPreference(PreferenceHelper.SCHOOL_PREFERENCE);
-            school.setOnPreferenceChangeListener(makeNotifier());
+            findPreference(getActivity().getString(R.string.preference_key_username))
+                    .setOnPreferenceChangeListener(this);
+            findPreference(getActivity().getString(R.string.preference_key_password))
+                    .setOnPreferenceChangeListener(this);
+            findPreference(getActivity().getString(R.string.preference_key_School))
+                    .setOnPreferenceChangeListener(this);
 
             Preference credits = findPreference("Credits");
             credits.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -107,43 +96,44 @@ public class SettingsActivity extends PreferenceActivity
                     return true;
                 }
             });
-
-            Preference notificationDate = findPreference(PreferenceHelper.NOTIFICATION_DATE_PREFERENCE);
-            notificationDate.setOnPreferenceChangeListener(makeDateNotifier());
-
-            Preference notificationsEnabled = findPreference(PreferenceHelper.NOTIFICATIONS_ENABLED_PREFERENCE);
-            notificationsEnabled.setOnPreferenceChangeListener(makeDateNotifier());
         }
 
-        private Preference.OnPreferenceChangeListener makeNotifier() {
-            return new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    Snackbar.make(getView(), preference.getTitle() + " has been saved", Snackbar.LENGTH_LONG).show();
-                    return true;
-                }
-            };
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         }
 
-        private Preference.OnPreferenceChangeListener makeDateNotifier() {
-            return new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    if (preference.getKey().equals(PreferenceHelper.NOTIFICATION_DATE_PREFERENCE) ||
-                            (Boolean) newValue) {
+        @Override
+        public void onPause() {
+            super.onPause();
+            getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        }
 
-                        PreferenceHelper pHelper = PreferenceHelper.getInstance(getActivity());
-                        String textToShow = "You will be updated on the " +
-                                pHelper.getDate().get(Calendar.DAY_OF_MONTH)
-                                + "th of every month";
-                        Snackbar.make(getView(), textToShow, Snackbar.LENGTH_LONG).show();
-                    }
-                    else {
-                        Snackbar.make(getView(), getString(R.string.notifications_disabled), Snackbar.LENGTH_SHORT).show();
-                    }
-                    return true;
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if (key.equals(preferenceKeyNotificationsEnabled) ||
+                    key.equals(preferenceKeyNotificationDate) ||
+                    key.equals(preferenceKeyNotificationTime)) {
+                if (preferenceHelper.getNotificationsEnabled()) {
+                    AlarmUtil.setAlarm(getActivity(), false);
+                    String textToShow = String.format(getString(R.string.message_notifications_enabled),
+                                            preferenceHelper.getNextNotificationDate().get(Calendar.DAY_OF_MONTH));
+                    Snackbar.make(getView(), textToShow, Snackbar.LENGTH_LONG).show();
+                } else {
+                    AlarmUtil.cancelAlarm(getActivity());
+                    Snackbar.make(getView(), getString(R.string.message_notifications_disabled), Snackbar.LENGTH_SHORT).show();
                 }
-            };
+            } else {
+
+            }
+        }
+
+        @Override
+        public boolean onPreferenceChange(Preference preference, Object newValue) {
+            Snackbar.make(getView(), preference.getTitle() + " has been saved", Snackbar.LENGTH_LONG).show();
+            return true;
         }
     }
 
@@ -176,31 +166,5 @@ public class SettingsActivity extends PreferenceActivity
             return "http://mozilla.org/MPL/2.0/";
         }
 
-    }
-
-        @Override
-        public void onResume() {
-            super.onResume();
-            getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-        }
-
-        @Override
-        public void onPause() {
-            super.onPause();
-            getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
-        }
-
-        @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            if (key.equals(preferenceKeyNotificationsEnabled) ||
-                    key.equals(preferenceKeyNotificationDate) ||
-                    key.equals(preferenceKeyNotificationTime)) {
-                if (preferenceHelper.getNotificationsEnabled()) {
-                    AlarmUtil.setAlarm(getActivity(), false);
-                } else {
-                    AlarmUtil.cancelAlarm(getActivity());
-                }
-            }
-        }
     }
 }

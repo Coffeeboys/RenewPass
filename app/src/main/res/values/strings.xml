@@ -19,6 +19,8 @@
     <string name="preference_notificationtime_description">The time of day to check for a new UPass</string>
     <string name="preference_notificationsenabled_title">Renewal Notifications</string>
     <string name="preference_notificationsenabled_description" />
+    <string name="message_notifications_disabled">You have disabled notifications</string>
+    <string name="message_notifications_enabled">You will be updated on the %1$dth of every month</string>
     <string name="preference_dialog_button_positive">Set</string>
     <string name="preference_dialog_button_negative">Cancel</string>
     <string name="title_activity_intro">IntroActivity</string>
@@ -50,8 +52,7 @@
     <string name="preference_debug">Send debug log</string>
     <string name="title_activity_test">TestActivity</string>
     <string name="school_select">Select your school</string>
-    <string name="notifications_disabled">You have disabled notifications</string>
-    
+
     <!--Preference keys-->
     <!--IMPORTANT: These strings CANNOT CHANGE. Otherwise, preferences will be lost-->
     <string name="preference_key_username">Username</string>
@@ -62,6 +63,7 @@
     <string name="preference_key_notification_date">NotificationDate</string>
     <string name="preference_key_notification_time">NotificationTime</string>
     <string name="preference_key_notification_last_scheduled">NotificationLastScheduled</string>
+    <string name="preference_key_key_alias">KeyAlias</string>
     
     <!-- Preference default values-->
     <string name="preference_value_notification_default_time">00:00</string>

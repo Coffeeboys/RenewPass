@@ -15,15 +15,10 @@ import ca.alexland.renewpass.R;
  * Created by AlexLand on 2015-12-30.
  */
 public class PreferenceHelper {
-    //TODO: replace this with a string resource
-    public static final String PREFERENCE_KEY_ALIAS = "KeyAlias";
-
     public static final String EXTRA_NOTIFICATIONS_ENABLED = "EXTRA_NOTIFICATIONS_ENABLED";
+
     private static final String DEFAULT_VALUE_STRING = "";
     private static final long DEFAULT_VALUE_LONG = -1;
-
-//    public static final String NOTIFICATION_DATE_PREFERENCE = "NotificationDate";
-//    public static final String NOTIFICATIONS_ENABLED_PREFERENCE = "NotificationsEnabled";
 
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
@@ -115,11 +110,11 @@ public class PreferenceHelper {
     }
 
     private String getKeyAlias() {
-        return settings.getString(PREFERENCE_KEY_ALIAS, "");
+        return settings.getString(context.getString(R.string.preference_key_key_alias), "");
     }
 
     private void setKeyAlias(String alias) {
-        editor.putString(PREFERENCE_KEY_ALIAS, alias);
+        editor.putString(context.getString(R.string.preference_key_key_alias), alias);
         editor.commit();
     }
 
