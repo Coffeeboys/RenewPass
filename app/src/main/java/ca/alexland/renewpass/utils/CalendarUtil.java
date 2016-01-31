@@ -1,6 +1,10 @@
 package ca.alexland.renewpass.utils;
 
+import android.content.Context;
+import android.text.format.DateFormat;
+
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -17,5 +21,21 @@ public class CalendarUtil {
             calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
         }
         return calendar.getTimeInMillis();
+    }
+
+    public static String convertDateToString(Context context, Calendar calendar) {
+        return convertDateToString(context, calendar.getTimeInMillis());
+    }
+
+    public static String convertDateToString(Context context, long timeInMillis) {
+        return DateFormat.getDateFormat(context).format(new Date(timeInMillis));
+    }
+
+    public static String convertTimeToString(Context context, Calendar calendar) {
+        return convertTimeToString(context, calendar.getTimeInMillis());
+    }
+
+    public static String convertTimeToString(Context context, long timeInMillis) {
+        return DateFormat.getTimeFormat(context).format(new Date(timeInMillis));
     }
 }

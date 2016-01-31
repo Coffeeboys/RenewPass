@@ -20,7 +20,7 @@
     <string name="preference_notificationsenabled_title">Renewal Notifications</string>
     <string name="preference_notificationsenabled_description" />
     <string name="message_notifications_disabled">You have disabled notifications</string>
-    <string name="message_notifications_enabled">You will be updated on the %1$dth of every month</string>
+    <string name="message_notifications_enabled">You will be updated on the %1$sth of every month</string>
     <string name="preference_dialog_button_positive">Set</string>
     <string name="preference_dialog_button_negative">Cancel</string>
     <string name="title_activity_intro">IntroActivity</string>

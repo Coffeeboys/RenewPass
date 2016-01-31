@@ -13,45 +13,38 @@ import java.util.Calendar;
  * Created by AlexLand on 2016-01-14.
  */
 public class AlarmUtil {
-    /**
-     * If urgent is true, Sets the alarm for the next month as per the date from preferences, else
-     * sets an alarm for each day
-     */
     private static final int ALARM_REQUEST_CODE = 0;
 
-    public static void setAlarm(Context context, boolean urgent) {
+    /**
+     * Sets the next alarm according to the current notification values saved in preference helper.
+     * If the currently saved day and time has already passed for the current month,
+     * this will automatically schedule an alarm for the next month
+     */
+    public static void setNextAlarm(Context context) {
         PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
-        PendingIntent pendingIntent = createPendingIntent(context, preferenceHelper);
-        // Set an alarm to check every day if we didn't get the availability successfully
         //TODO: delete debug toast messages
-        if (urgent) {
-            Toast.makeText(context, "Setting alarm to be checked again in a day", Toast.LENGTH_LONG).show();
-            setAlarm(context, System.currentTimeMillis() + AlarmManager.INTERVAL_DAY, pendingIntent, preferenceHelper);
-        }
-        else {
-            Calendar cal = preferenceHelper.getNextNotificationDate();
-            Toast.makeText(context, "Setting Alarm for" +
-                    " Date: " + cal.get(Calendar.DATE) +
-                    " Hour: " + cal.get(Calendar.HOUR_OF_DAY) +
-                    " Minute: " + cal.get(Calendar.MINUTE), Toast.LENGTH_LONG).show();
-            setAlarm(context, cal.getTimeInMillis(), pendingIntent, preferenceHelper);
-        }
+        Calendar cal = preferenceHelper.getNextNotificationDate();
+        Toast.makeText(context, "Setting Alarm for" +
+                " Date: " + cal.get(Calendar.DATE) +
+                " Hour: " + cal.get(Calendar.HOUR_OF_DAY) +
+                " Minute: " + cal.get(Calendar.MINUTE), Toast.LENGTH_LONG).show();
+        setAlarm(context, cal.getTimeInMillis(), preferenceHelper);
     }
 
-    public static void setAlarmNextMonth(Context context) {
+    public static void setAlarmNextHour(Context context) {
         PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
-        PendingIntent pendingIntent = createPendingIntent(context, preferenceHelper);
-        Calendar cal = preferenceHelper.getNextNotificationDate();
-        setAlarm(context, CalendarUtil.getNextMonthTimeInMillis(cal.getTimeInMillis()), pendingIntent, preferenceHelper);
+        //TODO: remove toast messages
+        Toast.makeText(context, "Setting alarm to be checked again in a day", Toast.LENGTH_LONG).show();
+        setAlarm(context, System.currentTimeMillis() + AlarmManager.INTERVAL_DAY, preferenceHelper);
     }
 
     public static void setAlarmAtTime(Context context, long timeInMillis) {
         PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
-        PendingIntent pendingIntent = createPendingIntent(context, preferenceHelper);
-        setAlarm(context, timeInMillis, pendingIntent, preferenceHelper);
+        setAlarm(context, timeInMillis, preferenceHelper);
     }
 
-    private static void setAlarm(Context context, long timeInMillis, PendingIntent pendingIntent, PreferenceHelper preferenceHelper) {
+    private static void setAlarm(Context context, long timeInMillis, PreferenceHelper preferenceHelper) {
+        PendingIntent pendingIntent = createPendingIntent(context, preferenceHelper);
         AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP,
                 timeInMillis,

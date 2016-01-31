@@ -122,6 +122,9 @@ public class PreferenceHelper {
         editor.putLong(context.getString(R.string.preference_key_notification_last_scheduled), timeInMillis);
     }
 
+    /**
+     * Store the last scheduled notification. This is used for restoring alarms after the device reboots
+     */
     public long getLastScheduledNotificationTime() {
         return settings.getLong(context.getString(R.string.preference_key_notification_last_scheduled), DEFAULT_VALUE_LONG);
     }

@@ -8,19 +8,16 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import ca.alexland.renewpass.utils.AlarmUtil;
+import ca.alexland.renewpass.utils.CalendarUtil;
 import ca.alexland.renewpass.utils.PreferenceHelper;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 
-import java.util.Calendar;
-
 import ca.alexland.renewpass.utils.LoggerUtil;
 import de.psdev.licensesdialog.LicenseResolver;
 import de.psdev.licensesdialog.LicensesDialog;
 import de.psdev.licensesdialog.licenses.License;
-import de.psdev.licensesdialog.model.Notice;
-import de.psdev.licensesdialog.model.Notices;
 
 public class SettingsActivity extends PreferenceActivity
 {
@@ -111,15 +108,20 @@ public class SettingsActivity extends PreferenceActivity
             getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         }
 
+        /**
+         * Get the value of a preference AFTER it has changed instead of before (like in OnPreferenceChangedListener)
+         */
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             if (key.equals(preferenceKeyNotificationsEnabled) ||
                     key.equals(preferenceKeyNotificationDate) ||
                     key.equals(preferenceKeyNotificationTime)) {
                 if (preferenceHelper.getNotificationsEnabled()) {
-                    AlarmUtil.setAlarm(getActivity(), false);
+                    AlarmUtil.setNextAlarm(getActivity());
+                    //TODO: put day of the month back in here after testing is complete
                     String textToShow = String.format(getString(R.string.message_notifications_enabled),
-                                            preferenceHelper.getNextNotificationDate().get(Calendar.DAY_OF_MONTH));
+                            CalendarUtil.convertDateToString(getActivity(), preferenceHelper.getNextNotificationDate()));
+//                            preferenceHelper.getNextNotificationDate().get(Calendar.DAY_OF_MONTH));
                     Snackbar.make(getView(), textToShow, Snackbar.LENGTH_LONG).show();
                 } else {
                     AlarmUtil.cancelAlarm(getActivity());

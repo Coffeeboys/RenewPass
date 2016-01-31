@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import ca.alexland.renewpass.utils.CalendarUtil;
 import ca.alexland.renewpass.utils.SimpleTimeFormat;
 
 /**
@@ -99,7 +100,7 @@ public class TimePreference extends DialogPreference {
         if (calendar == null) {
             return null;
         }
-        return DateFormat.getTimeFormat(getContext()).format(new Date(calendar.getTimeInMillis()));
+        return CalendarUtil.convertTimeToString(getContext(), calendar.getTimeInMillis());
     }
 
     private void setTime() {
