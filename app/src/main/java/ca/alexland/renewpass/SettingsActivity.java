@@ -40,20 +40,20 @@ public class SettingsActivity extends PreferenceActivity
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
 
-            preferenceKeyNotificationsEnabled = getActivity().getString(R.string.preference_key_notifications_enabled);
-            preferenceKeyNotificationDate = getActivity().getString(R.string.preference_key_notification_date);
-            preferenceKeyNotificationTime = getActivity().getString(R.string.preference_key_notification_time);
+            preferenceKeyNotificationsEnabled = getString(R.string.preference_key_notifications_enabled);
+            preferenceKeyNotificationDate = getString(R.string.preference_key_notification_date);
+            preferenceKeyNotificationTime = getString(R.string.preference_key_notification_time);
 
             preferenceHelper = PreferenceHelper.getInstance(getActivity());
 
-            findPreference(getActivity().getString(R.string.preference_key_username))
+            findPreference(getString(R.string.preference_key_username))
                     .setOnPreferenceChangeListener(this);
-            findPreference(getActivity().getString(R.string.preference_key_password))
+            findPreference(getString(R.string.preference_key_password))
                     .setOnPreferenceChangeListener(this);
-            findPreference(getActivity().getString(R.string.preference_key_School))
+            findPreference(getString(R.string.preference_key_School))
                     .setOnPreferenceChangeListener(this);
 
-            Preference credits = findPreference("Credits");
+            Preference credits = findPreference(getString(R.string.preference_key_credits));
             credits.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -73,7 +73,7 @@ public class SettingsActivity extends PreferenceActivity
 
             LicenseResolver.registerLicense(new MozillaPublicLicense20());
 
-            Preference licenses = findPreference("Licenses");
+            Preference licenses = findPreference(getString(R.string.preference_key_licenses));
             licenses.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -85,7 +85,7 @@ public class SettingsActivity extends PreferenceActivity
                 }
             });
 
-            Preference debug = findPreference("Debug");
+            Preference debug = findPreference(getString(R.string.preference_key_debug));
             debug.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {

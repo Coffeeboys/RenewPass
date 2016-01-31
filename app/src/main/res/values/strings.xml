@@ -64,6 +64,9 @@
     <string name="preference_key_notification_time">NotificationTime</string>
     <string name="preference_key_notification_last_scheduled">NotificationLastScheduled</string>
     <string name="preference_key_key_alias">KeyAlias</string>
+    <string name="preference_key_credits">Credits</string>
+    <string name="preference_key_licenses">Licenses</string>
+    <string name="preference_key_debug">Debug</string>
     
     <!-- Preference default values-->
     <string name="preference_value_notification_default_time">00:00</string>

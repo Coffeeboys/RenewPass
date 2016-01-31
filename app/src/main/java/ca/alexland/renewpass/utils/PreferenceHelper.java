@@ -98,7 +98,7 @@ public class PreferenceHelper {
 
     public void setupEncryption(Context context) {
         String alias = getKeyAlias();
-        if (alias.equals("")) {
+        if (alias.equals(DEFAULT_VALUE_STRING)) {
             alias = this.getUsername();
             setKeyAlias(alias);
         }
@@ -120,6 +120,7 @@ public class PreferenceHelper {
 
     public void setLastScheduledNotificationTime(long timeInMillis) {
         editor.putLong(context.getString(R.string.preference_key_notification_last_scheduled), timeInMillis);
+        editor.commit();
     }
 
     /**
