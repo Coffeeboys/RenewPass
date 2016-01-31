@@ -127,8 +127,6 @@ public class SettingsActivity extends PreferenceActivity
                     AlarmUtil.cancelAlarm(getActivity());
                     Snackbar.make(getView(), getString(R.string.message_notifications_disabled), Snackbar.LENGTH_SHORT).show();
                 }
-            } else {
-
             }
         }
 
