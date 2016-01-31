@@ -14,7 +14,7 @@ import ca.alexland.renewpass.utils.LoggerUtil;
  * Created by eyqs on 2016-01-27.
  */
 public class KwantlenUniversity implements School{
-    public final String ID = "ku";
+    public final String ID = "kpu";
 
     @Override
     public HtmlDocument login(HtmlDocument authPage, String username, String password, Context context) throws SchoolAuthenticationFailedException {
