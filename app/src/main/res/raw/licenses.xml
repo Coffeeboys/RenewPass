@@ -31,6 +31,12 @@
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
+        <name>RippleEffect</name>
+        <url>https://github.com/traex/RippleEffect</url>
+        <copyright>Copyright (c) 2014 Robin Chutaux</copyright>
+        <license>MIT License</license>
+    </notice>
+    <notice>
         <name>LicensesDialog</name>
         <url>https://github.com/PSDev/LicensesDialog/</url>
         <copyright>Copyright 2013 Philip Schiffer</copyright>

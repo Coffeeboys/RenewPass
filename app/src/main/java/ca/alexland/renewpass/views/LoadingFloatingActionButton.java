@@ -1,13 +1,12 @@
 package ca.alexland.renewpass.views;
 
-import android.animation.AnimatorSet;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
@@ -17,17 +16,17 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import ca.alexland.renewpass.R;
-import ca.alexland.renewpass.utils.DrawableUtil;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 /**
  * Wrapper for Floating Action Button with progress bar and animation helper functions
  */
-//TODO: implement onSaveInstanceState() and onRestoreInstanceState
+//TODO: implement onSaveInstanceState() and onRestoreInstanceState()
 public class LoadingFloatingActionButton extends FrameLayout {
-    private FloatingActionButton fab;
+    private ImageButton fab;
     private MaterialProgressBar fabProgressBar;
     private CompleteFABView completeFABView;
     private Drawable completeIcon;
@@ -62,8 +61,16 @@ public class LoadingFloatingActionButton extends FrameLayout {
     }
 
     private void inflate() {
-        LayoutInflater.from(getContext()).inflate(R.layout.view_custom_fab, this);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        //if using api 21 or greater, will use the layout in layout-v21
+        //Otherwise, uses default layout in layout folder
+        LayoutInflater.from(getContext()).inflate(R.layout.view_loading_fab, this);
+        fab = (ImageButton) findViewById(R.id.fab);
+        fab.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return isLoading; //if true, touches will be ignored
+            }
+        });
         fabProgressBar = (MaterialProgressBar) findViewById(R.id.fabProgressBar);
     }
 
@@ -83,12 +90,15 @@ public class LoadingFloatingActionButton extends FrameLayout {
         int progressColor = styledAttributes.getColor(
                 R.styleable.LoadingFab_progressColor,
                 ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
-        DrawableUtil.tint(fabProgressBar.getDrawable(), progressColor);
+        ColorStateList stateList = ColorStateList.valueOf(progressColor);
+        fabProgressBar.setProgressTintList(stateList);
 
         fabIcon = styledAttributes.getDrawable(R.styleable.LoadingFab_fabIcon);
         if (fabIcon != null) {
             fab.setImageDrawable(fabIcon);
         }
+
+        styledAttributes.recycle();
     }
 
     @Nullable
@@ -146,15 +156,5 @@ public class LoadingFloatingActionButton extends FrameLayout {
 
     public Drawable getFailureIconDrawable() {
         return failureIcon;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (!isLoading) {
-            return super.onTouchEvent(event);
-        }
-        else {
-            return true;
-        }
     }
 }

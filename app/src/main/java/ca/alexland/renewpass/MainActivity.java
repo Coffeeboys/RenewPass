@@ -16,7 +16,6 @@ import ca.alexland.renewpass.model.Callback;
 import ca.alexland.renewpass.model.Status;
 import ca.alexland.renewpass.utils.LoggerUtil;
 import ca.alexland.renewpass.views.LoadingFloatingActionButton;
-import ca.alexland.renewpass.utils.DrawableUtil;
 import ca.alexland.renewpass.utils.PreferenceHelper;
 import ca.alexland.renewpass.utils.UPassLoader;
 
@@ -45,12 +44,12 @@ public class MainActivity extends AppCompatActivity {
         });
         Drawable completeIcon = loadingFab.getCompleteIconDrawable();
         if (completeIcon != null) {
-            DrawableUtil.tint(completeIcon, Color.WHITE);
+            tintDrawable(completeIcon, Color.WHITE);
         }
 
         Drawable failureIcon = loadingFab.getFailureIconDrawable();
         if (failureIcon != null) {
-            DrawableUtil.tint(failureIcon, Color.WHITE);
+            tintDrawable(failureIcon, Color.WHITE);
         }
     }
 
@@ -143,5 +142,10 @@ public class MainActivity extends AppCompatActivity {
 
         introActivityThread.start();
 
+    }
+
+    private void tintDrawable(Drawable drawable, int color) {
+        drawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTint(drawable, color);
     }
 }
