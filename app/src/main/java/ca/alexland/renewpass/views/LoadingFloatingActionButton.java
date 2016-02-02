@@ -2,6 +2,7 @@ package ca.alexland.renewpass.views;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
@@ -18,7 +19,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import ca.alexland.renewpass.R;
-import ca.alexland.renewpass.utils.DrawableUtil;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 /**
@@ -84,7 +84,8 @@ public class LoadingFloatingActionButton extends FrameLayout {
         int progressColor = styledAttributes.getColor(
                 R.styleable.LoadingFab_progressColor,
                 ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
-        DrawableUtil.tint(fabProgressBar.getDrawable(), progressColor);
+        ColorStateList stateList = ColorStateList.valueOf(progressColor);
+        fabProgressBar.setProgressTintList(stateList);
 
         fabIcon = styledAttributes.getDrawable(R.styleable.LoadingFab_fabIcon);
         if (fabIcon != null) {
