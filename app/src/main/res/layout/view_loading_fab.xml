@@ -16,10 +16,10 @@
         <ImageButton
             android:id="@+id/fab"
             android:padding="20dp"
-            android:scaleType="centerInside"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/oval_fab"
+            android:scaleType="centerInside"
             android:layout_gravity="center"/>
     </com.andexert.library.RippleView>
 </merge>

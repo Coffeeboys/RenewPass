@@ -63,7 +63,7 @@ public class LoadingFloatingActionButton extends FrameLayout {
     private void inflate() {
         //if using api 21 or greater, will use the layout in layout-v21
         //Otherwise, uses default layout in layout folder
-        LayoutInflater.from(getContext()).inflate(R.layout.view_custom_fab, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.view_loading_fab, this);
         fab = (ImageButton) findViewById(R.id.fab);
         fabProgressBar = (MaterialProgressBar) findViewById(R.id.fabProgressBar);
     }
