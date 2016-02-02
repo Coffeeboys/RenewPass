@@ -65,6 +65,12 @@ public class LoadingFloatingActionButton extends FrameLayout {
         //Otherwise, uses default layout in layout folder
         LayoutInflater.from(getContext()).inflate(R.layout.view_loading_fab, this);
         fab = (ImageButton) findViewById(R.id.fab);
+        fab.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return isLoading; //if true, touches will be ignored
+            }
+        });
         fabProgressBar = (MaterialProgressBar) findViewById(R.id.fabProgressBar);
     }
 
@@ -150,15 +156,5 @@ public class LoadingFloatingActionButton extends FrameLayout {
 
     public Drawable getFailureIconDrawable() {
         return failureIcon;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (!isLoading) {
-            return super.onTouchEvent(event);
-        }
-        else {
-            return true;
-        }
     }
 }
