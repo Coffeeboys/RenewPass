@@ -34,4 +34,5 @@ dependencies {
     compile 'me.zhanghai.android.materialprogressbar:library:1.1.4'
     compile 'com.github.paolorotolo:appintro:3.3.0'
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.0'
+    compile 'com.github.traex.rippleeffect:library:1.3'
 }
