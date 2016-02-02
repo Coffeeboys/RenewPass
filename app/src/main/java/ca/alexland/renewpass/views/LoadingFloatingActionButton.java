@@ -91,6 +91,8 @@ public class LoadingFloatingActionButton extends FrameLayout {
         if (fabIcon != null) {
             fab.setImageDrawable(fabIcon);
         }
+
+        styledAttributes.recycle();
     }
 
     @Nullable
