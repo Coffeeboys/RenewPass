@@ -23,7 +23,11 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(final Context context, Intent intent) {
         //TODO: REMOVE ALL TOAST DEBUG MESSAGES
         final PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
-        switch(intent.getAction()) {
+        String intentAction = intent.getAction();
+        if (intentAction == null) {
+            intentAction = "Default";
+        }
+        switch(intentAction) {
             case Intent.ACTION_BOOT_COMPLETED :
                 if (preferenceHelper.getNotificationsEnabled()) {
                     AlarmUtil.setAlarmAtTime(context, preferenceHelper.getLastScheduledNotificationTime());
@@ -70,26 +74,33 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     private void showSuccessNotification(Context context) {
         showNotification(context,
+                context.getString(R.string.available_notification_short_title),
                 context.getString(R.string.available_notification_title),
                 context.getString(R.string.available_notification_text));
     }
 
     private void showFailureNotification(Context context) {
         showNotification(context,
+                context.getString(R.string.unavailable_notification_short_title),
                 context.getString(R.string.unavailable_notification_title),
                 context.getString(R.string.unavailable_notification_text));
     }
 
-    private void showNotification(Context context, String contentTitle, String contentText) {
+    private void showNotification(Context context, String contentShortTitle, String contentTitle, String contentText) {
+        NotificationCompat.BigTextStyle notificationStyle = new NotificationCompat.BigTextStyle()
+                .setBigContentTitle(contentShortTitle)
+                .bigText(contentTitle)
+                .setSummaryText(contentText);
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_autorenew)
-                .setContentTitle(contentTitle)
-                .setContentText(contentText);
+                .setContentTitle(contentShortTitle)
+                .setContentText(contentTitle);
         mBuilder.setContentIntent(pi);
         mBuilder.setDefaults(Notification.DEFAULT_SOUND);
         mBuilder.setAutoCancel(true);
+        mBuilder.setStyle(notificationStyle);
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(0, mBuilder.build());
     }

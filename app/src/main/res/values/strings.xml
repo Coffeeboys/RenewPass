@@ -8,9 +8,9 @@
     <string name="preference_username_description">The username associated with your school account</string>
     <string name="preference_password">Password</string>
     <string name="preference_password_description">The password associated with your school account</string>
-    <string name="available_notification_title">Your Upass has been successfully renewed!</string>
+    <string name="available_notification_title">Your UPass has been successfully renewed!</string>
     <string name="available_notification_text">You\'re all set for the next month</string>
-    <string name="unavailable_notification_title">There was an error trying to auto-renew your Upass</string>
+    <string name="unavailable_notification_title">There was an error trying to auto-renew your UPass</string>
     <string name="unavailable_notification_text">We\'ll keep trying to renew it in the background</string>
     <string name="preference_header_notifications">Notifications</string>
     <string name="preference_notificationdate_title">Refresh Date</string>
@@ -71,6 +71,8 @@
     <!-- Preference default values-->
     <string name="preference_value_notification_default_time">00:00</string>
     <string name="preference_value_notification_default_date">21</string>
+    <string name="available_notification_short_title">UPass Auto-Renew Success</string>
+    <string name="unavailable_notification_short_title">UPass Auto-Renew Error</string>
 
     <string-array name="school_list">
         <item>SFU</item>
@@ -86,6 +88,7 @@
     </string-array>
 
     <string-array name="date_list">
+        <item>2</item>
         <item>17</item>
         <item>18</item>
         <item>19</item>
