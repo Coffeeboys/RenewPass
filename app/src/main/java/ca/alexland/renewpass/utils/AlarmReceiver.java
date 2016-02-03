@@ -80,6 +80,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     private void showFailureNotification(Context context) {
+        // TODO: Add retry button on failure notification
         showNotification(context,
                 context.getString(R.string.unavailable_notification_short_title),
                 context.getString(R.string.unavailable_notification_title),
