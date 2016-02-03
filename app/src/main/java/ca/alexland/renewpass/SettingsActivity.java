@@ -9,15 +9,12 @@ import android.preference.PreferenceFragment;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
-import android.view.View;
 
 import ca.alexland.renewpass.utils.LoggerUtil;
 import ca.alexland.renewpass.utils.PreferenceHelper;
 import de.psdev.licensesdialog.LicenseResolver;
 import de.psdev.licensesdialog.LicensesDialog;
 import de.psdev.licensesdialog.licenses.License;
-import de.psdev.licensesdialog.model.Notice;
-import de.psdev.licensesdialog.model.Notices;
 
 public class SettingsActivity extends PreferenceActivity
 {
