@@ -25,6 +25,37 @@
             android:entries="@array/school_list"
             android:entryValues="@array/school_list"/>
 
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/preference_header_autorenew">
+
+        <CheckBoxPreference
+            android:key="@string/preference_key_autorenew_enabled"
+            android:title="@string/preference_autorenewenabled_title"
+            android:summary="@string/preference_autorenewenabled_description"/>
+
+        <ListPreference
+            android:key="@string/preference_key_autorenew_date"
+            android:dependency="NotificationsEnabled"
+            android:title="@string/preference_autorenewdate_title"
+            android:entries="@array/date_list"
+            android:entryValues="@array/date_list"
+            android:defaultValue="@string/preference_value_notification_default_date"
+            android:summary="@string/preference_autorenewdate_description"/>
+        
+        <ca.alexland.renewpass.TimePreference
+            android:key="@string/preference_key_autorenew_time"
+            android:dependency="NotificationsEnabled"
+            android:title="@string/preference_autorenewtime_title"
+            android:summary="@string/preference_autorenewtime_description"
+            android:defaultValue="@string/preference_value_notification_default_time"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/preference_header_other">
+
         <!--TODO: change these keys to string resources-->
         <Preference
             android:key="Credits"
@@ -37,38 +68,6 @@
         <Preference
             android:key="Debug"
             android:title="@string/preference_debug"/>
-
-        <!--TODO: Add Reset preference-->
-        <!--<Preference-->
-            <!--android:key="@string/preference_key_Reset"-->
-            <!--android:title="@string/preference_reset"-->
-            <!--android:summary="@string/preference_reset_description"/>-->
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/preference_header_notifications">
-
-        <CheckBoxPreference
-            android:key="@string/preference_key_notifications_enabled"
-            android:title="@string/preference_notificationsenabled_title"
-            android:summary="@string/preference_notificationsenabled_description"/>
-
-        <ListPreference
-            android:key="@string/preference_key_notification_date"
-            android:dependency="NotificationsEnabled"
-            android:title="@string/preference_notificationdate_title"
-            android:entries="@array/date_list"
-            android:entryValues="@array/date_list"
-            android:defaultValue="@string/preference_value_notification_default_date"
-            android:summary="@string/preference_notificationdate_description"/>
-        
-        <ca.alexland.renewpass.TimePreference
-            android:key="@string/preference_key_notification_time"
-            android:dependency="NotificationsEnabled"
-            android:title="@string/preference_notificationtime_title"
-            android:summary="@string/preference_notificationtime_description"
-            android:defaultValue="@string/preference_value_notification_default_time"/>
 
     </PreferenceCategory>
 

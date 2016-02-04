@@ -39,37 +39,38 @@ public class AlarmReceiver extends BroadcastReceiver {
             default:
                 Toast.makeText(context, "Received!", Toast.LENGTH_LONG).show();
                 final PendingResult pendingResult = goAsync();
-                final boolean notificationsEnabled = intent.getBooleanExtra(PreferenceHelper.EXTRA_NOTIFICATIONS_ENABLED, false);
-                UPassLoader.checkUPassAvailable(context, new Callback() {
+//                final boolean notificationsEnabled = intent.getBooleanExtra(PreferenceHelper.EXTRA_NOTIFICATIONS_ENABLED, false);
+                UPassLoader.renewUPass(context, new Callback() {
                     @Override
                     public void onUPassLoaded(Status result) {
-                        if (result.getStatusText().equals(Status.UPASS_AVAILABLE) ||
-                                result.getStatusText().equals(Status.NOTHING_TO_RENEW)) {
-                            //is this overkill to check if notifications are enabled here
-                            //since they are also being cancelled when notifications are turned off?
-                            if (notificationsEnabled) {
-                                showSuccessNotification(context);
-                                AlarmUtil.setNextAlarm(context);
-                                Toast.makeText(context,
-                                        "Renewed! next alarm set for: " +
-                                                CalendarUtil.convertDateToString(context, preferenceHelper.getNextNotificationDate()), Toast.LENGTH_LONG)
-                                        .show();
-                            }
+                        if (result.isSuccessful()) {
+                            doSuccess(context, preferenceHelper);
                         }
                         else {
-                            if (notificationsEnabled) {
-                                showFailureNotification(context);
-                            }
-                            AlarmUtil.setAlarmNextHour(context);
-                            Toast.makeText(context,
-                                    "Failure! retry alarm set for: " +
-                                            CalendarUtil.convertDateToString(context, System.currentTimeMillis() + AlarmManager.INTERVAL_DAY), Toast.LENGTH_LONG)
-                                    .show();
+                            doFailure(context);
                         }
                         pendingResult.finish();
                     }
                 });
         }
+    }
+
+    private void doFailure(Context context) {
+        showFailureNotification(context);
+        AlarmUtil.setAlarmNextHour(context);
+        Toast.makeText(context,
+                "Failure! retry alarm set for: " +
+                        CalendarUtil.convertDateToString(context, System.currentTimeMillis() + AlarmManager.INTERVAL_DAY), Toast.LENGTH_LONG)
+                .show();
+    }
+
+    private void doSuccess(Context context, PreferenceHelper preferenceHelper) {
+        showSuccessNotification(context);
+        AlarmUtil.setNextAlarm(context);
+        Toast.makeText(context,
+                "Renewed! next alarm set for: " +
+                        CalendarUtil.convertDateToString(context, preferenceHelper.getNextNotificationDate()), Toast.LENGTH_LONG)
+                .show();
     }
 
     private void showSuccessNotification(Context context) {
@@ -92,16 +93,19 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setBigContentTitle(contentShortTitle)
                 .bigText(contentTitle)
                 .setSummaryText(contentText);
+
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_autorenew)
                 .setContentTitle(contentShortTitle)
-                .setContentText(contentTitle);
-        mBuilder.setContentIntent(pi);
-        mBuilder.setDefaults(Notification.DEFAULT_SOUND);
-        mBuilder.setAutoCancel(true);
-        mBuilder.setStyle(notificationStyle);
+                .setContentText(contentTitle)
+                .setContentIntent(pi)
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .setAutoCancel(true)
+                .setStyle(notificationStyle);
+
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(0, mBuilder.build());
     }

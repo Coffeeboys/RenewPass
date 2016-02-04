@@ -119,7 +119,7 @@ public class PreferenceHelper {
     }
 
     public void setLastScheduledNotificationTime(long timeInMillis) {
-        editor.putLong(context.getString(R.string.preference_key_notification_last_scheduled), timeInMillis);
+        editor.putLong(context.getString(R.string.preference_key_autorenew_last_scheduled), timeInMillis);
         editor.commit();
     }
 
@@ -127,7 +127,7 @@ public class PreferenceHelper {
      * Store the last scheduled notification. This is used for restoring alarms after the device reboots
      */
     public long getLastScheduledNotificationTime() {
-        return settings.getLong(context.getString(R.string.preference_key_notification_last_scheduled), DEFAULT_VALUE_LONG);
+        return settings.getLong(context.getString(R.string.preference_key_autorenew_last_scheduled), DEFAULT_VALUE_LONG);
     }
 
     /**
@@ -137,7 +137,7 @@ public class PreferenceHelper {
      */
     public Calendar getNextNotificationDate() {
         String dateVal = settings.getString(
-                context.getString(R.string.preference_key_notification_date),
+                context.getString(R.string.preference_key_autorenew_date),
                 context.getString(R.string.preference_value_notification_default_date));
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
@@ -145,7 +145,7 @@ public class PreferenceHelper {
         int day = Integer.parseInt(dateVal);
 
         String timeVal = settings.getString(
-                context.getString(R.string.preference_key_notification_time),
+                context.getString(R.string.preference_key_autorenew_time),
                 context.getString(R.string.preference_value_notification_default_time));
         SimpleTimeFormat simpleTimeFormat = new SimpleTimeFormat(timeVal);
         int hour = simpleTimeFormat.getHour();
@@ -162,6 +162,6 @@ public class PreferenceHelper {
     }
 
     public boolean getNotificationsEnabled() {
-        return settings.getBoolean(context.getString(R.string.preference_key_notifications_enabled), false);
+        return settings.getBoolean(context.getString(R.string.preference_key_autorenew_enabled), false);
     }
 }

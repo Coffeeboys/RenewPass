@@ -8,19 +8,21 @@
     <string name="preference_username_description">The username associated with your school account</string>
     <string name="preference_password">Password</string>
     <string name="preference_password_description">The password associated with your school account</string>
+    <string name="available_notification_short_title">UPass Auto-Renew Success</string>
     <string name="available_notification_title">Your UPass has been successfully renewed!</string>
     <string name="available_notification_text">You\'re all set for the next month</string>
+    <string name="unavailable_notification_short_title">UPass Auto-Renew Error</string>
     <string name="unavailable_notification_title">There was an error trying to auto-renew your UPass</string>
     <string name="unavailable_notification_text">We\'ll keep trying to renew it in the background</string>
-    <string name="preference_header_notifications">Notifications</string>
-    <string name="preference_notificationdate_title">Refresh Date</string>
-    <string name="preference_notificationdate_description">The day of the month to check for a new UPass</string>
-    <string name="preference_notificationtime_title">Refresh Time</string>
-    <string name="preference_notificationtime_description">The time of day to check for a new UPass</string>
-    <string name="preference_notificationsenabled_title">Renewal Notifications</string>
-    <string name="preference_notificationsenabled_description" />
-    <string name="message_notifications_disabled">You have disabled notifications</string>
-    <string name="message_notifications_enabled">You will be updated on the %1$sth of every month</string>
+    <string name="preference_header_autorenew">Automatic Renewal</string>
+    <string name="preference_autorenewdate_title">Renewal Date</string>
+    <string name="preference_autorenewdate_description">The day of the month to renew your UPass</string>
+    <string name="preference_autorenewtime_title">Renewal Time</string>
+    <string name="preference_autorenewtime_description">The time of day to renew your UPass</string>
+    <string name="preference_autorenewenabled_title">Automatic Renewal</string>
+    <string name="preference_autorenewenabled_description" />
+    <string name="message_autorenew_disabled">You have disabled automatic renewal</string>
+    <string name="message_autorenew_enabled">You will be updated on the %1$sth of every month</string>
     <string name="preference_dialog_button_positive">Set</string>
     <string name="preference_dialog_button_negative">Cancel</string>
     <string name="title_activity_intro">IntroActivity</string>
@@ -32,10 +34,9 @@
     <string name="app_welcome">Welcome to RenewPass</string>
     <string name="error_school_selection">Please select a school</string>
     <string name="school_spinner_default">Select your school...</string>
-    <string name="preference_reset">Reset credentials</string>
-    <string name="preference_reset_description">Reset the username and password information</string>
     <string name="preference_school">School</string>
     <string name="preference_school_description">The post-secondary institution that your school account belongs to</string>
+    <string name="preference_header_other">Other</string>
     <string name="preference_credits">Credits</string>
     <string name="preference_credits_description"><![CDATA[
     <b>Alex Land</b> - Lead Developer<br>
@@ -50,7 +51,6 @@
     <string name="preference_licenses">Licenses</string>
     <string name="checkbox_show_password">Show password</string>
     <string name="preference_debug">Send debug log</string>
-    <string name="title_activity_test">TestActivity</string>
     <string name="school_select">Select your school</string>
 
     <!--Preference keys-->
@@ -59,10 +59,10 @@
     <string name="preference_key_password">Password</string>
     <string name="preference_key_School">School</string>
     <string name="preference_key_Reset">Reset</string>
-    <string name="preference_key_notifications_enabled">NotificationsEnabled</string>
-    <string name="preference_key_notification_date">NotificationDate</string>
-    <string name="preference_key_notification_time">NotificationTime</string>
-    <string name="preference_key_notification_last_scheduled">NotificationLastScheduled</string>
+    <string name="preference_key_autorenew_enabled">NotificationsEnabled</string>
+    <string name="preference_key_autorenew_date">NotificationDate</string>
+    <string name="preference_key_autorenew_time">NotificationTime</string>
+    <string name="preference_key_autorenew_last_scheduled">NotificationLastScheduled</string>
     <string name="preference_key_key_alias">KeyAlias</string>
     <string name="preference_key_credits">Credits</string>
     <string name="preference_key_licenses">Licenses</string>
@@ -71,8 +71,6 @@
     <!-- Preference default values-->
     <string name="preference_value_notification_default_time">00:00</string>
     <string name="preference_value_notification_default_date">21</string>
-    <string name="available_notification_short_title">UPass Auto-Renew Success</string>
-    <string name="unavailable_notification_short_title">UPass Auto-Renew Error</string>
 
     <string-array name="school_list">
         <item>SFU</item>

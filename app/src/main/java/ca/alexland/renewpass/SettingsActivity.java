@@ -40,9 +40,9 @@ public class SettingsActivity extends PreferenceActivity
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
 
-            preferenceKeyNotificationsEnabled = getString(R.string.preference_key_notifications_enabled);
-            preferenceKeyNotificationDate = getString(R.string.preference_key_notification_date);
-            preferenceKeyNotificationTime = getString(R.string.preference_key_notification_time);
+            preferenceKeyNotificationsEnabled = getString(R.string.preference_key_autorenew_enabled);
+            preferenceKeyNotificationDate = getString(R.string.preference_key_autorenew_date);
+            preferenceKeyNotificationTime = getString(R.string.preference_key_autorenew_time);
 
             preferenceHelper = PreferenceHelper.getInstance(getActivity());
 
@@ -119,13 +119,13 @@ public class SettingsActivity extends PreferenceActivity
                 if (preferenceHelper.getNotificationsEnabled()) {
                     AlarmUtil.setNextAlarm(getActivity());
                     //TODO: put day of the month back in here after testing is complete
-                    String textToShow = String.format(getString(R.string.message_notifications_enabled),
+                    String textToShow = String.format(getString(R.string.message_autorenew_enabled),
                             CalendarUtil.convertDateToString(getActivity(), preferenceHelper.getNextNotificationDate()));
 //                            preferenceHelper.getNextNotificationDate().get(Calendar.DAY_OF_MONTH));
                     Snackbar.make(getView(), textToShow, Snackbar.LENGTH_LONG).show();
                 } else {
                     AlarmUtil.cancelAlarm(getActivity());
-                    Snackbar.make(getView(), getString(R.string.message_notifications_disabled), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(getView(), getString(R.string.message_autorenew_disabled), Snackbar.LENGTH_SHORT).show();
                 }
             }
         }
