@@ -53,29 +53,9 @@ public class IntroActivity extends AppIntro2 {
     }
 
     private Fragment getCredentialSlide() {
-        return new Fragment() {
-            @Override
-            public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-                View view = inflater.inflate(R.layout.credential_slide, container, false);
-                
-                final EditText editText = (EditText) view.findViewById(R.id.password_field);
-
-                CheckBox checkBox = (CheckBox) view.findViewById(R.id.password_checkbox);
-                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (isChecked) {
-                            editText.setTransformationMethod(null);
-                        } else {
-                            editText.setTransformationMethod(new PasswordTransformationMethod());
-                        }
-                    }
-                });
-
-                return view;
-            }
-        };
+        return new IntroFragment();
     }
+
     @Override
     public void onNextPressed() {
 
@@ -145,6 +125,29 @@ public class IntroActivity extends AppIntro2 {
         }
         else {
             return super.onKeyDown(keyCode, event);
+        }
+    }
+
+public static class IntroFragment extends Fragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.credential_slide, container, false);
+
+            final EditText editText = (EditText) view.findViewById(R.id.password_field);
+
+            CheckBox checkBox = (CheckBox) view.findViewById(R.id.password_checkbox);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        editText.setTransformationMethod(null);
+                    } else {
+                        editText.setTransformationMethod(new PasswordTransformationMethod());
+                    }
+                }
+            });
+
+            return view;
         }
     }
 }
