@@ -33,6 +33,8 @@ public class PreferenceHelper {
         this.settings = PreferenceManager.getDefaultSharedPreferences(context);
         this.editor = settings.edit();
         this.context = context;
+        this.keysExist = getKeysExist();
+        this.passwordEncrypted = getPasswordExcrypted();
     }
 
     public static PreferenceHelper getInstance(Context context) {
@@ -79,6 +81,7 @@ public class PreferenceHelper {
                 passwordEncrypted = false;
             }
         }
+        setPasswordEncrypted(passwordEncrypted);
         editor.putString(context.getString(R.string.preference_key_password), password);
         editor.commit();
     }
@@ -94,6 +97,7 @@ public class PreferenceHelper {
 
     private void setupKeys(Context context) {
         keysExist = keyStoreUtil.createKeys(context);
+        setKeysExist(keysExist);
     }
 
     public void setupEncryption(Context context) {
@@ -163,5 +167,23 @@ public class PreferenceHelper {
 
     public boolean getNotificationsEnabled() {
         return settings.getBoolean(context.getString(R.string.preference_key_autorenew_enabled), false);
+    }
+
+    private void setKeysExist(boolean keysExist) {
+        editor.putBoolean(context.getString(R.string.preference_key_keys), keysExist);
+        editor.commit();
+    }
+
+    private boolean getKeysExist() {
+        return settings.getBoolean(context.getString(R.string.preference_key_keys), true);
+    }
+
+    private void setPasswordEncrypted(boolean passwordEncrypted) {
+        editor.putBoolean(context.getString(R.string.preference_key_encrypted), passwordEncrypted);
+        editor.commit();
+    }
+
+    private boolean getPasswordExcrypted() {
+        return settings.getBoolean(context.getString(R.string.preference_key_encrypted), true);
     }
 }
