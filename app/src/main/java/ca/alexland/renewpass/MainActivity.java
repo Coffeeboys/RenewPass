@@ -127,10 +127,20 @@ public class MainActivity extends AppCompatActivity {
             public void run(){
                 PreferenceHelper preferences = PreferenceHelper.getInstance(MainActivity.this);
 
+                int prevVersionCode = preferences.getPreviousVersionCode();
                 boolean credentialsEntered = preferences.credentialsEntered();
 
+                Intent i = new Intent(MainActivity.this, IntroActivity.class);
+                if (prevVersionCode < BuildConfig.VERSION_CODE && credentialsEntered) {
+                    i.putExtra("Title", getString(R.string.app_welcome_upgrade));
+                    i.putExtra("Description", getString(R.string.app_welcome_upgrade_description));
+                    preferences.setPreviousVersionCode(BuildConfig.VERSION_CODE);
+                    startActivity(i);
+                }
+
                 if (!credentialsEntered) {
-                    Intent i = new Intent(MainActivity.this, IntroActivity.class);
+                    i.putExtra("Title", getString(R.string.app_welcome));
+                    i.putExtra("Description",getString(R.string.app_welcome_description));
                     startActivity(i);
                 }
             }

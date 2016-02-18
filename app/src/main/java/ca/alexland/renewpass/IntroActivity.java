@@ -1,5 +1,6 @@
 package ca.alexland.renewpass;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -36,9 +37,12 @@ public class IntroActivity extends AppIntro2 {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        String title = intent.getStringExtra("Title");
+        String description = intent.getStringExtra("Description");
 
-        addSlide(AppIntroFragment.newInstance(getString(R.string.app_welcome),
-                getString(R.string.app_description),
+        addSlide(AppIntroFragment.newInstance(title,
+                description,
                 R.drawable.ic_autorenew,
                 ContextCompat.getColor(this, R.color.colorPrimary)));
 

@@ -86,18 +86,19 @@
         soulwolf:mcTextColor="@drawable/radio_button_text_selector"
         soulwolf:mcTextSize="@dimen/school_text" />
 
-    <net.soulwolf.widget.materialradio.MaterialRadioButton
-        android:id="@+id/rb_langara"
-        android:layout_width="@dimen/school_icon"
-        android:layout_height="@dimen/school_icon"
-        
-        soulwolf:mcAnimator="true"
-        soulwolf:mcButton="@drawable/langara_selector"
-        soulwolf:mcChecked="false"
-        soulwolf:mcPadding="@dimen/school_padding"
-        soulwolf:mcText="Langara"
-        soulwolf:mcTextColor="@drawable/radio_button_text_selector"
-        soulwolf:mcTextSize="@dimen/school_text" />
+    <!-- TODO: Un-comment when Langara login is fixed-->
+    <!--<net.soulwolf.widget.materialradio.MaterialRadioButton-->
+        <!--android:id="@+id/rb_langara"-->
+        <!--android:layout_width="@dimen/school_icon"-->
+        <!--android:layout_height="@dimen/school_icon"-->
+        <!-- -->
+        <!--soulwolf:mcAnimator="true"-->
+        <!--soulwolf:mcButton="@drawable/langara_selector"-->
+        <!--soulwolf:mcChecked="false"-->
+        <!--soulwolf:mcPadding="@dimen/school_padding"-->
+        <!--soulwolf:mcText="Langara"-->
+        <!--soulwolf:mcTextColor="@drawable/radio_button_text_selector"-->
+        <!--soulwolf:mcTextSize="@dimen/school_text" />-->
 
     <net.soulwolf.widget.materialradio.MaterialRadioButton
         android:id="@+id/rb_nvit"
@@ -112,18 +113,19 @@
         soulwolf:mcTextColor="@drawable/radio_button_text_selector"
         soulwolf:mcTextSize="@dimen/school_text" />
 
-    <net.soulwolf.widget.materialradio.MaterialRadioButton
-        android:id="@+id/rb_ucap"
-        android:layout_width="@dimen/school_icon"
-        android:layout_height="@dimen/school_icon"
-        
-        soulwolf:mcAnimator="true"
-        soulwolf:mcButton="@drawable/ucap_selector"
-        soulwolf:mcChecked="false"
-        soulwolf:mcPadding="@dimen/school_padding"
-        soulwolf:mcText="Cap U"
-        soulwolf:mcTextColor="@drawable/radio_button_text_selector"
-        soulwolf:mcTextSize="@dimen/school_text" />
+    <!-- TODO: Un-comment when CapU login is fixed-->
+    <!--<net.soulwolf.widget.materialradio.MaterialRadioButton-->
+        <!--android:id="@+id/rb_ucap"-->
+        <!--android:layout_width="@dimen/school_icon"-->
+        <!--android:layout_height="@dimen/school_icon"-->
+        <!-- -->
+        <!--soulwolf:mcAnimator="true"-->
+        <!--soulwolf:mcButton="@drawable/ucap_selector"-->
+        <!--soulwolf:mcChecked="false"-->
+        <!--soulwolf:mcPadding="@dimen/school_padding"-->
+        <!--soulwolf:mcText="Cap U"-->
+        <!--soulwolf:mcTextColor="@drawable/radio_button_text_selector"-->
+        <!--soulwolf:mcTextSize="@dimen/school_text" />-->
 
     <net.soulwolf.widget.materialradio.MaterialRadioButton
         android:id="@+id/rb_vcc"

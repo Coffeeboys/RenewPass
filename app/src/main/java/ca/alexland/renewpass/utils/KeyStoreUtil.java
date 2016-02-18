@@ -110,7 +110,7 @@ public class KeyStoreUtil {
             RSAPublicKey publicKey = (RSAPublicKey) privateKeyEntry.getCertificate().getPublicKey();
 
             Cipher input;
-            input = Cipher.getInstance("RSA/ECB/PKCS1Padding", "AndroidOpenSSL");
+            input = Cipher.getInstance("RSA/ECB/PKCS1Padding");
             input.init(Cipher.ENCRYPT_MODE, publicKey);
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

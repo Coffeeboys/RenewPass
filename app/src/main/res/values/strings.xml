@@ -30,7 +30,7 @@
     <string name="password_hint">Enter your password</string>
     <string name="enter_credentials_prompt">To get started, enter your credentials</string>
     <string name="provider_hint">Select your school</string>
-    <string name="app_description">Renew your U-pass with the press of a button</string>
+    <string name="app_welcome_description">Renew your U-pass with the press of a button</string>
     <string name="app_welcome">Welcome to RenewPass</string>
     <string name="error_school_selection">Please select a school</string>
     <string name="school_spinner_default">Select your school...</string>
@@ -52,6 +52,8 @@
     <string name="checkbox_show_password">Show password</string>
     <string name="preference_debug">Send debug log</string>
     <string name="school_select">Select your school</string>
+    <string name="app_welcome_upgrade">Welcome back to RenewPass!</string>
+    <string name="app_welcome_upgrade_description">We\'ve changed a few things around behind the scenes, so we need you to re-enter your credentials.</string>
 
     <!--Preference keys-->
     <!--IMPORTANT: These strings CANNOT CHANGE. Otherwise, preferences will be lost-->
@@ -69,6 +71,7 @@
     <string name="preference_key_debug">Debug</string>
     <string name="preference_key_keys">KeysExist</string>
     <string name="preference_key_encrypted">PasswordEncrypted</string>
+    <string name="preference_key_prevversion">PreviousVersion</string>
     
     <!-- Preference default values-->
     <string name="preference_value_notification_default_time">00:00</string>

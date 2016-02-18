@@ -33,6 +33,7 @@ public class PreferenceHelper {
         this.settings = PreferenceManager.getDefaultSharedPreferences(context);
         this.editor = settings.edit();
         this.context = context;
+        this.keyStoreUtil = new KeyStoreUtil(getKeyAlias());
         this.keysExist = getKeysExist();
         this.passwordEncrypted = getPasswordExcrypted();
     }
@@ -106,7 +107,6 @@ public class PreferenceHelper {
             alias = this.getUsername();
             setKeyAlias(alias);
         }
-        this.keyStoreUtil = new KeyStoreUtil(alias);
         keysExist = keyStoreUtil.keysExist();
         if (!keysExist) {
             setupKeys(context);
@@ -185,5 +185,14 @@ public class PreferenceHelper {
 
     private boolean getPasswordExcrypted() {
         return settings.getBoolean(context.getString(R.string.preference_key_encrypted), true);
+    }
+
+    public int getPreviousVersionCode() {
+        return settings.getInt(context.getString(R.string.preference_key_prevversion), 0);
+    }
+
+    public void setPreviousVersionCode(int currVersion) {
+        editor.putInt(context.getString(R.string.preference_key_prevversion), currVersion);
+        editor.commit();
     }
 }
