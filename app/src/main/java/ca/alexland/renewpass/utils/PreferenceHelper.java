@@ -141,10 +141,24 @@ public class PreferenceHelper {
      * Ex: if it is January 22nd and the user has set their renew date to January 21st, the calendar date will be set to Feb. 21st
      */
     public Calendar getNextNotificationDate() {
+        return getNextNotificationDateHelp(false);
+    }
+
+    /**
+     * @return the date for notifications that is a month after the currently saved notification date preference
+     */
+    public Calendar getNextMonthNotificationDate() {
+        return getNextNotificationDateHelp(true);
+    }
+
+    private Calendar getNextNotificationDateHelp(boolean forceNextMonthDate) {
+        Calendar cal = Calendar.getInstance();
+        long currTime = cal.getTimeInMillis();
+
         String dateVal = settings.getString(
                 context.getString(R.string.preference_key_autorenew_date),
                 context.getString(R.string.preference_value_notification_default_date));
-        Calendar cal = Calendar.getInstance();
+        //year and month are the same as the current year and month
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = Integer.parseInt(dateVal);
@@ -158,8 +172,8 @@ public class PreferenceHelper {
 
         cal.set(year, month, day, hour, minute);
 
-        boolean hasDateAlreadyPassed = System.currentTimeMillis() > cal.getTimeInMillis();
-        if (hasDateAlreadyPassed) {
+        boolean hasDateAlreadyPassedThisMonth = currTime > cal.getTimeInMillis();
+        if (forceNextMonthDate || hasDateAlreadyPassedThisMonth) {
             cal.setTimeInMillis(CalendarUtil.getNextMonthTimeInMillis(cal.getTimeInMillis()));
         }
 

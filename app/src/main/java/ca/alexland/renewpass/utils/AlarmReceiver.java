@@ -1,17 +1,9 @@
 package ca.alexland.renewpass.utils;
 
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
-import android.widget.Toast;
 
-import ca.alexland.renewpass.MainActivity;
-import ca.alexland.renewpass.R;
 import ca.alexland.renewpass.model.Callback;
 import ca.alexland.renewpass.model.Status;
 
@@ -21,7 +13,6 @@ import ca.alexland.renewpass.model.Status;
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
-        //TODO: REMOVE ALL TOAST DEBUG MESSAGES
         final PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
         String intentAction = intent.getAction();
         if (intentAction == null) {
@@ -32,14 +23,9 @@ public class AlarmReceiver extends BroadcastReceiver {
                 if (preferenceHelper.getNotificationsEnabled()) {
                     AlarmUtil.setAlarmAtTime(context, preferenceHelper.getLastScheduledNotificationTime());
                 }
-                Toast.makeText(context, "Restoring alarms. Notifications: " + preferenceHelper.getNotificationsEnabled()
-                        + "Last Alarm date set for: " + CalendarUtil.convertDateToString(context, preferenceHelper.getLastScheduledNotificationTime())
-                        + "At time: " + CalendarUtil.convertTimeToString(context, preferenceHelper.getLastScheduledNotificationTime()), Toast.LENGTH_LONG).show();
                 break;
             default:
-                Toast.makeText(context, "Received!", Toast.LENGTH_LONG).show();
                 final PendingResult pendingResult = goAsync();
-//                final boolean notificationsEnabled = intent.getBooleanExtra(PreferenceHelper.EXTRA_NOTIFICATIONS_ENABLED, false);
                 UPassLoader.renewUPass(context, new Callback() {
                     @Override
                     public void onUPassLoaded(Status result) {
@@ -56,57 +42,12 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     private void doFailure(Context context) {
-        showFailureNotification(context);
-        AlarmUtil.setAlarmNextHour(context);
-        Toast.makeText(context,
-                "Failure! retry alarm set for: " +
-                        CalendarUtil.convertDateToString(context, System.currentTimeMillis() + AlarmManager.INTERVAL_DAY), Toast.LENGTH_LONG)
-                .show();
+        NotifyUtil.showFailureNotification(context);
+        AlarmUtil.setNextHourAlarm(context);
     }
 
     private void doSuccess(Context context, PreferenceHelper preferenceHelper) {
-        showSuccessNotification(context);
-        AlarmUtil.setNextAlarm(context);
-        Toast.makeText(context,
-                "Renewed! next alarm set for: " +
-                        CalendarUtil.convertDateToString(context, preferenceHelper.getNextNotificationDate()), Toast.LENGTH_LONG)
-                .show();
-    }
-
-    private void showSuccessNotification(Context context) {
-        showNotification(context,
-                context.getString(R.string.available_notification_short_title),
-                context.getString(R.string.available_notification_title),
-                context.getString(R.string.available_notification_text));
-    }
-
-    private void showFailureNotification(Context context) {
-        // TODO: Add retry button on failure notification
-        showNotification(context,
-                context.getString(R.string.unavailable_notification_short_title),
-                context.getString(R.string.unavailable_notification_title),
-                context.getString(R.string.unavailable_notification_text));
-    }
-
-    private void showNotification(Context context, String contentShortTitle, String contentTitle, String contentText) {
-        NotificationCompat.BigTextStyle notificationStyle = new NotificationCompat.BigTextStyle()
-                .setBigContentTitle(contentShortTitle)
-                .bigText(contentTitle)
-                .setSummaryText(contentText);
-
-        Intent intent = new Intent(context, MainActivity.class);
-        PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_autorenew)
-                .setContentTitle(contentShortTitle)
-                .setContentText(contentTitle)
-                .setContentIntent(pi)
-                .setDefaults(Notification.DEFAULT_SOUND)
-                .setAutoCancel(true)
-                .setStyle(notificationStyle);
-
-        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(0, mBuilder.build());
+        NotifyUtil.showSuccessNotification(context);
+        AlarmUtil.setNextMonthAlarm(context);
     }
 }
