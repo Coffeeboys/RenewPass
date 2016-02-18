@@ -57,7 +57,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     private void doFailure(Context context) {
         showFailureNotification(context);
-        AlarmUtil.setAlarmNextHour(context);
+        AlarmUtil.setNextHourAlarm(context);
         Toast.makeText(context,
                 "Failure! retry alarm set for: " +
                         CalendarUtil.convertDateToString(context, System.currentTimeMillis() + AlarmManager.INTERVAL_DAY), Toast.LENGTH_LONG)
@@ -66,10 +66,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     private void doSuccess(Context context, PreferenceHelper preferenceHelper) {
         showSuccessNotification(context);
-        AlarmUtil.setNextAlarm(context);
+        AlarmUtil.setNextMonthAlarm(context);
         Toast.makeText(context,
                 "Renewed! next alarm set for: " +
-                        CalendarUtil.convertDateToString(context, preferenceHelper.getNextNotificationDate()), Toast.LENGTH_LONG)
+                        CalendarUtil.convertDateToString(context, preferenceHelper.getNextMonthNotificationDate()), Toast.LENGTH_LONG)
                 .show();
     }
 

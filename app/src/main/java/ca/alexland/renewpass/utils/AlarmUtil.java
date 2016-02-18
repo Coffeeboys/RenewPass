@@ -31,7 +31,26 @@ public class AlarmUtil {
         setAlarm(context, cal.getTimeInMillis(), preferenceHelper);
     }
 
-    public static void setAlarmNextHour(Context context) {
+    /**
+     * Sets the alarm for the month after the month saved in preference helper.
+     * This is useful if you want to force the alarm to be scheduled for the next month
+     * ex: when renewing the user's Upass, if the alarm is not forced to the next month
+     * and the renew process finishes before the minute that the alarm is scheduled for,
+     * then the alarm will be rescheduled for the same month instead of the next month.
+     * Using this method will force it to be scheduled for the next month
+     */
+    public static void setNextMonthAlarm(Context context) {
+        PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
+        //TODO: delete debug toast messages
+        Calendar cal = preferenceHelper.getNextMonthNotificationDate();
+        Toast.makeText(context, "Setting Alarm for" +
+                " Date: " + cal.get(Calendar.DATE) +
+                " Hour: " + cal.get(Calendar.HOUR_OF_DAY) +
+                " Minute: " + cal.get(Calendar.MINUTE), Toast.LENGTH_LONG).show();
+        setAlarm(context, cal.getTimeInMillis(), preferenceHelper);
+    }
+
+    public static void setNextHourAlarm(Context context) {
         PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
         //TODO: remove toast messages
         Toast.makeText(context, "Setting alarm to be checked again in a day", Toast.LENGTH_LONG).show();
