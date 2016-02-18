@@ -4,7 +4,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -22,12 +21,7 @@ public class AlarmUtil {
      */
     public static void setNextAlarm(Context context) {
         PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
-        //TODO: delete debug toast messages
         Calendar cal = preferenceHelper.getNextNotificationDate();
-        Toast.makeText(context, "Setting Alarm for" +
-                " Date: " + cal.get(Calendar.DATE) +
-                " Hour: " + cal.get(Calendar.HOUR_OF_DAY) +
-                " Minute: " + cal.get(Calendar.MINUTE), Toast.LENGTH_LONG).show();
         setAlarm(context, cal.getTimeInMillis(), preferenceHelper);
     }
 
@@ -41,19 +35,12 @@ public class AlarmUtil {
      */
     public static void setNextMonthAlarm(Context context) {
         PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
-        //TODO: delete debug toast messages
         Calendar cal = preferenceHelper.getNextMonthNotificationDate();
-        Toast.makeText(context, "Setting Alarm for" +
-                " Date: " + cal.get(Calendar.DATE) +
-                " Hour: " + cal.get(Calendar.HOUR_OF_DAY) +
-                " Minute: " + cal.get(Calendar.MINUTE), Toast.LENGTH_LONG).show();
         setAlarm(context, cal.getTimeInMillis(), preferenceHelper);
     }
 
     public static void setNextHourAlarm(Context context) {
         PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
-        //TODO: remove toast messages
-        Toast.makeText(context, "Setting alarm to be checked again in a day", Toast.LENGTH_LONG).show();
         setAlarm(context, System.currentTimeMillis() + AlarmManager.INTERVAL_DAY, preferenceHelper);
     }
 
