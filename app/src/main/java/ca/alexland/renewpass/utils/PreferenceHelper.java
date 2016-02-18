@@ -106,6 +106,7 @@ public class PreferenceHelper {
         if (alias.equals(DEFAULT_VALUE_STRING)) {
             alias = this.getUsername();
             setKeyAlias(alias);
+            keyStoreUtil.setAlias(alias);
         }
         keysExist = keyStoreUtil.keysExist();
         if (!keysExist) {

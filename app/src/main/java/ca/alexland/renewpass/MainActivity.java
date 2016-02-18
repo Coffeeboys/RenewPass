@@ -141,8 +141,10 @@ public class MainActivity extends AppCompatActivity {
                 if (!credentialsEntered) {
                     i.putExtra("Title", getString(R.string.app_welcome));
                     i.putExtra("Description",getString(R.string.app_welcome_description));
+                    preferences.setPreviousVersionCode(BuildConfig.VERSION_CODE);
                     startActivity(i);
                 }
+
             }
         });
 
