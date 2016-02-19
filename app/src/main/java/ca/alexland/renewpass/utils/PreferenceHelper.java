@@ -23,8 +23,6 @@ public class PreferenceHelper {
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
     private KeyStoreUtil keyStoreUtil;
-    private boolean keysExist;
-    private boolean passwordEncrypted;
     private static PreferenceHelper instance = null;
     private Context context;
 
@@ -34,8 +32,6 @@ public class PreferenceHelper {
         this.editor = settings.edit();
         this.context = context;
         this.keyStoreUtil = new KeyStoreUtil(getKeyAlias());
-        this.keysExist = getKeysExist();
-        this.passwordEncrypted = getPasswordExcrypted();
     }
 
     public static PreferenceHelper getInstance(Context context) {
@@ -51,7 +47,7 @@ public class PreferenceHelper {
 
     public String getPassword() {
         String password = settings.getString(context.getString(R.string.preference_key_password), DEFAULT_VALUE_STRING);
-        if (keysExist && passwordEncrypted) {
+        if (getKeysExist() && getPasswordExcrypted()) {
             try {
                 password = keyStoreUtil.decryptPassword(password);
             } catch (DecryptionFailedException e) {
@@ -72,17 +68,16 @@ public class PreferenceHelper {
     }
 
     public void setPassword(String password) {
-        if (keysExist) {
+        if (getKeysExist()) {
             try {
                 password = keyStoreUtil.encryptPassword(password);
-                passwordEncrypted = true;
+                setPasswordEncrypted(true);
             } catch (EncryptionFailedException e) {
                 // TODO: Notify user of failed encryption
                 LoggerUtil.appendLogWithStacktrace(context, "Password encryption failed: ", e.getOriginalException());
-                passwordEncrypted = false;
+                setPasswordEncrypted(false);
             }
         }
-        setPasswordEncrypted(passwordEncrypted);
         editor.putString(context.getString(R.string.preference_key_password), password);
         editor.commit();
     }
@@ -97,8 +92,7 @@ public class PreferenceHelper {
     }
 
     private void setupKeys(Context context) {
-        keysExist = keyStoreUtil.createKeys(context);
-        setKeysExist(keysExist);
+        setKeysExist(keyStoreUtil.createKeys(context));
     }
 
     public void setupEncryption(Context context) {
@@ -108,8 +102,8 @@ public class PreferenceHelper {
             setKeyAlias(alias);
             keyStoreUtil.setAlias(alias);
         }
-        keysExist = keyStoreUtil.keysExist();
-        if (!keysExist) {
+        setKeysExist(keyStoreUtil.keysExist());
+        if (!getKeysExist()) {
             setupKeys(context);
         }
     }
@@ -185,7 +179,7 @@ public class PreferenceHelper {
     }
 
     private boolean getPasswordExcrypted() {
-        return settings.getBoolean(context.getString(R.string.preference_key_encrypted), true);
+        return settings.getBoolean(context.getString(R.string.preference_key_encrypted), false);
     }
 
     public int getPreviousVersionCode() {
