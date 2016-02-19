@@ -41,7 +41,7 @@ public class AlarmUtil {
 
     public static void setNextHourAlarm(Context context) {
         PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
-        setAlarm(context, System.currentTimeMillis() + AlarmManager.INTERVAL_DAY, preferenceHelper);
+        setAlarm(context, System.currentTimeMillis() + AlarmManager.INTERVAL_HOUR, preferenceHelper);
     }
 
     public static void setAlarmAtTime(Context context, long timeInMillis) {
