@@ -4,7 +4,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -57,12 +56,15 @@ public class AlarmUtil {
                 timeInMillis,
                 pendingIntent);
         preferenceHelper.setLastScheduledNotificationTime(timeInMillis);
+        LoggerUtil.appendLog(context, "Alarm set for " + CalendarUtil.convertDateToString(context, timeInMillis)
+                + " at " + CalendarUtil.convertTimeToString(context, timeInMillis));
     }
 
     public static void cancelAlarm(Context context) {
         PendingIntent pendingIntent = createPendingIntent(context, PreferenceHelper.getInstance(context));
         AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         am.cancel(pendingIntent);
+        LoggerUtil.appendLog(context, "Alarm cancelled");
     }
 
     private static PendingIntent createPendingIntent(Context context, PreferenceHelper preferenceHelper) {
