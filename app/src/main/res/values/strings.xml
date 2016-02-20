@@ -81,8 +81,9 @@
         <item>SFU</item>
         <item>UBC</item>
         <item>BCIT</item>
-        <item>Cap U</item>
-        <item>Langara</item>
+        <!-- TODO: Un-comment Cap U and Langara when they are fixed-->
+        <!--<item>Cap U</item>-->
+        <!--<item>Langara</item>-->
         <item>VCC</item>
         <item>NVIT</item>
         <item>Douglas</item>

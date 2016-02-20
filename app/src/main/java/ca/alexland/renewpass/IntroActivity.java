@@ -29,6 +29,8 @@ import ca.alexland.renewpass.utils.AlarmUtil;
 import ca.alexland.renewpass.utils.PreferenceHelper;
 
 public class IntroActivity extends AppIntro2 {
+    public static final String EXTRA_TITLE = "Title";
+    public static final String EXTRA_DESCRIPTION = "Description";
 
     @Override
     public void onBackPressed() {
@@ -38,8 +40,8 @@ public class IntroActivity extends AppIntro2 {
     @Override
     public void init(Bundle savedInstanceState) {
         Intent intent = getIntent();
-        String title = intent.getStringExtra("Title");
-        String description = intent.getStringExtra("Description");
+        String title = intent.getStringExtra(EXTRA_TITLE);
+        String description = intent.getStringExtra(EXTRA_DESCRIPTION);
 
         addSlide(AppIntroFragment.newInstance(title,
                 description,

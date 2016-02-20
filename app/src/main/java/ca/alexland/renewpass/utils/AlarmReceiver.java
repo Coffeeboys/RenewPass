@@ -57,7 +57,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     private void doFailure(Context context) {
         showFailureNotification(context);
-        AlarmUtil.setAlarmNextHour(context);
+        AlarmUtil.setAlarmNextDay(context);
         Toast.makeText(context,
                 "Failure! retry alarm set for: " +
                         CalendarUtil.convertDateToString(context, System.currentTimeMillis() + AlarmManager.INTERVAL_DAY), Toast.LENGTH_LONG)

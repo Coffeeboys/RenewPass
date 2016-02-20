@@ -31,7 +31,7 @@ public class AlarmUtil {
         setAlarm(context, cal.getTimeInMillis(), preferenceHelper);
     }
 
-    public static void setAlarmNextHour(Context context) {
+    public static void setAlarmNextDay(Context context) {
         PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
         //TODO: remove toast messages
         Toast.makeText(context, "Setting alarm to be checked again in a day", Toast.LENGTH_LONG).show();

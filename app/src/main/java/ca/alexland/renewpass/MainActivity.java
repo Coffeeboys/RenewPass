@@ -132,15 +132,15 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent i = new Intent(MainActivity.this, IntroActivity.class);
                 if (prevVersionCode < BuildConfig.VERSION_CODE && credentialsEntered) {
-                    i.putExtra("Title", getString(R.string.app_welcome_upgrade));
-                    i.putExtra("Description", getString(R.string.app_welcome_upgrade_description));
+                    i.putExtra(IntroActivity.EXTRA_TITLE, getString(R.string.app_welcome_upgrade));
+                    i.putExtra(IntroActivity.EXTRA_DESCRIPTION, getString(R.string.app_welcome_upgrade_description));
                     preferences.setPreviousVersionCode(BuildConfig.VERSION_CODE);
                     startActivity(i);
                 }
 
                 if (!credentialsEntered) {
-                    i.putExtra("Title", getString(R.string.app_welcome));
-                    i.putExtra("Description",getString(R.string.app_welcome_description));
+                    i.putExtra(IntroActivity.EXTRA_TITLE, getString(R.string.app_welcome));
+                    i.putExtra(IntroActivity.EXTRA_DESCRIPTION,getString(R.string.app_welcome_description));
                     preferences.setPreviousVersionCode(BuildConfig.VERSION_CODE);
                     startActivity(i);
                 }
