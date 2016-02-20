@@ -40,7 +40,7 @@ public class AlarmUtil {
         setAlarm(context, cal.getTimeInMillis(), preferenceHelper);
     }
 
-    public static void setNextHourAlarm(Context context) {
+    public static void setNextDayAlarm(Context context) {
         PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
         setAlarm(context, System.currentTimeMillis() + AlarmManager.INTERVAL_DAY, preferenceHelper);
     }
