@@ -56,57 +56,12 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     private void doFailure(Context context) {
-        showFailureNotification(context);
-        AlarmUtil.setAlarmNextDay(context);
-        Toast.makeText(context,
-                "Failure! retry alarm set for: " +
-                        CalendarUtil.convertDateToString(context, System.currentTimeMillis() + AlarmManager.INTERVAL_DAY), Toast.LENGTH_LONG)
-                .show();
+        NotifyUtil.showFailureNotification(context);
+        AlarmUtil.setNextHourAlarm(context);
     }
 
     private void doSuccess(Context context, PreferenceHelper preferenceHelper) {
-        showSuccessNotification(context);
-        AlarmUtil.setNextAlarm(context);
-        Toast.makeText(context,
-                "Renewed! next alarm set for: " +
-                        CalendarUtil.convertDateToString(context, preferenceHelper.getNextNotificationDate()), Toast.LENGTH_LONG)
-                .show();
-    }
-
-    private void showSuccessNotification(Context context) {
-        showNotification(context,
-                context.getString(R.string.available_notification_short_title),
-                context.getString(R.string.available_notification_title),
-                context.getString(R.string.available_notification_text));
-    }
-
-    private void showFailureNotification(Context context) {
-        // TODO: Add retry button on failure notification
-        showNotification(context,
-                context.getString(R.string.unavailable_notification_short_title),
-                context.getString(R.string.unavailable_notification_title),
-                context.getString(R.string.unavailable_notification_text));
-    }
-
-    private void showNotification(Context context, String contentShortTitle, String contentTitle, String contentText) {
-        NotificationCompat.BigTextStyle notificationStyle = new NotificationCompat.BigTextStyle()
-                .setBigContentTitle(contentShortTitle)
-                .bigText(contentTitle)
-                .setSummaryText(contentText);
-
-        Intent intent = new Intent(context, MainActivity.class);
-        PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_autorenew)
-                .setContentTitle(contentShortTitle)
-                .setContentText(contentTitle)
-                .setContentIntent(pi)
-                .setDefaults(Notification.DEFAULT_SOUND)
-                .setAutoCancel(true)
-                .setStyle(notificationStyle);
-
-        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(0, mBuilder.build());
+        NotifyUtil.showSuccessNotification(context);
+        AlarmUtil.setNextMonthAlarm(context);
     }
 }

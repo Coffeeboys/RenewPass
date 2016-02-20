@@ -14,6 +14,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 
+import java.util.Calendar;
+
 import ca.alexland.renewpass.utils.LoggerUtil;
 import de.psdev.licensesdialog.LicenseResolver;
 import de.psdev.licensesdialog.LicensesDialog;
@@ -118,10 +120,9 @@ public class SettingsActivity extends PreferenceActivity
                     key.equals(preferenceKeyNotificationTime)) {
                 if (preferenceHelper.getNotificationsEnabled()) {
                     AlarmUtil.setNextAlarm(getActivity());
-                    //TODO: put day of the month back in here after testing is complete
                     String textToShow = String.format(getString(R.string.message_autorenew_enabled),
+                            preferenceHelper.getNextNotificationDate().get(Calendar.DAY_OF_MONTH),
                             CalendarUtil.convertDateToString(getActivity(), preferenceHelper.getNextNotificationDate()));
-//                            preferenceHelper.getNextNotificationDate().get(Calendar.DAY_OF_MONTH));
                     Snackbar.make(getView(), textToShow, Snackbar.LENGTH_LONG).show();
                 } else {
                     AlarmUtil.cancelAlarm(getActivity());

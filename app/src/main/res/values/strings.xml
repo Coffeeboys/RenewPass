@@ -22,7 +22,7 @@
     <string name="preference_autorenewenabled_title">Automatic Renewal</string>
     <string name="preference_autorenewenabled_description" />
     <string name="message_autorenew_disabled">You have disabled automatic renewal</string>
-    <string name="message_autorenew_enabled">You will be updated on the %1$sth of every month</string>
+    <string name="message_autorenew_enabled">You will be updated on the %1$sth of every month. The next update is scheduled for %2$s</string>
     <string name="preference_dialog_button_positive">Set</string>
     <string name="preference_dialog_button_negative">Cancel</string>
     <string name="title_activity_intro">IntroActivity</string>
