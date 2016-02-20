@@ -113,7 +113,13 @@ public class MainActivity extends AppCompatActivity {
                                 .show();
                         break;
                     default:
-                        Snackbar.make(fab, result.getStatusText(), Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(fab, result.getStatusText(), Snackbar.LENGTH_LONG)
+                                .setAction("Send Log", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        LoggerUtil.launchSendLogWithAttachment(v.getContext());
+                                    }
+                                }).show();
                         break;
                 }
             }

@@ -149,6 +149,7 @@ public class LoggerUtil {
         Log.d(TAG, "canRead?" + (logFile.canRead()?"true":"false"));
 
         if (logFile.canRead()) {
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"vancoffeeboys@gmail.com"});
             emailIntent.putExtra(Intent.EXTRA_TEXT, "Attached is " + appName + " log file!");
             Uri uri = FileProvider.getUriForFile(context, "ca.alexland.fileprovider", logFile);
             emailIntent.setData(uri);
