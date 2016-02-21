@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import ca.alexland.renewpass.AutoRenewService;
 import ca.alexland.renewpass.model.Callback;
 import ca.alexland.renewpass.model.Status;
 
@@ -27,30 +28,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 }
                 break;
             default:
-                final PendingResult pendingResult = goAsync();
-                UPassLoader.renewUPass(context, new Callback() {
-                    @Override
-                    public void onUPassLoaded(Status result) {
-                        LoggerUtil.appendLog(context, "AlarmReceiver renew status: " + result.getStatusText());
-                        if (result.isSuccessful()) {
-                            doSuccess(context);
-                        }
-                        else {
-                            doFailure(context);
-                        }
-                        pendingResult.finish();
-                    }
-                });
+                //the AutoRenewService will stop itself when it has finished renewing
+                context.startService(new Intent(context, AutoRenewService.class));
         }
-    }
-
-    private void doFailure(Context context) {
-        NotifyUtil.showFailureNotification(context);
-        AlarmUtil.setNextDayAlarm(context);
-    }
-
-    private void doSuccess(Context context) {
-        NotifyUtil.showSuccessNotification(context);
-        AlarmUtil.setNextMonthAlarm(context);
     }
 }
