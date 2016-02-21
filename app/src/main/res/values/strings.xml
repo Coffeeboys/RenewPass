@@ -13,7 +13,7 @@
     <string name="available_notification_text">You\'re all set for the next month</string>
     <string name="unavailable_notification_short_title">UPass Auto-Renew Error</string>
     <string name="unavailable_notification_title">There was an error trying to auto-renew your UPass</string>
-    <string name="unavailable_notification_text">We\'ll keep trying to renew it in the background</string>
+    <string name="unavailable_notification_text">We\'ll try to renew it again tomorrow</string>
     <string name="preference_header_autorenew">Automatic Renewal</string>
     <string name="preference_autorenewdate_title">Renewal Date</string>
     <string name="preference_autorenewdate_description">The day of the month to renew your UPass</string>
