@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                                 .setAction("Send Log", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        LoggerUtil.launchSendLogWithAttachment(v.getContext());
+                                        LoggerUtil.launchSendLogWithAttachment(getApplicationContext());
                                     }
                                 }).show();
                         break;

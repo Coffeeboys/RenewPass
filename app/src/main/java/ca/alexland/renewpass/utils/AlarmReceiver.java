@@ -14,13 +14,13 @@ import ca.alexland.renewpass.model.Status;
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
-        LoggerUtil.appendLog(context, "Alarm received");
+        LoggerUtil.appendLog(context.getApplicationContext(), "Alarm received");
         final PreferenceHelper preferenceHelper = PreferenceHelper.getInstance(context);
         String intentAction = intent.getAction();
         if (intentAction == null) {
             intentAction = "Default";
         }
-        LoggerUtil.appendLog(context, "Alarm intent action: " + intentAction);
+        LoggerUtil.appendLog(context.getApplicationContext(), "Alarm intent action: " + intentAction);
         switch(intentAction) {
             case Intent.ACTION_BOOT_COMPLETED :
                 if (preferenceHelper.getNotificationsEnabled()) {

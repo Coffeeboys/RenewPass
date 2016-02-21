@@ -56,7 +56,7 @@ public class AlarmUtil {
                 timeInMillis,
                 pendingIntent);
         preferenceHelper.setLastScheduledNotificationTime(timeInMillis);
-        LoggerUtil.appendLog(context, "Alarm set for " + CalendarUtil.convertDateToString(context, timeInMillis)
+        LoggerUtil.appendLog(context.getApplicationContext(), "Alarm set for " + CalendarUtil.convertDateToString(context, timeInMillis)
                 + " at " + CalendarUtil.convertTimeToString(context, timeInMillis));
     }
 
@@ -64,7 +64,7 @@ public class AlarmUtil {
         PendingIntent pendingIntent = createPendingIntent(context, PreferenceHelper.getInstance(context));
         AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         am.cancel(pendingIntent);
-        LoggerUtil.appendLog(context, "Alarm cancelled");
+        LoggerUtil.appendLog(context.getApplicationContext(), "Alarm cancelled");
     }
 
     private static PendingIntent createPendingIntent(Context context, PreferenceHelper preferenceHelper) {
