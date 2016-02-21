@@ -112,14 +112,17 @@ public class MainActivity extends AppCompatActivity {
                                 })
                                 .show();
                         break;
-                    default:
-                        Snackbar.make(fab, result.getStatusText(), Snackbar.LENGTH_LONG)
+                    case Status.RENEW_FAILED:
+                        Snackbar.make(fab, result.getStatusText(), Snackbar.LENGTH_INDEFINITE)
                                 .setAction("Send Log", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         LoggerUtil.launchSendLogWithAttachment(v.getContext());
                                     }
                                 }).show();
+                        break;
+                    default:
+                        Snackbar.make(fab, result.getStatusText(), Snackbar.LENGTH_LONG).show();
                         break;
                 }
             }
