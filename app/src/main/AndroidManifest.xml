@@ -11,7 +11,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        
+
+        <service android:name=".AutoRenewService" android:exported="false" />
+
         <receiver android:name=".utils.AlarmReceiver">
             <intent-filter>
                 <!--TODO: research adding other actions here for certain devices. ex: htc quickboot-->
