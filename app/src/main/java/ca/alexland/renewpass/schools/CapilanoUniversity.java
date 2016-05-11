@@ -7,6 +7,8 @@ import com.gistlabs.mechanize.document.html.form.Form;
 import com.gistlabs.mechanize.document.html.form.Password;
 import com.gistlabs.mechanize.document.html.form.Text;
 
+import org.openqa.selenium.WebDriver;
+
 import ca.alexland.renewpass.exceptions.SchoolAuthenticationFailedException;
 import ca.alexland.renewpass.utils.LoggerUtil;
 
@@ -16,7 +18,6 @@ import ca.alexland.renewpass.utils.LoggerUtil;
 public class CapilanoUniversity implements School {
     private final String ID = "cu";
 
-    @Override
     public HtmlDocument login(HtmlDocument authPage, String username, String password, Context context) throws SchoolAuthenticationFailedException {
         Form authForm = authPage.form("aspnetForm");
 
@@ -43,6 +44,11 @@ public class CapilanoUniversity implements School {
         } else {
             throw new SchoolAuthenticationFailedException(new Exception("Invalid submitted page URI"));
         }
+    }
+
+    @Override
+    public void login(WebDriver webDriver, String username, String password, Context context) throws SchoolAuthenticationFailedException {
+
     }
 
     @Override

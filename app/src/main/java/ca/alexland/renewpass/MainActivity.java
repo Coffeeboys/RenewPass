@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import ca.alexland.renewpass.model.Callback;
 import ca.alexland.renewpass.model.Status;
 import ca.alexland.renewpass.utils.LoggerUtil;
+import ca.alexland.renewpass.utils.UPassLoaderSelenium;
 import ca.alexland.renewpass.views.LoadingFloatingActionButton;
 import ca.alexland.renewpass.utils.PreferenceHelper;
 import ca.alexland.renewpass.utils.UPassLoader;
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onRenew(final LoadingFloatingActionButton fab) {
         fab.startLoading();
-        UPassLoader.renewUPass(getApplicationContext(), new Callback() {
+        UPassLoaderSelenium.renewUPass(getApplicationContext(), new Callback() {
             @Override
             public void onUPassLoaded(Status result) {
                 if (result.isSuccessful()) {

@@ -173,7 +173,8 @@ public class UPassLoader {
         }
 
         private HtmlDocument authorizeAccount(HtmlDocument authPage) throws SchoolAuthenticationFailedException {
-            return this.school.login(authPage, this.username, this.password, context);
+//            return this.school.login(authPage, this.username, this.password, context);
+            return null;
         }
 
         private boolean checkUpass(HtmlDocument upassPage) throws NothingToRenewException {

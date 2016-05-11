@@ -12,6 +12,7 @@ import ca.alexland.renewpass.utils.AlarmUtil;
 import ca.alexland.renewpass.utils.LoggerUtil;
 import ca.alexland.renewpass.utils.NotifyUtil;
 import ca.alexland.renewpass.utils.UPassLoader;
+import ca.alexland.renewpass.utils.UPassLoaderSelenium;
 
 /**
  * Created by Trevor on 2/20/2016.
@@ -28,7 +29,7 @@ public class AutoRenewService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         //The UPassLoader starts a new thread to do work in,
         //so this doesn't block the app process main thread
-        UPassLoader.renewUPass(this, new Callback() {
+        UPassLoaderSelenium.renewUPass(this, new Callback() {
             @Override
             public void onUPassLoaded(Status result) {
                 LoggerUtil.appendLog(AutoRenewService.this, "AlarmReceiver renew status: " + result.getStatusText());
