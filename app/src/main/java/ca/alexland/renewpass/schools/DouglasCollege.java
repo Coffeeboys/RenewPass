@@ -20,8 +20,16 @@ public class DouglasCollege implements School{
     public HtmlDocument login(HtmlDocument authPage, String username, String password, Context context) throws SchoolAuthenticationFailedException {
         Form authForm = authPage.form("aspnetForm");
 
-        Text usernameField = (Text) authForm.get("ctl00$ContentPlaceHolder1$UsernameTextBox");
-        Password passwordField = (Password) authForm.get("ctl00$ContentPlaceHolder1$PasswordTextBox");
+        Text usernameField = (Text) authForm.get("ctl00_ContentPlaceHolder1_UsernameTextBox");
+        Password passwordField = (Password) authForm.get("ctl00_ContentPlaceHolder1_PasswordTextBox");
+
+
+        String viewState = authForm.get("__VIEWSTATE").getValue();
+        String eventValidation = authForm.get("__EVENTVALIDATION").getValue();
+        String db = authForm.get("__db").getValue();
+        authForm.get("__VIEWSTATE").setValue(viewState);
+        authForm.get("__EVENTVALIDATION").setValue(eventValidation);
+        authForm.get("__db").setValue(db);
 
         usernameField.setValue(username);
         passwordField.setValue(password);
