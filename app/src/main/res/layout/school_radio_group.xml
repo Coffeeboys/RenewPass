@@ -46,19 +46,19 @@
         soulwolf:mcTextColor="@drawable/radio_button_text_selector"
         soulwolf:mcTextSize="@dimen/school_text" />
 
-
-    <net.soulwolf.widget.materialradio.MaterialRadioButton
-        android:id="@+id/rb_douglas"
-        android:layout_width="@dimen/school_icon"
-        android:layout_height="@dimen/school_icon"
-        
-        soulwolf:mcAnimator="true"
-        soulwolf:mcButton="@drawable/douglas_selector"
-        soulwolf:mcChecked="false"
-        soulwolf:mcPadding="@dimen/school_padding"
-        soulwolf:mcText="Douglas"
-        soulwolf:mcTextColor="@drawable/radio_button_text_selector"
-        soulwolf:mcTextSize="@dimen/school_text" />
+    <!-- TODO: Un-comment when Douglas login is fixed-->
+    <!--<net.soulwolf.widget.materialradio.MaterialRadioButton-->
+        <!--android:id="@+id/rb_douglas"-->
+        <!--android:layout_width="@dimen/school_icon"-->
+        <!--android:layout_height="@dimen/school_icon"-->
+        <!---->
+        <!--soulwolf:mcAnimator="true"-->
+        <!--soulwolf:mcButton="@drawable/douglas_selector"-->
+        <!--soulwolf:mcChecked="false"-->
+        <!--soulwolf:mcPadding="@dimen/school_padding"-->
+        <!--soulwolf:mcText="Douglas"-->
+        <!--soulwolf:mcTextColor="@drawable/radio_button_text_selector"-->
+        <!--soulwolf:mcTextSize="@dimen/school_text" />-->
 
     <net.soulwolf.widget.materialradio.MaterialRadioButton
         android:id="@+id/rb_emily"

@@ -81,12 +81,12 @@
         <item>SFU</item>
         <item>UBC</item>
         <item>BCIT</item>
-        <!-- TODO: Un-comment Cap U and Langara when they are fixed-->
+        <!-- TODO: Un-comment Cap U, Langara, and Douglas when they are fixed-->
         <!--<item>Cap U</item>-->
         <!--<item>Langara</item>-->
+        <!--<item>Douglas</item>-->
         <item>VCC</item>
         <item>NVIT</item>
-        <item>Douglas</item>
         <item>Kwantlen</item>
         <item>Emily Carr</item>
     </string-array>
