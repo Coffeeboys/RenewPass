@@ -6,8 +6,13 @@ RenewPass does the work of renewing your UPass for you. Enter your school creden
 Your school credentials are stored locally on your phone, and your password is encrypted before being saved, so only RenewPass can see it.
 
 ### Currently supported schools:
-- Simon Fraser University
-- University of British Columbia
+- SFU
+- UBC
+- BCIT
+- VCC
+- NVIT
+- Kwantlen
+- Emily Carr
 
 More schools are coming soon! If you want to speed up the process, help us test or submit a pull request (Look at app/src/main/java/ca/alexland/renewpass/schools/SimonFraserUniversity.java for an example).
 
