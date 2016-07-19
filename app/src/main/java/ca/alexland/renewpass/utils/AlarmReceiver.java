@@ -27,6 +27,11 @@ public class AlarmReceiver extends BroadcastReceiver {
                     AlarmUtil.setAlarmAtTime(context, preferenceHelper.getLastScheduledNotificationTime());
                 }
                 break;
+            case Intent.ACTION_MY_PACKAGE_REPLACED:
+                if (preferenceHelper.getNotificationsEnabled()) {
+                    AlarmUtil.setAlarmAtTime(context, preferenceHelper.getLastScheduledNotificationTime());
+                }
+                break;
             default:
                 //the AutoRenewService will stop itself when it has finished renewing
                 context.startService(new Intent(context, AutoRenewService.class));

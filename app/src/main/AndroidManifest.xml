@@ -18,6 +18,7 @@
             <intent-filter>
                 <!--TODO: research adding other actions here for certain devices. ex: htc quickboot-->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
         
