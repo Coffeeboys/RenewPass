@@ -19,32 +19,31 @@ public class NotifyUtil {
 
     public static void showSuccessNotification(Context context) {
         showNotification(context,
-                context.getString(R.string.available_notification_short_title),
                 context.getString(R.string.available_notification_title),
-                context.getString(R.string.available_notification_text));
+                context.getString(R.string.available_notification_expanded_text),
+                context.getString(R.string.available_notification_short_text));
     }
 
     public static void showFailureNotification(Context context) {
         // TODO: Add retry button on failure notification
         showNotification(context,
-                context.getString(R.string.unavailable_notification_short_title),
                 context.getString(R.string.unavailable_notification_title),
-                context.getString(R.string.unavailable_notification_text));
+                context.getString(R.string.unavailable_notification_expanded_text),
+                context.getString(R.string.unavailable_notification_short_text));
     }
 
-    private static void showNotification(Context context, String contentShortTitle, String contentTitle, String contentText) {
+    private static void showNotification(Context context, String title, String expandedText, String shortText) {
         NotificationCompat.BigTextStyle notificationStyle = new NotificationCompat.BigTextStyle()
-                .setBigContentTitle(contentShortTitle)
-                .bigText(contentTitle)
-                .setSummaryText(contentText);
+                .setBigContentTitle(title)
+                .bigText(expandedText);
 
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_autorenew)
-                .setContentTitle(contentShortTitle)
-                .setContentText(contentTitle)
+                .setContentTitle(title)
+                .setContentText(shortText)
                 .setContentIntent(pi)
                 .setDefaults(Notification.DEFAULT_SOUND)
                 .setAutoCancel(true)
