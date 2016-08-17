@@ -11,7 +11,7 @@ import ca.alexland.renewpass.MainActivity;
 import ca.alexland.renewpass.R;
 
 /**
- * Created by Prayansh on 2016-01-26.
+ * Handles the creation of auto-renew notifications.
  */
 public class NotifyUtil {
     //https://gist.github.com/BrandonSmith/6679223
