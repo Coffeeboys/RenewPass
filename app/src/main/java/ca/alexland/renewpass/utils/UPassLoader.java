@@ -38,7 +38,7 @@ import ca.alexland.renewpass.views.LoadingFloatingActionButton;
  */
 public class UPassLoader {
     private Callback callback;
-    private final String UPASS_SITE_URL = "http://upassbc.translink.ca";
+    private final String UPASS_SITE_URL = "https://upassbc.translink.ca";
     private Context context;
 
     public static void renewUPass(Context context, Callback callback) {
