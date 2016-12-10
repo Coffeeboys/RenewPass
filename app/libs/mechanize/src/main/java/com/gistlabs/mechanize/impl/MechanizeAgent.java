@@ -26,6 +26,7 @@ import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.ExecutionContext;
 import org.apache.http.protocol.HttpContext;
 
 import com.gistlabs.mechanize.Mechanize;
@@ -112,8 +113,18 @@ public class MechanizeAgent implements PageRequestor<Resource>, RequestBuilderFa
 			public void process(final HttpResponse response, final HttpContext context)
 					throws HttpException, IOException {
 				Header header = response.getFirstHeader("Location");
-				if (header!=null)
-					context.setAttribute("Location", header.getValue());
+				if (header!=null) {
+					String location = header.getValue();
+
+					/*
+					 * Append the base name to the Location header
+					 */
+					if (location.startsWith("/")) {
+						String baseUrl = context.getAttribute(ExecutionContext.HTTP_TARGET_HOST).toString();
+						location = baseUrl + location;
+					}
+					context.setAttribute("Location", location);
+				}
 			}
 		});
 	}
