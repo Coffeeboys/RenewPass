@@ -1,0 +1,21 @@
+group 'gistlabs'
+version '2.0.0-RC1'
+
+apply plugin: 'java'
+
+targetCompatibility = '1.7'
+sourceCompatibility = '1.7'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'org.apache.httpcomponents:httpclient:4.0.1'
+    compile 'org.apache.httpcomponents:httpmime:4.0.1'
+    compile 'com.damnhandy:handy-uri-templates:2.0.1'
+    compile 'org.json:json:20090211'
+    compile 'org.jsoup:jsoup:1.7.1'
+    compile 'se.fishtank:css-selectors:1.0.5'
+}
