@@ -36,7 +36,6 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
             default:
                 //the AutoRenewService will stop itself when it has finished renewing
                 startWakefulService(context, new Intent(context, AutoRenewService.class));
-//                context.startService();
         }
     }
 }
