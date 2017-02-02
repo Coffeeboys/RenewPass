@@ -8,13 +8,14 @@ import android.support.annotation.Nullable;
 
 import ca.alexland.renewpass.model.Callback;
 import ca.alexland.renewpass.model.Status;
+import ca.alexland.renewpass.utils.AlarmReceiver;
 import ca.alexland.renewpass.utils.AlarmUtil;
 import ca.alexland.renewpass.utils.LoggerUtil;
 import ca.alexland.renewpass.utils.NotifyUtil;
 import ca.alexland.renewpass.utils.UPassLoader;
 
 /**
- * Created by Trevor on 2/20/2016.
+ * Service to perform the renewal process in the background, triggered from an alarm.
  */
 public class AutoRenewService extends Service {
 
@@ -25,7 +26,7 @@ public class AutoRenewService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(final Intent intent, int flags, int startId) {
         //The UPassLoader starts a new thread to do work in,
         //so this doesn't block the app process main thread
         UPassLoader.renewUPass(this, new Callback() {
@@ -38,6 +39,7 @@ public class AutoRenewService extends Service {
                 else {
                     doFailure(AutoRenewService.this);
                 }
+                AlarmReceiver.completeWakefulIntent(intent);
                 stopSelf();
             }
         });

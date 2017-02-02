@@ -3,15 +3,16 @@ package ca.alexland.renewpass.utils;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.WakefulBroadcastReceiver;
 
 import ca.alexland.renewpass.AutoRenewService;
 import ca.alexland.renewpass.model.Callback;
 import ca.alexland.renewpass.model.Status;
 
 /**
- * Created by AlexLand on 2016-01-14.
+ * Receives alarms from the OS for automatic renewal and package re-installation.
  */
-public class AlarmReceiver extends BroadcastReceiver {
+public class AlarmReceiver extends WakefulBroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
         LoggerUtil.appendLog(context.getApplicationContext(), "Alarm received");
@@ -34,7 +35,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 break;
             default:
                 //the AutoRenewService will stop itself when it has finished renewing
-                context.startService(new Intent(context, AutoRenewService.class));
+                startWakefulService(context, new Intent(context, AutoRenewService.class));
+//                context.startService();
         }
     }
 }
